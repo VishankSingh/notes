@@ -1,0 +1,178 @@
+---
+
+---
+# August 4, 2025 (Class 1)
+
+# August 6, 2025 (Class 2, Makeup class)
+
+# August 7, 2025 (Class 3)
+
+### Stochastic Process
+A stochastic or random process, denoted by $\{s_t\}_{t\in T}$, can be defined as a collection of
+random variables that is indexed by some mathematical set $T$
+
+- Index set $T$ has the interpretation of time.
+- The set $T$ is typically $\mathbb{N}$ or $\mathbb{R}$.
+
+### State transition probability
+
+For a markov state $s$ and a successor state $s'$, the state transition probability is defined as
+$$
+\mathcal{P}_{ss'} = \Pr\{s_{t+1} = s' | s_t = s\}
+$$
+
+We define the state transition probability matrix as
+$$
+\mathcal{P} = \begin{bmatrix}
+\mathcal{P}_{ss'}
+\end{bmatrix}
+$$
+
+## Markov Reward Process (MRP)
+A Markov Reward Process (MRP) is a Markov chain with an additional reward function. It is defined by the tuple $\langle S, \mathcal{P}, \mathcal{R}, \gamma)$, where:
+
+- $S$ is the state space.
+- $\mathcal{P}$ is the state transition probability matrix.
+- $\mathcal{R}$ is the reward function, with $\mathcal{R}(s_t) = r_{t+1}$ being the reward for being in state $s_t$ at time $t$.
+- $\gamma \in [0, 1)$ is the discount factor, which determines the importance of future rewards.
+
+# August 11, 2025 (Class 4)
+
+# August 14, 2025 (Class 5)
+
+## Policy evaluation
+
+### Value function with respect to a policy
+
+We define $V^{\pi}(s)$ as the expected return (cumulative future reward) when starting from state $s$ and following policy $\pi$:
+$$
+V^{\pi}(s) = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k r_{t+k+1} | s_t = s\right]
+$$
+
+### Decomposition of state value function
+
+The state value function can be decomposed into the immediate reward and the expected value of the next state,
+$$
+V^{\pi}(s) = \mathbb{E}_\pi\left[r_{t+1} + \gamma V^{\pi}(s_{t+1}) | s_t = s\right]
+$$
+
+Expanding the expectation, with $\mathcal{R}_{ss'}^a = \mathcal{R}(s,a,s')$, we have
+$$
+\begin{aligned}
+    \mathbb{E}_\pi\left[r_{t+1} | s_t = s\right] &= \sum_{a} \pi(a|s)  \sum_{s'} \mathcal{P}_{ss'}^a \mathcal{R}_{ss'}^a \\
+    \mathbb{E}_\pi\left[\gamma V^\pi(s_{t+1}) | s_t = s\right] &= \sum_{a} \pi(a|s)  \sum_{s'} \mathcal{P}_{ss'}^a V^\pi(s') \\
+    \implies V^\pi(s) &= \sum_{a} \pi(a|s)  \sum_{s'} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V^\pi(s')\right) \\
+\end{aligned}
+$$
+
+The above is called the Bellman Evaluation operator.
+
+### Matrix formulation of Bellman Evaluation equation
+We define,
+$$
+\begin{aligned}
+    \mathcal{P}^\pi(s'|s) &:= \sum_{a\in \mathcal{A}}\pi(a|s)\mathcal{P}^a_{ss'} \\
+    \mathcal{R}^\pi(s) &:= \sum_{a\in \mathcal{A}}\pi(a|s)\sum_{s'}\mathcal{P}^a_{ss'}\mathcal{R}_{ss'}^a = \mathbb{E}(r_{t+1} | s_t = s) \\
+\end{aligned}
+$$
+
+Using the above definitions, for finite state MDP, we can rewrite the Bellman Evaluation equation in matrix form as
+$$
+V^\pi = \mathcal{R}^\pi + \gamma \mathcal{P}^\pi V^\pi
+$$
+or in explicit form,
+$$
+V^\pi = \left(I - \gamma \mathcal{P}^\pi\right)^{-1} \mathcal{R}^\pi
+$$
+
+### Markov Reward Process (MRP)
+Markov Reward Process (MRP) is a special case of MDP where the action space is trivial, i.e., $\mathcal{A} = \{\text{noop}\}$, and a policy $\pi$ is defined.
+More formally, given a MDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$ and a policy $\pi$, the MRP is defined as $\langle \mathcal{S}, \mathcal{P}^\pi, \mathcal{R}^\pi, \gamma \rangle$.
+
+## Optimal policy
+We define a partial ordering over policies,
+$$
+\pi \geq \pi', \iff V^\pi(s) \geq V^{\pi'}(s) \quad \forall s \in \mathcal{S}.
+$$
+
+### Theorem: Existence of optimal policy
+For any MDP, there exists an optimal policy $\pi_*$ such that
+$$
+V^{\pi_*}(s) \geq V^\pi(s) \quad \forall \pi \in \Pi, \forall s \in \mathcal{S}.
+$$
+and all optimal policies achieve the same value function, i.e.,
+$$
+V_*(s) = V^{\pi_*'}(s) \quad \forall \pi_*' \in \Pi_*.
+$$
+
+## Action value function
+
+We define the action value function $Q^\pi(s, a)$ as the expected return when starting from state $s$, taking action $a$, and then following policy $\pi$:
+$$
+Q^\pi(s, a) = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k r_{t+k+1} | s_t = s, a_t = a\right]
+$$
+We can decompose the action value function as follows
+$$
+Q^\pi(s, a) = \mathbb{E}_\pi\left[r_{t+1} + \gamma V^\pi(s_{t+1}) | s_t = s, a_t = a\right]
+$$
+Expanding the expectation, we have
+$$
+Q^\pi(s,a) = \sum_{s'} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma \sum_{a'} \pi(a'|s') Q^\pi(s', a')\right)
+$$
+
+## Relationship between state ($V^\pi(\cdot)$) and action ($Q^\pi(\cdot)$) value functions
+The relationship between the state value function and the action value function is given by
+$$
+V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) Q^\pi(s, a)
+$$
+and
+$$
+Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V^\pi(s')\right)
+$$
+
+As seen previously, all optimal policies achieve the optimal action value function,
+$$
+Q_*(s, a) = \max_{\pi \in \Pi} Q^\pi(s, a)
+$$
+and
+$$
+Q_*(s,a) = Q^{\pi_*}(s, a) \quad \forall \pi_* \in \Pi_*
+$$
+
+### Greedy policy
+
+For a given $Q^\pi(\cdot, \cdot)$, define $\pi'(s)$ as,
+$$
+\pi'(s) = \text{greedy}(Q) = \begin{cases}
+        1 & \text{if } a = \arg\max_{a' \in \mathcal{A}} Q^\pi(s, a') \\
+        0 & \text{otherwise}
+    \end{cases}
+$$
+
+For a given $V^\pi(\cdot)$, define $\pi'(s)$ as,
+$$
+\pi'(s) = \text{greedy}(V) = \begin{cases}
+        1 & \text{if } a = \arg\max_{a' \in \mathcal{A}} \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V^\pi(s')\right) \\
+        0 & \text{otherwise}
+    \end{cases}
+$$
+
+# August 18, 2025 (Class 6)
+
+# August 21, 2025 (Class 7)
+
+# August 25, 2025 (Class 8)
+
+## Policy Iteration
+
+# August 28, 2025 (Class 9)
+
+# September 1, 2025 (Class 10)
+
+# September 4, 2025 (Class 11)
+
+# ---
+
+### See also
+
+### References
