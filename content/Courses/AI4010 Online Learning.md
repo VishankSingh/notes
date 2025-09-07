@@ -360,6 +360,81 @@ We have an online convex optimization setting
 
 Let $\mathcal{K}$ be the set of values $x_t$ which the algorith can choose, and $\mathcal{F}$ be the set of all convex loss functions.
 
+$$
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{Online Convex Optimization} \\
+\textbf{input: } \mathcal{K} :=\text{set of values}, \mathcal{F}:=\text{set of convex loss functions} \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad - \ \text{Algorithm selects action } x_t \in \mathcal{K} \\
+\quad - \ \text{Environment selects a loss function } f_t \in \mathcal{F} \\
+\quad - \ \text{ALG incurs loss } f_t(x_t) \\
+\textbf{end for}\\
+\end{array}
+$$
+
+Do note, the env only gives $f_t(x_t)$ and $\nabla f_t(x_t)$, not $f_t$ itself.
+
+## Online gradient descent
+
+We have,
+$$
+x_{t+1} \leftarrow \Pi_\mathcal{K}(x_t - \eta_t \nabla f_t(x_t))
+$$
+
+### Regret guarantee on online gradient descent
+
+We define
+$$
+\begin{aligned}
+    G &:= \sup_{f\in\mathcal{F}} \sup_{x\in\mathcal{K}} \|\nabla f(x)\| \\
+    D &:= \sup_{x,x' \in\mathcal{K}} \|x-x'\|_2 \\
+    \nabla_t &:= \nabla f_t(x)
+\end{aligned}
+$$
+Also, $x^*\in\mathcal{K}$ as
+$$
+x^* = \arg\min_{x\in\mathcal{K}} \sum_{i=1}^{T} f_i(x).
+$$
+
+From the first order condition of convexity,
+$$
+\begin{aligned}
+    f_t(x_t) - f_t(x^*) &\leq \nabla^T_t(x_t - x^*) \\
+    \sum_{t=1}^{T} f_t(x_t) - \sum_{t=1}^{T} f_t(x^*) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*) \\
+    \implies R_T(OGD) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*).
+\end{aligned}
+$$
+
+Now,
+$$
+\begin{aligned}
+    \|x^* - x_{t+1}\| &= \|x^* - \Pi_\mathcal{K}(x_t - \eta_t\nabla_t) \| \\
+    &\leq \|x_* - x^t + \eta_t \nabla_t \|, \quad \text{by Pythogorean theorem} \\
+    \|x^* - x_{t+1}\|^2 &\leq \|x^* - x_t\|^2 + \eta^2_t \|\nabla_t\|^2 + 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle  \\
+    - 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle &\leq \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 + \eta^2_t \|\nabla_t\|^2 \\
+    2 \left\langle x_t - x^*, \nabla_t \right\rangle &\leq \dfrac{1}{\eta_t} \left( \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 \right) + \eta_t \|\nabla_t\|^2 \\
+\end{aligned}
+$$
+
+From the above two results, we have
+$$
+\begin{aligned}
+    2 R_T(OGD) &\leq \sum_{t=1}^{T} \left( \dfrac{\|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2}{\eta_t} \right) + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
+    &= \dfrac{\|x^* - x_1\|^2}{\eta_1} + \sum_{t=2}^{T} \|x^* - x_t\|^2 \left(\dfrac{1}{\eta_t} - \dfrac{1}{\eta_{t-1}}\right) - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
+    &\leq \dfrac{\|x^* - x_1\|^2}{\eta_1} - \dfrac{D^2}{\eta_1} + \dfrac{D^2}{\eta_T} - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t \\
+    &\leq \dfrac{D^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t
+\end{aligned}
+$$
+
+Putting $\eta_t = \frac{D}{G\sqrt{t}}$, we have
+$$
+\begin{aligned}
+     2 R_T(OGD) &\leq D^2 \dfrac{G\sqrt{T} }{D} + G^2 \dfrac{D}{G} \sum_{t=1}^{T} \dfrac{1}{\sqrt{t}} \\
+              &\leq DG\sqrt{T} + 2 DG\sqrt{T} \\
+    \implies R_T(OGD) &\leq \dfrac{3}{2} DG \sqrt{T}
+\end{aligned}
+$$
+
 ### See also
 
 ### References

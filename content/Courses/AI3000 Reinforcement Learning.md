@@ -165,7 +165,13 @@ $$
 # August 18, 2025 (Class 6)
 
 ## Policy Iteration
+We have
+$$
+\pi_0 \xrightarrow{E} v_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} \dots \xrightarrow{I} \pi_* \xrightarrow{E} v_*,
+$$
+where $E$ is **Policy Evaluation** and $I$ is **Policy Improvement**.
 
+The full algorithm is as follows
 $$
 \begin{array}{l}
 \textbf{Algorithm: } \ \text{Policy Iteration} \\
