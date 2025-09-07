@@ -29,9 +29,9 @@ $$
 $$
 
 ## Markov Reward Process (MRP)
-A Markov Reward Process (MRP) is a Markov chain with an additional reward function. It is defined by the tuple $\langle S, \mathcal{P}, \mathcal{R}, \gamma)$, where:
+A Markov Reward Process (MRP) is a Markov chain with an additional reward function. It is defined by the tuple $\langle \mathcal{S}, \mathcal{P}, \mathcal{R}, \gamma\rangle$, where:
 
-- $S$ is the state space.
+- $\mathcal{S}$ is the state space.
 - $\mathcal{P}$ is the state transition probability matrix.
 - $\mathcal{R}$ is the reward function, with $\mathcal{R}(s_t) = r_{t+1}$ being the reward for being in state $s_t$ at time $t$.
 - $\gamma \in [0, 1)$ is the discount factor, which determines the importance of future rewards.
@@ -85,10 +85,6 @@ $$
 V^\pi = \left(I - \gamma \mathcal{P}^\pi\right)^{-1} \mathcal{R}^\pi
 $$
 
-### Markov Reward Process (MRP)
-Markov Reward Process (MRP) is a special case of MDP where the action space is trivial, i.e., $\mathcal{A} = \{\text{noop}\}$, and a policy $\pi$ is defined.
-More formally, given a MDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$ and a policy $\pi$, the MRP is defined as $\langle \mathcal{S}, \mathcal{P}^\pi, \mathcal{R}^\pi, \gamma \rangle$.
-
 ## Optimal policy
 We define a partial ordering over policies,
 $$
@@ -120,7 +116,7 @@ $$
 Q^\pi(s,a) = \sum_{s'} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma \sum_{a'} \pi(a'|s') Q^\pi(s', a')\right)
 $$
 
-## Relationship between state ($V^\pi(\cdot)$) and action ($Q^\pi(\cdot)$) value functions
+## Relationship between state ($V^\pi(\cdot)$) and action ($Q^\pi(\cdot, \cdot)$) value functions
 The relationship between the state value function and the action value function is given by
 $$
 V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) Q^\pi(s, a)
@@ -139,7 +135,7 @@ $$
 Q_*(s,a) = Q^{\pi_*}(s, a) \quad \forall \pi_* \in \Pi_*
 $$
 
-### Greedy policy
+## Greedy policy
 
 For a given $Q^\pi(\cdot, \cdot)$, define $\pi'(s)$ as,
 $$
@@ -152,18 +148,55 @@ $$
 For a given $V^\pi(\cdot)$, define $\pi'(s)$ as,
 $$
 \pi'(s) = \text{greedy}(V) = \begin{cases}
-        1 & \text{if } a = \arg\max_{a' \in \mathcal{A}} \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V^\pi(s')\right) \\
+        1 & \text{if } a = \arg\max_{a \in \mathcal{A}} \left[\sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V^\pi(s')\right)\right] \\
         0 & \text{otherwise}
     \end{cases}
 $$
 
+## Relationship between optimal state ($V_*(\cdot)$) and optimal action ($Q_*(\cdot, \cdot)$) value functions
+We have
+$$
+\begin{aligned}
+    V_*(s) &= \max_{a \in \mathcal{A}} Q_*(s, a) \\
+    Q_*(s, a) &= \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \left(\mathcal{R}_{ss'}^a + \gamma V_*(s')\right)
+\end{aligned}
+$$
+
 # August 18, 2025 (Class 6)
+
+## Policy Iteration
+
+$$
+\begin{array}{l}
+\textbf{Algorithm: } \ \text{Policy Iteration} \\
+\hline
+\textbf{Input: } \text{An MDP } \langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma\rangle \text{ and an initial policy } \pi_0 \\
+\textbf{Output: } \text{An optimal policy } \pi^* \\
+\\
+\text{1. } \textbf{Initialization} \\
+\quad \text{Set } k \leftarrow 0 \\
+\\
+\text{2. } \textbf{Repeat} \\
+\quad \text{a. } \textit{(Policy Evaluation)} \\
+\quad \quad \text{Compute the value function of the current policy } \pi_k \text{ by solving the} \\
+\quad \quad \text{Bellman expectation equation for all } s \in \mathcal{S}: \\
+\quad \quad V^{\pi_k}(s) \leftarrow \sum_{a\in\mathcal{A}}\pi_k(a|s) \sum_{s'\in\mathcal{S}} P^a_{ss'} \ [R^a_{ss'} + \gamma V^{\pi_k}(s')] \\
+\\
+\quad \text{b. } \textit{(Policy Improvement)} \\
+\quad \quad \text{Improve the policy by acting greedily with respect to } V^{\pi_k} \text{ for all } s \in \mathcal{S}: \\
+\quad \quad \pi_{k+1}(s) \leftarrow \underset{a \in \mathcal{A}}{\arg\max} \left( \sum_{s'\in\mathcal{S}} P^a_{ss'} [R^a_{ss'} + \gamma V^{\pi_k}(s')] \right) \\
+\\
+\quad \text{c. } \text{Set } k \leftarrow k+1 \\
+\\
+\quad \textbf{Until } \pi_k(s) = \pi_{k-1}(s) \text{ for all } s \in \mathcal{S} \text{ (policy is stable)} \\
+\\
+\text{3. } \textbf{Return } \pi^* \leftarrow \pi_k
+\end{array}
+$$
 
 # August 21, 2025 (Class 7)
 
 # August 25, 2025 (Class 8)
-
-## Policy Iteration
 
 # August 28, 2025 (Class 9)
 
