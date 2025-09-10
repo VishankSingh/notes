@@ -217,15 +217,25 @@ There are two types of truncation errors:
 2. Global truncation error
 
 ### Local truncation error
-
+We have $T_n$ as the local truncation error at the $n$th step, and
 $$
-\epsilon_n = hT_n = \dfrac{h^{p+1}}{(p)!} y^{(p+1)} (x_n + \theta h), \quad \text{where } 0 < \theta < 1,
+\epsilon_n = hT_n = \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)} (x_n + \theta h), \quad \text{where } 0 < \theta < 1,
 $$
 where
-
-From the Taylor's series we have,
 $$
-y(x_{n+1}) = y(x_n) + hp(x_n, y(x_n); h) + \xi_n
+T_n = \dfrac{h^{p}}{(p+1)!} y^{(p+1)} (x_n + \theta h).
+$$
+
+From the Taylor's series expansion we have,
+
+$$
+\begin{aligned}
+    y(x_{n+1}) &= y(x_n) + h \phi(x_n, y(x_n); h) + \epsilon_n \\
+    &= y(x_n) + h \phi(x_n, y(x_n); h) + hT_n
+\end{aligned}
+$$
+$$
+T_n = \dfrac{y(x_{n+1}) - y(x_n)}{h} - \phi(x_n, y(x_n); h)
 $$
 
 ### Global truncation error
@@ -239,7 +249,7 @@ $$
 |hT_n| < \epsilon
 $$
 $$
-\left|\dfrac{h^{p+1}}{(p+1)!} f^{(p)}(x_n + \theta h, y(x_n + \theta h))  \right| \leq \epsilon
+\left|\dfrac{h^{p+1}}{(p+1)!} f^{(p+1)}(x_n + \theta h, y(x_n + \theta h))  \right| \leq \epsilon
 $$
 
 - For a given $h$ and $\epsilon$, the above equation will give $p$, i.e. the number of terms in the Taylor series method.
@@ -534,6 +544,10 @@ TODO: write this
 # September 8, 2025 (Class 18)
 
 # I will divide the notes into classes later.....
+
+## Stable and unstable fixed points
+
+## Bisection method
 
 ### See also
 
