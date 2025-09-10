@@ -441,6 +441,16 @@ $$
 ## Case 2: \theta = 1
 For $\theta = 1$, we have
 
+# August 14, 2025 (Class 9)
+
+# August 18, 2025 (Class 10)
+
+# August 20, 2025 (Class 11)
+# August 21, 2025 (Class 12)
+# August 25, 2025 (Class 13)
+# August 28, 2025 (Class 14)
+# September 1, 2025 (Class 15)
+
 # I will divide the notes into classes later.....
 
 ## Root finding
@@ -468,9 +478,11 @@ Two methods used for initial approximation are
 1. Graphical approximation
 2. Using intermediate value theorem
 
+## Some theorems and definitions
+
 <span class="blue">**Theorem**:</span> Let $f$ be a real valued function defined and continuous on a bounded closed interval $[a,b]$ of the real line. Assume, further that $f(a)f(b) \leq 0$; then there exists $\xi \in [a,b]$ such that $f(\xi) = 0$.
 
-<span class="blue">**Theorem**:</span> *Intermediate Value Theorem.*
+<span class="blue">**Theorem**:</span> *Intermediate value theorem.*
 Suppose that $f$ is a real-valued function, defined and continuous on the closed interval $[a,b] \in \mathbb{R}$. Then $f$ is bounded
 function on the interval $[a,b]$ and if $y$ is any number such that
 $$
@@ -478,9 +490,50 @@ $$
 $$
 then there is a number $\xi \in [a,b]$ such tht $f(\xi) = y$.
 
-# August 14, 2025 (Class 9)
+<span class="blue">**Theorem**:</span> *Brouwer fixed point theorem.*
+TODO: write this
 
-# August 18, 2025 (Class 10)
+<span class="blue">**Definition**:</span> *Fixed point iteration.*
+Suppose that $g$ is a real valued function, defined and continuous on a bounder closed interval $[a,b]$ of the real line,
+and assume that $g(x) \in [a,b] \forall x \in [a,b]$. Given that $x_0 \in [a,b]$, the recursion defined by
+$$
+x_{k+1} = g(x_k), k = 0,1,2,\dots
+$$
+is called a simple iteration; the number $x_k$ are referred to as iterates.
+
+If the sequence $\{x_k\}$ defined above converges, the limit must be a fixed point of the function $g$,
+since $g$ is continuous on a closed interval, i.e.
+$$
+\lim_{k\to\infty} x_k = \xi \implies \xi = g(\xi).
+$$
+
+<span class="blue">**Theorem**:</span> *I'll name it later.*
+TODO: write this
+simple iteration $x_{k+1} = g(x_k)$, contraction map on $[a,b]$, $x_0 \in [a,b]$, tolerance $\varepsilon > 0$,
+
+$$
+k_o(\varepsilon) := \inf_{k \in \mathbb{I}_+}\{k \text{ s.t. } |x_k - \xi| \leq \varepsilon \forall k \geq k_o(\varepsilon) \}.
+$$
+
+Then,
+$$
+k_o(\varepsilon) \leq \left( \dfrac{\ln|x_1 - x_0| - \ln(\varepsilon(1-L))}{\ln(1/L)} \right) + 1,
+$$
+where $L \in [0,1)$, is the Lipschitz constant of the contraction mapping $g$.
+
+<span class="blue">**Theorem**:</span> *Banach fixed point theorem.*
+
+TODO: write this
+<details>
+    <summary><b>Proof</b></summary>
+    dsad
+</details>
+
+# September 3, 2025 (Class 16)
+# September 4, 2025 (Class 17)
+# September 8, 2025 (Class 18)
+
+# I will divide the notes into classes later.....
 
 ### See also
 

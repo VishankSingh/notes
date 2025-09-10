@@ -435,6 +435,55 @@ $$
 \end{aligned}
 $$
 
+TODO:
+$\alpha$-strongly convex function as loss.
+Follow the Regularized Leader
+For linear loss
+
+# September 8, 2025 (Class 10)
+
+## Bregman divergence
+
+We define the Bregman divergence, with respect to function $R$, as
+$$
+B_R(x \| y) = R(x) - R(Y) - \left\langle \nabla R(x), x - y \right\rangle
+$$
+
+For twice differentiable functions, the Bregman divergence is equal to the second derivative at an intermediate point.
+For $R(x) = \dfrac{1}{2}\|x\|_{L_2}^2$, we have
+$$
+B_R(x \| y) = \dfrac{1}{2}\|x-y\|^2.
+$$
+For $R(x) = \sum_{i=1}^{d} x_i \log x_i$, $\sum x_i = 1$ and $d = 2$, we have
+$$
+B_R(x \| y) = D_{KL}(x \| y)
+$$
+
+## Dual norm
+
+Let $\|\cdot\|_*$ be a norm on the vector space $\mathcal{K} \subseteq \mathbb{R}^n$,
+then the function $\|\cdot\|^*$ defined as
+$$
+\|x\|^* = \sup_{y \in \mathcal{K}, \|y\|_* \leq 1} \langle x,y \rangle = \sup_{y \in \mathcal{K}} \left\langle x , \dfrac{y}{\|y\|_*} \right\rangle,
+$$
+
+is called a dual norm.
+
+## FTRL for strongly convex, twice differentiable regularizers
+
+### Follow the leader - be the leader lemma for FTRL
+
+Let $x_1, x_2, \dots , x_T$ be a sequence of points chosen by FTRL, then for any $u \in \mathcal{K}$, we have
+$$
+\sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R()}{den}
+$$
+
+### Abbreviations
+
+FTRL - Follow the regularized leader
+
+FTL BTL - Follow the leader, be the leader lemma
+
 ### See also
 
 ### References

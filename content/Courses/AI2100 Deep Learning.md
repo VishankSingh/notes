@@ -107,6 +107,12 @@ $$
 
 # September 1, 2025 (Class 15)
 
+# September 2, 2025 (Class 16)
+
+# September 4, 2025 (Class 17)
+
+# September 8, 2025 (Class 18)
+
 ### See also
 
 ### References
