@@ -445,13 +445,26 @@ $$
 ## Euler method, $\theta = 1$
 For $\theta = 0$, we have
 $$
-y(x_{n+1}) = y(x_n) + hf(x_n, y(x_n))
+y_{n+1} = y_n + hf(x_n, y_n).
 $$
 
-## Backward Euler method $\theta = 1$
+## Backward Euler method, $\theta = 1$
 For $\theta = 1$, we have
 $$
-y(x_{n+1}) = y(x_n) + hf(x_n + h, y(x_n + h))
+y_{n+1} = y_n + hf(x_n + h, y(x_n + h)).
+$$
+
+Explicit form,
+$$
+y_{n+1} = y_n + hf(x_n, y_n + hf(x_n,y_n)).
+$$
+
+## Modified Euler method, $\theta = 1/2$
+$$
+y_{n+1} = y_n + hf(x_n + h/2, y(x_n + h/2))
+$$
+$$
+y_{n+1} = y_n + hf\left(x_n + \frac{h}{2}, y_n + \frac{h}{2}f(x_n, y_n)\right)
 $$
 
 # August 14, 2025 (Class 9)
