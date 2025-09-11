@@ -301,58 +301,58 @@ where $T = \underset{0 \leq n \leq N-1}{\max} |T_n|$ and $T_n$ are the local tru
 
 This result establishes that if the local truncation error $T_n$ is small, the global error will also be small, with its growth controlled exponentially by the Lipschitz constant L and the width of the integration interval.
 
-### Proof of the bound on global error
-We have,
-$$
-\begin{aligned}
-    T_n &= \dfrac{y(x_{n+1}) - y({x_n})}{h} - \phi(x_n, y(x_n); h) \\
-    \implies y(x_{n+1}) &= y(x_n) + h \phi(x_n, y(x_n); h) + hT_n \\
-\end{aligned}
-$$
-
-From the single step method, we have,
-$$
-y_{n+1} = y_n + h \phi(x_n, y_n; h)
-$$
-
-Subtracting the two equations, we get,
-$$
-\begin{aligned}
-    (y(x_{n+1}) - y_{n+1}) &= (y(x_n) - y_n) + h \left(\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right) + hT_n  \\
-    e_{n+1} &= e_n + h \left(\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right) + hT_n \\
-    |e_{n+1}| &\leq |e_n| + h \left|\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right| + |hT_n| \\
-    &\leq |e_n| + L_{\phi} h |y(x_n) - y_n| + |hT_n| \qquad \text{[Lipschitz continuity of } \phi\text{]} \\
-    &\leq |e_n| + L_{\phi} h |e_n| + hT \qquad \qquad \qquad \;\;\; \text{where } |T| = \underset{0\leq n \leq N-1}{\max} |T_n| \\
-    |e_{n+1}| &\leq  |e_n| (1 + L_{\phi} h) + hT , \quad n = 0, 1, \ldots, N-1 \\
-\end{aligned}
-$$
-
-For $n=0$,
-$$
-\begin{aligned}
-    |e_1| &\leq |e_0| (1+ hL_{\phi}) + hT \\
-    e_0 &= y(x_0) - y_0 = 0 \implies |e_1| \leq hT
-\end{aligned}
-$$
-
-For $n=1$,
-$$
-\begin{aligned}
-    |e_2| &\leq |e_1| (1 + hL_{\phi}) + hT \\
-    &\leq hT (1 + hL_{\phi}) + hT \\
-    &= 2hT + h^2 L_{\phi} T \\
-    &= \dfrac{T}{L_{\phi}} \left(2L_{\phi} h + h^2 L_{\phi}^2\right) \\
-    \implies |e_2| &\leq \dfrac{T}{L_{\phi}} \left((1+hL_{\phi})^2 - 1\right) \\
-\end{aligned}
-$$
-
-For general $n$,
-$$
-\begin{aligned}
-    |e_n| &\leq \dfrac{T}{L_{\phi}} \left((1+hL_{\phi})^n - 1\right) \quad n = 0, 1, \ldots, N-1 \\
-    &\leq \dfrac{T}{L_{\phi}} \left(e^{L_{\phi} (x_n - x_o)} - 1\right) \quad \text{[since } (1+x)^n \leq e^{nx} \text{ for } x > -1, n > 0\text{]} \\
-\end{aligned}
-$$
+> [!note]- Proof of the bound on global error
+> We have,  
+> $$
+> \begin{aligned}
+>     T_n &= \dfrac{y(x_{n+1}) - y({x_n})}{h} - \phi(x_n, y(x_n); h) \\
+>     \implies y(x_{n+1}) &= y(x_n) + h \phi(x_n, y(x_n); h) + hT_n \\
+> \end{aligned}
+> $$
+>
+> From the single step method, we have,
+> $$
+> y_{n+1} = y_n + h \phi(x_n, y_n; h)
+> $$
+>
+> Subtracting the two equations, we get,
+> $$
+> \begin{aligned}
+>     (y(x_{n+1}) - y_{n+1}) &= (y(x_n) - y_n) + h \left(\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right) + hT_n  \\
+>     e_{n+1} &= e_n + h \left(\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right) + hT_n \\
+>     |e_{n+1}| &\leq |e_n| + h \left|\phi(x_n, y(x_n); h) - \phi(x_n, y_n; h)\right| + |hT_n| \\
+>     &\leq |e_n| + L_{\phi} h |y(x_n) - y_n| + |hT_n| \qquad \text{[Lipschitz continuity of } \phi\text{]} \\
+>     &\leq |e_n| + L_{\phi} h |e_n| + hT \qquad \qquad \qquad \;\;\; \text{where } |T| = \underset{0\leq n \leq N-1}{\max} |T_n| \\
+>     |e_{n+1}| &\leq  |e_n| (1 + L_{\phi} h) + hT , \quad n = 0, 1, \ldots, N-1 \\
+> \end{aligned}
+> $$
+>
+> For $n=0$,
+> $$
+> \begin{aligned}
+>     |e_1| &\leq |e_0| (1+ hL_{\phi}) + hT \\
+>     e_0 &= y(x_0) - y_0 = 0 \implies |e_1| \leq hT
+> \end{aligned}
+> $$
+>
+> For $n=1$,
+> $$
+> \begin{aligned}
+>     |e_2| &\leq |e_1| (1 + hL_{\phi}) + hT \\
+>     &\leq hT (1 + hL_{\phi}) + hT \\
+>     &= 2hT + h^2 L_{\phi} T \\
+>     &= \dfrac{T}{L_{\phi}} \left(2L_{\phi} h + h^2 L_{\phi}^2\right) \\
+>     \implies |e_2| &\leq \dfrac{T}{L_{\phi}} \left((1+hL_{\phi})^2 - 1\right) \\
+> \end{aligned}
+> $$
+>
+> For general $n$,
+> $$
+> \begin{aligned}
+>     |e_n| &\leq \dfrac{T}{L_{\phi}} \left((1+hL_{\phi})^n - 1\right) \quad n = 0, 1, \ldots, N-1 \\
+>     &\leq \dfrac{T}{L_{\phi}} \left(e^{L_{\phi} (x_n - x_o)} - 1\right) \quad \text{[since } (1+x)^n \leq e^{nx} \text{ for } x > -1, n > 0\text{]} \\
+> \end{aligned}
+> $$
 
 ## Consistency of a single step method
 The general single step method is said to be consistent with the given IVP if
@@ -442,14 +442,17 @@ $$
 y(x_{n+1}) = y(x_n) + hf(x_n + \theta h, y(x_n + \theta h)), \quad \text{where } 0 < \theta < 1
 $$
 
-## Case 1: \theta = 0
+## Euler method, $\theta = 1$
 For $\theta = 0$, we have
 $$
 y(x_{n+1}) = y(x_n) + hf(x_n, y(x_n))
 $$
 
-## Case 2: \theta = 1
+## Backward Euler method $\theta = 1$
 For $\theta = 1$, we have
+$$
+y(x_{n+1}) = y(x_n) + hf(x_n + h, y(x_n + h))
+$$
 
 # August 14, 2025 (Class 9)
 
@@ -534,10 +537,8 @@ where $L \in [0,1)$, is the Lipschitz constant of the contraction mapping $g$.
 <span class="blue">**Theorem**:</span> *Banach fixed point theorem.*
 
 TODO: write this
-<details>
-    <summary><b>Proof</b></summary>
-    dsad
-</details>
+> [!note]- Proof
+> dsad
 
 # September 3, 2025 (Class 16)
 # September 4, 2025 (Class 17)
