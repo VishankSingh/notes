@@ -302,7 +302,7 @@ where $T = \underset{0 \leq n \leq N-1}{\max} |T_n|$ and $T_n$ are the local tru
 This result establishes that if the local truncation error $T_n$ is small, the global error will also be small, with its growth controlled exponentially by the Lipschitz constant L and the width of the integration interval.
 
 > [!note]- Proof of the bound on global error
-> We have,  
+> We have,
 > $$
 > \begin{aligned}
 >     T_n &= \dfrac{y(x_{n+1}) - y({x_n})}{h} - \phi(x_n, y(x_n); h) \\
@@ -464,8 +464,10 @@ $$
 y_{n+1} = y_n + hf(x_n + h/2, y(x_n + h/2))
 $$
 $$
-y_{n+1} = y_n + hf\left(x_n + \frac{h}{2}, y_n + \frac{h}{2}f(x_n, y_n)\right)
+y_{n+1} = y_n + hf\left(x_n + \frac{h}{2    }, y_n + \frac{h}{2}f(x_n, y_n)\right)
 $$
+
+## Runge-Kutta method
 
 # August 14, 2025 (Class 9)
 
@@ -560,8 +562,92 @@ TODO: write this
 # I will divide the notes into classes later.....
 
 ## Stable and unstable fixed points
+<span class="blue">**Definition**:</span> *Stable and unstable fixed points.*
+Let $g:\mathbb{R}\to\mathbb{R}$ be continuous, and let $\xi \in \mathbb{R}$ be a
+fixed point of $g$ (i.e. $g(\xi)=\xi$).
+We say $\xi$ is a *stable fixed point* (or *attracting fixed point*) if
+there exists a neighborhood $U$ of $\xi$ such that for all $x_0 \in U$, the
+iterates defined by
+$$
+x_{k+1} = g(x_k), \quad k\geq 0,
+$$
+converge to $\xi$.
+Conversely, if for every neighborhood $U$ of $\xi$ there exists some $x_0 \in U$ such that
+the sequence $\{x_k\}$ does not converge to $\xi$, then $\xi$ is called an
+*unstable fixed point*.
+
+In the differentiable case, a fixed point $\xi$ is stable if $|g'(\xi)| < 1$,
+unstable if $|g'(\xi)| > 1$, and inconclusive if $|g'(\xi)|=1$.
 
 ## Bisection method
+
+## Relaxation base iterative method
+
+Let $f: I \to \mathbb{R}$ be a function with a simple root $\xi$ in an open interval
+$I \subseteq \mathbb{R}$. The goal is to find $\xi$ such that $f(\xi) = 0$. The
+relaxation-based iterative method generates a sequence $\{x_k\}$ from an initial guess
+$x_0$ using the formula:
+$$
+x_{k+1} = x_k - \lambda f(x_k), \quad k \ge 0
+$$
+where $\lambda \neq 0$ is a constant parameter called the \textbf{relaxation parameter}.
+
+This method can be viewed as a \textbf{fixed-point iteration}, $x_{k+1} = g(x_k)$,
+with the iteration function defined as:
+$$
+g(x) = x - \lambda f(x)
+$$
+A point $\xi$ is a fixed point of $g$ if and only if it is a root of $f$, since
+$g(\xi)=\xi \iff \xi - \lambda f(\xi) = \xi \iff f(\xi)=0$.
+
+### Convergence of the iterates in relaxation base iterative method
+
+<span class="blue">**Theorem**:</span> *Local Convergence of the Relaxation Method.*
+Let $f$ be a continuously differentiable function in a neighborhood of a simple root
+$\xi$ (i.e., $f(\xi)=0$ and $f'(\xi) \neq 0$). The sequence defined by
+$x_{k+1} = x_k - \lambda f(x_k)$ converges to $\xi$ for any initial guess
+$x_0$ sufficiently close to $\xi$, provided the relaxation parameter $\lambda$
+satisfies the condition:
+$$
+0 < \lambda f'(\xi) < 2
+$$
+
+> [!note]- Proof
+> The iteration converges locally to $\xi$ if the iteration function
+> $g(x) = x - \lambda f(x)$ is a contraction mapping in a neighborhood of $\xi$.
+> A sufficient condition for this is that $g$ is continuously differentiable and
+> $|g'(\xi)| < 1$.
+>
+>
+> Differentiating,
+> $$
+> g'(x) = \frac{d}{dx} \left( x - \lambda f(x) \right) = 1 - \lambda f'(x)
+> $$
+>
+> Applying the convergence condition at the fixed point $\xi$,
+> $$
+> |g'(\xi)| < 1 \implies |1 - \lambda f'(\xi)| < 1
+> $$
+>
+> This is equivalent to the pair of inequalities:
+> $$
+> \begin{aligned}
+>     -1 &< 1 - \lambda f'(\xi) < 1 \\
+>     -2 &< -\lambda f'(\xi) < 0 \\
+>     &0 < \lambda f'(\xi) < 2
+> \end{aligned}
+> $$
+> This proves the theorem. The strict inequalities are crucial; if $|g'(\xi)| = 1$, convergence
+> is not guaranteed.
+>
+>
+> #### Conclusion
+> The condition $0 < \lambda f'(\xi) < 2$ implies that $\lambda$ must have the
+> \textbf{same sign} as $f'(\xi)$. The convergence is fastest when $g'(\xi)$
+> is closest to zero, which occurs when $1 - \lambda f'(\xi) = 0$, or
+> $\lambda = 1/f'(\xi)$. This observation forms the basis for Newton's method.
+
+## Newton's method
 
 ### See also
 

@@ -111,7 +111,42 @@ $$
 
 # September 4, 2025 (Class 17)
 
+## Momentum
+The momentum update rule is defined as,
+$$
+\begin{aligned}
+    \mathbf{\upsilon} &\leftarrow \alpha \mathbf{\upsilon} - \epsilon \nabla_\theta \left( \dfrac{1}{m} \sum_{i=1}^{m} L\left( f(x^{(i)}; \theta ), y^{(i)} \right) \right) \\
+    \theta &\leftarrow \theta + \mathbf{\upsilon}.
+\end{aligned}
+$$
+
+<img src="AI2100_sgd_momentum.png"/>
+
+## Nesterov Momentum
+
+The Nesterov momentum rule is defined as,
+$$
+\begin{aligned}
+    \mathbf{\upsilon} &\leftarrow \alpha \mathbf{\upsilon} - \epsilon \nabla_\theta \left( \dfrac{1}{m} \sum_{i=1}^{m} L\left( f(x^{(i)}; \theta + \alpha \upsilon ), y^{(i)} \right) \right) \\
+    \theta &\leftarrow \theta + \mathbf{\upsilon}.
+\end{aligned}
+$$
+
 # September 8, 2025 (Class 18)
+
+# September 9, 2025 (Class 19)
+
+# AdaGrad (Adaptive Gradient)
+
+<img src="AI2100_adagrad_algo.png"/>
+
+## RMSProp
+
+<img src="AI2100_rmsprop_algo.png"/>
+
+## Adam (Adaptive Moments)
+
+<img src="AI2100_adam_algo.png"/>
 
 ### See also
 
