@@ -22,15 +22,13 @@ For an IVP to be well-posed in the sense of Hadamard, it must satisfy three cond
 If any of these conditions are not satisfied, the problem is considered ill-posed.
 
 ## Lipschitz continuity
-
-**Lipschitz continuity**: Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
+<span class="blue">**Definition**:</span> *Lipschitz continuity.* Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
 $$
 \begin{aligned}
 d_Y(f(x_1), f(x_2)) \leq L d_X(x_1, x_2), \quad \forall x_1, x_2 \in X.
 \end{aligned}
 $$
-
-**Locally Lipschitz continuity**: A function $f: X \to Y$ is locally Lipschitz continuous if for every point $x_0 \in X$, there exists a neighborhood $U$ of $x_0$ such that $f$ is Lipschitz continuous on $U$, i.e.
+<span class="blue">**Definition**:</span> *Locally Lipschitz continuity.* A function $f: X \to Y$ is locally Lipschitz continuous if for every point $x_0 \in X$, there exists a neighborhood $U$ of $x_0$ such that $f$ is Lipschitz continuous on $U$, i.e.
 $$
 \begin{aligned}
 \exists \; L > 0, \text{ such that } d_Y(f(x_1), f(x_2)) \leq L d_X(x_1, x_2), \quad \forall x_1, x_2 \in U.
@@ -154,28 +152,36 @@ $$
 \dfrac{(x-x_o)^{p+1}}{(p+1)!} y^{(p+1)}(\xi), \quad \xi \in (x_o, x)
 $$
 
-### Derivation of remainder term and truncation error
-To get the specific form of the remainder term, we can use the integral form of the remainder in Taylor's theorem:
+> [!note]- Derivation of remainder term
+> To get the specific form of the remainder term, we can use the integral form of the remainder in Taylor's theorem:
+> $$
+> \begin{aligned}
+>     \dfrac{1}{p!}\int_{x_o}^{x} (x - t)^p y^{(p+1)}(t) dt &= \dfrac{1}{p!} y^{(p+1)}(\xi) \int_{x_o}^{x} (x-t)^p dt \quad \text{[by Integral Mean Value Theorem]} \\
+>     &= \dfrac{1}{p!} y^{(p+1)}(\xi) \left[ \dfrac{(x - x_o)^{p+1}}{(p+1)} \right] \\
+>     &= \dfrac{(x - x_o)^{p+1}}{(p+1)!} y^{(p+1)}(\xi), \quad \xi \in (x_o, x)
+> \end{aligned}
+> $$
+
+### Truncation error
+
+We have the truncation error as
 $$
-\begin{aligned}
-    \dfrac{1}{p!}\int_{x_o}^{x} (x - t)^p y^{(p+1)}(t) dt &= \dfrac{1}{p!} y^{(p+1)}(\xi) \int_{x_o}^{x} (x-t)^p dt \quad \text{[by Integral Mean Value Theorem]} \\
-    &= \dfrac{1}{p!} y^{(p+1)}(\xi) \left[ \dfrac{(x - x_o)^{p+1}}{(p+1)} \right] \\
-    &= \dfrac{(x - x_o)^{p+1}}{(p+1)!} y^{(p+1)}(\xi), \quad \xi \in (x_o, x)
-\end{aligned}
+\mathcal{E}_n = \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n)
 $$
 
-At $x = x_{n+1}$,
-$$
-y(x_{n+1}) = y(x_n) + (x_{n+1} - x_n) y'(x_n) + \ldots + \dfrac{(x_{n+1} - x_n)^p}{p!} y^{(p)}(x_n) + \dfrac{(x_{n+1} - x_n)^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n).
-$$
-Letting $h = x_{n+1} - x_n$ , for $n=0,1,\ldots,N-1$, we can rewrite the above equation as:
-$$
-\begin{aligned}
-    y(x_{n+1}) &= y(x_n) + h y'(x_n) + \dfrac{h^2}{2!} y''(x_n) + \ldots + \dfrac{h^p}{p!} y^{(p)}(x_n) + \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n) \\
-    &= y(x_n) + h y'(x_n) + \dfrac{h^2}{2!} y''(x_n) + \ldots + \dfrac{h^p}{p!} y^{(p)}(x_n) + \mathcal{E}_n \quad n = 0, 1, \ldots, N-1,
-\end{aligned}
-$$
-where $\mathcal{E}_n = \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n)$ is the **local** truncation error at the $n$th step, with order $\mathcal{O}(h^{p+1})$.
+> [!note]- Derivation of truncation error
+> At $x = x_{n+1}$,
+> $$
+> y(x_{n+1}) = y(x_n) + (x_{n+1} - x_n) y'(x_n) + \ldots + \dfrac{(x_{n+1} - x_n)^p}{p!} y^{(p)}(x_n) + \dfrac{(x_{n+1} - x_n)^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n).
+> $$
+> Letting $h = x_{n+1} - x_n$ , for $n=0,1,\ldots,N-1$, we can rewrite the above equation as:
+> $$
+> \begin{aligned}
+>     y(x_{n+1}) &= y(x_n) + h y'(x_n) + \dfrac{h^2}{2!} y''(x_n) + \ldots + \dfrac{h^p}{p!} y^{(p)}(x_n) + \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n) \\
+>     &= y(x_n) + h y'(x_n) + \dfrac{h^2}{2!} y''(x_n) + \ldots + \dfrac{h^p}{p!} y^{(p)}(x_n) + \mathcal{E}_n \quad n = 0, 1, \ldots, N-1,
+> \end{aligned}
+> $$
+> where $\mathcal{E}_n = \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n)$ is the **local** truncation error at the $n$th step, with order $\mathcal{O}(h^{p+1})$.
 
 ### General form and approximation
 
@@ -467,7 +473,19 @@ $$
 y_{n+1} = y_n + hf\left(x_n + \frac{h}{2    }, y_n + \frac{h}{2}f(x_n, y_n)\right)
 $$
 
-## Runge-Kutta method
+## Trapezium method
+$$
+y_{n+1} = y_n + \frac{h}{2} \left( f(x_n,y_n) + f(x_{n+1}, y_{n+1}) \right)
+$$
+2nd order, implicit method
+
+## Heun's method / Euler Cauchy method
+$$
+y_{n+1} = y_n + \frac{h}{2} \left( f(x_n,y_n) + f(x_n + h, y_n + h f(x_n,y_n)) \right)
+$$
+Explicit method
+
+## Runge-Kutta methods
 
 # August 14, 2025 (Class 9)
 
