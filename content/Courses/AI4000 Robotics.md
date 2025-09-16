@@ -305,10 +305,89 @@ $$
 H^0_2 = HH^0_1
 $$
 
+## Forward kinematics: DH convention
+
+<img src="AI4000_dh_convention_figure.png"/>
+
+$$
+\begin{aligned}
+    A_i &= Rot_{z,\theta_i}Trans_{z,d_i}Trans_{x,a_i}Rot_{x,\alpha_i} \\
+    &= \begin{bmatrix}
+        c_{\theta_i} & -s_{\theta_i} c_{\alpha_i} &  s_{\theta_i} s_{\alpha_i} & a_i c_{\theta_i} \\
+        s_{\theta_i} &  c_{\theta_i} c_{\alpha_i} & -c_{\theta_i} s_{\alpha_i} & a_i s_{\theta_i} \\
+        0            &  s_{\alpha_i}           &   c_{\alpha_i}           & d_i           \\
+        0            &  0                      &  0                    & 1
+    \end{bmatrix}
+\end{aligned}
+$$
+
+$(a_i, \alpha_i, d_i, \theta_i)$ are called **link length**, **link twist**, **link offset**, **joint angle**.
+
+DH Coordinate Frame Assumptions
+
+1. The axis $x_1$ is perpendicular to the axis $z_0$.
+2. The axis $x_1$ intersects the axis $z_0$.
+
+## Formulas
+
+### Derivative of a rotation matrix
+$$
+\dfrac{d}{d\theta} R_{k,\theta} = S(k) R_{k,\theta}
+$$
+
+### Angular velocity, general case
+$$
+\begin{aligned}
+    \dot{R(t)} &= S(t)R(t) \\
+    \dot{R(t)} &= S(\omega(t))R(t)
+\end{aligned}
+$$
+
+### Addition of angular velocities
+Let
+$$
+R^0_n = R^0_1 R^1_2 \dots R^{n-1}_n
+$$
+then
+$$
+\dot{R^0_n} = S(\omega^0_{0,n})R^0_n
+$$
+where
+$$
+\begin{aligned}
+    \omega^0_{0,n} &= \omega^0_{0,1} + R^0_1 \omega^1_{1,2} + \dots + R^0_{n-1} \omega^{n-1}_{n-1,n} \\
+    &= \omega^0_{0,1} + \omega^0_{1,2} + \dots + \omega^0_{n-1,n}
+\end{aligned}
+$$
+
+### Linear velocity of a point attached to a moving frame
+
+Let $f_0$ and $f_1$ be two frames with $f_1$ moving relative to $f_0$, and
+$$
+H^0_1(t) = \begin{bmatrix}
+        R^0_1(t) & o^0_1(t) \\
+        0        & 1        \\
+    \end{bmatrix}
+$$
+be a time dependent homogeneous transformation relating the two frames.
+Now,
+$$
+p^0 = R^0_1 p^1 + o^0_1
+$$
+and
+$$
+\begin{aligned}
+    \dot{p}^0 &= \dot{R}^0_1 p^1 + \dot{o}^0_1 \\
+    &= S(\omega) R^0_1 p^1 + \dot{o}^0_1 \\
+    &= \omega \times r + \upsilon
+\end{aligned}
+$$
+
+If the point $p$ is moving w.r.t $f_1$, Then
+$$
+\dot{p}^0 = \dot{R}^0_1 p^1 + R^0_1 \dot{p}^1 + \dot{o}^0_1
+$$
+
 ### See also
-
-![[AI4000 Robotics_tikz_1.svg]]
-
-![[AI4000 Robotics_tikz_2.svg]]
 
 ### References

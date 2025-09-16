@@ -478,6 +478,10 @@ $$
 \sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R()}{den}
 $$
 
+# September 11, 2025 (Class 11)
+
+# September 15, 2025 (Class 12)
+
 ### Abbreviations
 
 FTRL - Follow the regularized leader
