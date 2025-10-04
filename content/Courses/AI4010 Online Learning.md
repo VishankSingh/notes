@@ -635,7 +635,11 @@ $$
 > \begin{aligned}
 >     \frac{W_{t+1}}{W_t} &= \sum_{i=1}^{n} \frac{w_{i,t+1}}{W_t} = \sum_{i=1}^{n} \left(\frac{w_{i,t}}{W_t}\right) e^{\gamma \hat{r}_{i,t}/n} \\
 >     &= \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right) \\
->     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right)
+>     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right) \\
+>     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \left(1 + \frac{\gamma}{n}\hat{r}_{i,t} + \left(\frac{\gamma}{n}\right)^2 \hat{r}_{i,t}^2 \right) \\
+>     & \hspace{5cm} (\text{Using } e^x \le 1 + x + x^2 \text{ for all } x \in [0, 1]) \\[2ex]
+>     &\le \underbrace{\sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma}}_{=1} + \frac{\gamma/n}{1-\gamma} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 \\[2ex]
+>     &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t}^2
 > \end{aligned}
 > $$
 
