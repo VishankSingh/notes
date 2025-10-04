@@ -388,6 +388,8 @@ $$
 \dot{p}^0 = \dot{R}^0_1 p^1 + R^0_1 \dot{p}^1 + \dot{o}^0_1
 $$
 
+<img src="AI4000_manipulator_jacobian_construction.png"/>
+
 ### See also
 
 ### References

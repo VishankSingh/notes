@@ -667,6 +667,8 @@ $$
 
 ## Newton's method
 
+## Secant method
+
 ### See also
 
 ### References

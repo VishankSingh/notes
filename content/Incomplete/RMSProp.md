@@ -1,5 +1,5 @@
 ---
-title: fdsf
+title:
 draft:
 tags:
 ---

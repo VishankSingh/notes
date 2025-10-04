@@ -1,18 +1,14 @@
 ---
 
 ---
-# August 4, 2025 (Class 1)
-
-# August 6, 2025 (Class 2, Makeup class)
-
-# August 7, 2025 (Class 3)
-
 ### Stochastic Process
 A stochastic or random process, denoted by $\{s_t\}_{t\in T}$, can be defined as a collection of
 random variables that is indexed by some mathematical set $T$
 
 - Index set $T$ has the interpretation of time.
 - The set $T$ is typically $\mathbb{N}$ or $\mathbb{R}$.
+
+## Markov chain
 
 ### State transition probability
 
@@ -35,10 +31,6 @@ A Markov Reward Process (MRP) is a Markov chain with an additional reward functi
 - $\mathcal{P}$ is the state transition probability matrix.
 - $\mathcal{R}$ is the reward function, with $\mathcal{R}(s_t) = r_{t+1}$ being the reward for being in state $s_t$ at time $t$.
 - $\gamma \in [0, 1)$ is the discount factor, which determines the importance of future rewards.
-
-# August 11, 2025 (Class 4)
-
-# August 14, 2025 (Class 5)
 
 ## Policy evaluation
 
@@ -65,7 +57,7 @@ $$
 \end{aligned}
 $$
 
-The above is called the Bellman Evaluation operator.
+The above is called the **Bellman Evaluation operator**.
 
 ### Matrix formulation of Bellman Evaluation equation
 We define,
@@ -84,6 +76,10 @@ or in explicit form,
 $$
 V^\pi = \left(I - \gamma \mathcal{P}^\pi\right)^{-1} \mathcal{R}^\pi
 $$
+
+## Relation between Markov Decision Process and Markov Reward Process
+
+MDP + Policy = MRP
 
 ## Optimal policy
 We define a partial ordering over policies,
@@ -162,8 +158,6 @@ $$
 \end{aligned}
 $$
 
-# August 18, 2025 (Class 6)
-
 ## Policy Iteration
 We have
 $$
@@ -200,17 +194,50 @@ $$
 \end{array}
 $$
 
-# August 21, 2025 (Class 7)
+## Value Iteration
 
-# August 25, 2025 (Class 8)
+$$
+\begin{array}{l}
+\textbf{Algorithm: } \ \text{Value Iteration} \\
+\hline
+\textbf{Input: } \text{An MDP } \langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma\rangle \text{ and an value function } V_0 \\
+\textbf{Output: } \text{An optimal policy } \pi^* \\
+\\
+\text{1. } \textbf{Initialization} \\
+\quad \text{Set } k \leftarrow 0 \\
+\\
+\text{2. } \textbf{Repeat} \\
+\quad \text{a. } \text{for } s\in \mathcal{S} \\
+\quad \quad V_{k+1}(s) \leftarrow \max_{a\in\mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} \mathcal{P}^a_{ss'} \left( \mathcal{R}^a_{ss'} + \gamma V_k(s') \right) \right] \\
+\\
+\quad \text{b. } \text{Set } k \leftarrow k+1 \\
+\\
+\quad \textbf{Until } V_k(s) = V_{k-1}(s) \text{ for all } s \in \mathcal{S} \text{ (value function is stable)} \\
+\\
+\text{3. } \textbf{Return } \pi^* \leftarrow \arg\max_{a\in\mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} \mathcal{P}^a_{ss'} \left( \mathcal{R}^a_{ss'} + \gamma V_k(s') \right) \right]
+\end{array}
+$$
 
-# August 28, 2025 (Class 9)
+### Value function space
+Let
+$$
+\mathcal{V} = \{ f : \mathcal{S} \to \mathbb{R} \mid \sup_{s\in\mathcal{S}} |f(s)| < \infty\},
+$$
+be the space of all value functions.
 
-# September 1, 2025 (Class 10)
+### Bellman Evaluation Operator
+We define Bellman Evaluation Operator $\mathcal{L}^\pi : \mathcal{V} \to \mathcal{V}$ as,
+$$
+\mathcal{L}^\pi (v) = \mathcal{R}^\pi + \gamma\mathcal{P}^\pi v
+$$
 
-# September 4, 2025 (Class 11)
+### Bellman Optimality Operator
+We define Bellman Optimality Operator $\mathcal{L} : \mathcal{V} \to \mathcal{V}$ as,
+$$
+\mathcal{L} (v) = \max_{a\in\mathcal{A}} \left[   \mathcal{R}^a + \gamma\sum_{s'\in\mathcal{S}}  \mathcal{P}^a_{ss'} v   \right]
+$$
 
-# ---
+## Prediction and Control in Reinforcement Learning
 
 ### See also
 

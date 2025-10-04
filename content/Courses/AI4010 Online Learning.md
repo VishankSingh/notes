@@ -376,67 +376,97 @@ Do note, the env only gives $f_t(x_t)$ and $\nabla f_t(x_t)$, not $f_t$ itself.
 
 ## Online gradient descent
 
-We have,
 $$
-x_{t+1} \leftarrow \Pi_\mathcal{K}(x_t - \eta_t \nabla f_t(x_t))
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{Online Gradient Descent} \\
+\textbf{input: } \mathcal{K} :=\text{set of values}, \mathcal{F}:=\text{set of convex loss functions} \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad - \ \text{Algorithm selects action } x_t \in \mathcal{K} \\
+\quad - \ \text{Environment selects a loss function } f_t \in \mathcal{F} \\
+\quad - \ \text{ALG incurs loss } f_t(x_t) \\
+\quad - \ \text{Update }  x_{t+1} \leftarrow \Pi_\mathcal{K}(x_t - \eta_t \nabla f_t(x_t)) \\
+\textbf{end for}\\
+\end{array}
 $$
 
 ### Regret guarantee on online gradient descent
 
-We define
+We have,
+$$
+R_T(OGD) \leq \dfrac{3}{2} DG \sqrt{T},
+$$
+where
 $$
 \begin{aligned}
     G &:= \sup_{f\in\mathcal{F}} \sup_{x\in\mathcal{K}} \|\nabla f(x)\| \\
     D &:= \sup_{x,x' \in\mathcal{K}} \|x-x'\|_2 \\
-    \nabla_t &:= \nabla f_t(x)
-\end{aligned}
-$$
-Also, $x^*\in\mathcal{K}$ as
-$$
-x^* = \arg\min_{x\in\mathcal{K}} \sum_{i=1}^{T} f_i(x).
-$$
-
-From the first order condition of convexity,
-$$
-\begin{aligned}
-    f_t(x_t) - f_t(x^*) &\leq \nabla^T_t(x_t - x^*) \\
-    \sum_{t=1}^{T} f_t(x_t) - \sum_{t=1}^{T} f_t(x^*) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*) \\
-    \implies R_T(OGD) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*).
 \end{aligned}
 $$
 
-Now,
-$$
-\begin{aligned}
-    \|x^* - x_{t+1}\| &= \|x^* - \Pi_\mathcal{K}(x_t - \eta_t\nabla_t) \| \\
-    &\leq \|x_* - x^t + \eta_t \nabla_t \|, \quad \text{by Pythogorean theorem} \\
-    \|x^* - x_{t+1}\|^2 &\leq \|x^* - x_t\|^2 + \eta^2_t \|\nabla_t\|^2 + 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle  \\
-    - 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle &\leq \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 + \eta^2_t \|\nabla_t\|^2 \\
-    2 \left\langle x_t - x^*, \nabla_t \right\rangle &\leq \dfrac{1}{\eta_t} \left( \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 \right) + \eta_t \|\nabla_t\|^2 \\
-\end{aligned}
-$$
+> [!note]- Proof of regret bound
+> We define
+> $$
+> \nabla_t := \nabla f_t(x)
+> $$
+> Also, $x^*\in\mathcal{K}$ as
+> $$
+> x^* = \arg\min_{x\in\mathcal{K}} \sum_{i=1}^{T} f_i(x).
+> $$
+>
+> From the first order condition of convexity,
+> $$
+> \begin{aligned}
+>     f_t(x_t) - f_t(x^*) &\leq \nabla^T_t(x_t - x^*) \\
+>     \sum_{t=1}^{T} f_t(x_t) - \sum_{t=1}^{T} f_t(x^*) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*) \\
+>     \implies R_T(OGD) &\leq \sum_{t=1}^{T} \nabla^T_t (x_t - x^*).
+> \end{aligned}
+> $$
+>
+> Now,
+> $$
+> \begin{aligned}
+>     \|x^* - x_{t+1}\| &= \|x^* - \Pi_\mathcal{K}(x_t - \eta_t\nabla_t) \| \\
+>     &\leq \|x_* - x^t + \eta_t \nabla_t \|, \quad \text{by Pythogorean theorem} \\
+>     \|x^* - x_{t+1}\|^2 &\leq \|x^* - x_t\|^2 + \eta^2_t \|\nabla_t\|^2 + 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle  \\
+>     - 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle &\leq \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 + \eta^2_t \|\nabla_t\|^2 \\
+>     2 \left\langle x_t - x^*, \nabla_t \right\rangle &\leq \dfrac{1}{\eta_t} \left( \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 \right) + \eta_t \|\nabla_t\|^2 \\
+> \end{aligned}
+> $$
+>
+> From the above two results, we have
+> $$
+> \begin{aligned}
+>     2 R_T(OGD) &\leq \sum_{t=1}^{T} \left( \dfrac{\|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2}{\eta_t} \right) + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
+>     &= \dfrac{\|x^* - x_1\|^2}{\eta_1} + \sum_{t=2}^{T} \|x^* - x_t\|^2 \left(\dfrac{1}{\eta_t} - \dfrac{1}{\eta_{t-1}}\right) - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
+>     &\leq \dfrac{\|x^* - x_1\|^2}{\eta_1} - \dfrac{D^2}{\eta_1} + \dfrac{D^2}{\eta_T} - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t \\
+>     &\leq \dfrac{D^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t
+> \end{aligned}
+> $$
+>
+> Putting $\eta_t = \frac{D}{G\sqrt{t}}$, we have
+> $$
+> \begin{aligned}
+>      2 R_T(OGD) &\leq D^2 \dfrac{G\sqrt{T} }{D} + G^2 \dfrac{D}{G} \sum_{t=1}^{T} \dfrac{1}{\sqrt{t}} \\
+>               &\leq DG\sqrt{T} + 2 DG\sqrt{T} \\
+>     \implies R_T(OGD) &\leq \dfrac{3}{2} DG \sqrt{T}
+> \end{aligned}
+> $$
 
-From the above two results, we have
-$$
-\begin{aligned}
-    2 R_T(OGD) &\leq \sum_{t=1}^{T} \left( \dfrac{\|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2}{\eta_t} \right) + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
-    &= \dfrac{\|x^* - x_1\|^2}{\eta_1} + \sum_{t=2}^{T} \|x^* - x_t\|^2 \left(\dfrac{1}{\eta_t} - \dfrac{1}{\eta_{t-1}}\right) - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + \sum_{t=1}^{T} \eta_t \|\nabla_t\|^2 \\
-    &\leq \dfrac{\|x^* - x_1\|^2}{\eta_1} - \dfrac{D^2}{\eta_1} + \dfrac{D^2}{\eta_T} - \dfrac{\|x^* - x_{T+1}\|^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t \\
-    &\leq \dfrac{D^2}{\eta_T} + G^2 \sum_{t=1}^{T} \eta_t
-\end{aligned}
-$$
+### Regret guarantee on online gradient descent for strongly convex loss function
 
-Putting $\eta_t = \frac{D}{G\sqrt{t}}$, we have
+> [!note]- Proof of regret bound for strongly convex loss function
+> TODO
+
+### FTL-BTL lemma
+
+<span class="blue">**Lemma**:</span> *FTL-BTL lemma[^1].*
+Let $x_1, x_2, \dots$ be the sequence of points chosen by FTL. Then,
+for any $u\in\mathcal{K}$ and for and stopping time $T$, we have
 $$
-\begin{aligned}
-     2 R_T(OGD) &\leq D^2 \dfrac{G\sqrt{T} }{D} + G^2 \dfrac{D}{G} \sum_{t=1}^{T} \dfrac{1}{\sqrt{t}} \\
-              &\leq DG\sqrt{T} + 2 DG\sqrt{T} \\
-    \implies R_T(OGD) &\leq \dfrac{3}{2} DG \sqrt{T}
-\end{aligned}
+\sum_{t=1}^{T} f_t(x_{t+1}) \leq \sum_{t=1}^{T} f_t(u)
 $$
 
 TODO:
-$\alpha$-strongly convex function as loss.
 Follow the Regularized Leader
 For linear loss
 
@@ -482,12 +512,135 @@ $$
 
 # September 15, 2025 (Class 12)
 
-### Abbreviations
+# September 22, 2025 (Class 13)
 
-FTRL - Follow the regularized leader
+## Bandits setting
+$$
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{Multi-Armed Bandits setting} \\
+\textbf{input: } n := \text{number of arms} \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad - \ \text{Algorithm picks an arm } i_t \in [n] \\
+\quad - \ \text{Environment reveals loss } l_{i_t,t} \in [0,1] \\
+\textbf{end for}\\
+\end{array}
+$$
 
-FTL BTL - Follow the leader, be the leader lemma
+## Naive application of online gradient descent for bandit setting
 
-### See also
+$$
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{Online gradient descent for bandit setting} \\
+\hline
+\textbf{input: } n := \text{number of arms}, \delta \in (0,1)  \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad b_t \sim \text{Bern}(\delta) \\
+\quad \textbf{if} \ b_t = 1 \ \textbf{then} \\
+\quad \quad \text{- } i_t \sim \text{Unif}([n]) \quad \text{Exploration} \\
+\quad \quad \text{- } \hat{\ell}_{i,t} =
+\begin{cases}
+\frac{n}{\delta} \ell_{i,t} & \text{if } i = i_t \\
+0 & \text{otherwise}
+\end{cases} \\
+\quad \quad \text{- Set } \hat{f}_{t} = \hat{\ell}_{i,t} \cdot x_{i,t} \text{ for all } i \in [n], \text{ i.e. } \hat{f}_t = \langle \hat{\ell}_t, x \rangle \\
+\quad \quad \text{- } x_{t+1} = \text{OGD}(\hat{f}_1, \hat{f}_2, \dots, \hat{f}_t) \\
+\quad \textbf{end if} \\
+\quad \textbf{else if} \ b_t = 0 \ \textbf{then} \\
+\quad \quad \text{- } i_t \sim x_t \quad \text{Exploitation} \\
+\quad \quad \text{- } x_{t+1} = x_t, \hat{\ell}_t = 0 \text{ and } \hat{f}_t = 0 \\
+\quad \textbf{end if} \\
+\textbf{end for}
+\end{array}
+$$
 
-### References
+> [!note]- TODO: check this. may not be completely correct.
+> $$
+> \begin{array}{l}
+> \textbf{Algorithm 15:} \ \text{Online Gradient Descent for Multi-Armed Bandits} \\
+> \hline
+> \textbf{Parameters:} \\
+> \quad \text{Number of arms } n \in \mathbb{N}^+ \\
+> \quad \text{Exploration probability } \delta \in (0, 1) \\
+> \quad \text{Learning rate sequence } \{\eta_t\}_{t \ge 1} \subset \mathbb{R}^+ \\
+> \textbf{Initialize:} \\
+> \quad \text{Weight vector } x_1 \in \Delta_{n-1}, \text{ where } \Delta_{n-1} := \{z \in \mathbb{R}^n \mid z_i \ge 0, \sum_{i=1}^n z_i = 1\}. \\
+> \\
+> \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+> \quad \text{1. Decide to explore or exploit:} \\
+> \quad \quad \text{Draw } b_t \sim \text{Bernoulli}(\delta). \\
+> \\
+> \quad \text{2. Select arm } i_t \in \{1, \dots, n\}: \\
+> \quad \quad i_t \sim \begin{cases} \text{Uniform}(\{1, \dots, n\}) & \text{if } b_t = 1 \\ x_t & \text{if } b_t = 0 \end{cases} \\
+> \\
+> \quad \text{3. Construct unbiased loss vector estimator } \hat{\ell}_t \in \mathbb{R}^n: \\
+> \quad \quad \text{Observe loss } \ell_{i_t, t} \in [0,1] \text{ and set } \hat{\ell}_t = \mathbb{I}\{b_t=1\} \cdot \frac{n}{\delta} \ell_{i_t, t} \, e_{i_t}, \\
+> \quad \quad \text{where } e_{i_t} \text{ is the } i_t\text{-th standard basis vector and } \mathbb{I}\{\cdot\} \text{ is the indicator function}. \\
+> \\
+> \quad \text{4. Update weight vector:} \\
+> \quad \quad x_{t+1} = \Pi_{\Delta_{n-1}}(x_t - \eta_t \hat{\ell}_t), \\
+> \quad \quad \text{where } \Pi_{\Delta_{n-1}}(y) := \arg\min_{z \in \Delta_{n-1}} \|y-z\|_2 \text{ is the Euclidean projection onto the simplex}. \\
+> \textbf{end for}
+> \end{array}
+> $$
+
+<span class="blue">**Lemma**:</span> $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
+
+> [!note]- Proof
+> TODO
+
+### Regret upper bound of OGD-MAB
+We have,
+$$
+\mathbb{E}\left[ R_T(OGD-MAB) \right] \leq 4(nT)^{2/3},
+$$
+where we chose $\delta = n^{2/3} T^{-1/3}$
+
+> [!note]- Proof
+> TODO
+
+# September 25, 2025 (Class 14)
+
+## EXP3-$\gamma$
+$$
+\begin{array}{l}
+\textbf{Algorithm : EXP3-$\gamma$} \\
+\hline
+\textbf{Input:} \ \text{Number of arms } n, \gamma \in (0, 1) \\
+\textbf{Initialize:} \ w_{i,1} = 1 \text{ for all } i \in [n] \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad \text{- } p_{i,t} = (1-\gamma)\frac{w_{i,t}}{\sum_{j=1}^{n}w_{j,t}} + \frac{\gamma}{n} \\
+\quad \text{- Draw } i_t \sim p_t \text{ where } p_t =
+\begin{pmatrix}
+p_{1,t} & p_{2,t} & \cdots &  p_{n,t}
+\end{pmatrix}^T \\
+
+\quad \text{- Observe } r_{i_t,t}, \text{ the reward at time } t \text{ (from arm } i_t) \\
+
+\quad \text{- } \hat{r}_{i,t} = \mathbb{I}\{i_t = i\}\dfrac{r_{j,t}}{p_{j,t}} \\
+
+\quad \text{- } w_{i,t+1} = w_{i,t} \cdot e^{\eta \hat{r}_{i,t}} \\
+\textbf{end} \\
+\hline
+\end{array}
+$$
+
+<span class="blue">**Theorem**:</span> For any $\gamma \in (0,1)$,
+any reward sequence $(r_t)_{t\geq 1}$ with $r_t \in [0,1]^n$, we have
+$$
+\max_{i}\sum_{t=1}^{T} r_{i,t} - \sum_{t=1}^{T} r_{i,t} \leq 2\gamma T + \dfrac{n\log(n)}{\gamma}
+$$
+
+> [!note]- Proof
+> $$
+> \begin{aligned}
+>     \frac{W_{t+1}}{W_t} &= \sum_{i=1}^{n} \frac{w_{i,t+1}}{W_t} = \sum_{i=1}^{n} \left(\frac{w_{i,t}}{W_t}\right) e^{\gamma \hat{r}_{i,t}/n} \\
+>     &= \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right) \\
+>     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right)
+> \end{aligned}
+> $$
+
+## See also
+
+## References
+
+[^1]: Follow the leader, be the leader lemma
