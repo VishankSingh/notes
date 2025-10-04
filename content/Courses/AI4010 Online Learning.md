@@ -390,7 +390,6 @@ $$
 $$
 
 ### Regret guarantee on online gradient descent
-
 We have,
 $$
 R_T(OGD) \leq \dfrac{3}{2} DG \sqrt{T},
@@ -454,8 +453,26 @@ $$
 
 ### Regret guarantee on online gradient descent for strongly convex loss function
 
+With $\eta = 1/(\alpha t)$, we have
+$$
+R_T(OGD) \leq \dfrac{G^2}{2\alpha} (1+\log(T))
+$$
+
 > [!note]- Proof of regret bound for strongly convex loss function
-> TODO
+> From $\alpha$-strong convexity property we have
+> $$
+> 2(f_t(x_t) - f_t(x^*)) \le 2\nabla_t^T(x_t - x^*) - \alpha \|x_t - x^*\|^2
+> $$
+> We will use the upper bound on the first term from [[AI4010 Online Learning#Regret guarantee on online gradient descent|previous]] proof. We have
+> $$
+> \begin{aligned}
+>     2R_T(\text{OGD}) &= \sum_{t=1}^{T} 2(f_t(x_t) - f_t(x^*)) \\
+>     &\le \sum_{t=1}^{T} \left( \frac{\|x_t - x^*\|^2 - \|x_{t+1} - x^*\|^2}{\eta_t} - \alpha \|x_t - x^*\|^2 \right) + G^2 \sum_{t=1}^{T} \eta_t - \frac{\|x_{T+1} - x^*\|^2}{\eta_T} \\
+>     &\le D^2 \underbrace{\sum_{t=1}^{T} \left(\frac{1}{\eta_t} - \frac{1}{\eta_{t-1}} - \alpha \right)}_{=0} + G^2 \sum_{t=1}^{T} \eta_t \\
+>     &= \frac{G^2}{\alpha} \sum_{t=1}^{T} \frac{1}{t} \\
+>     &\le \frac{G^2}{\alpha}(1 + \log(T))
+> \end{aligned}
+> $$
 
 ### FTL-BTL lemma
 
@@ -531,7 +548,6 @@ $$
 $$
 \begin{array}{l}
 \textbf{Algorithm:} \ \text{Online gradient descent for bandit setting} \\
-\hline
 \textbf{input: } n := \text{number of arms}, \delta \in (0,1)  \\
 \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
 \quad b_t \sim \text{Bern}(\delta) \\
@@ -557,7 +573,6 @@ $$
 > $$
 > \begin{array}{l}
 > \textbf{Algorithm 15:} \ \text{Online Gradient Descent for Multi-Armed Bandits} \\
-> \hline
 > \textbf{Parameters:} \\
 > \quad \text{Number of arms } n \in \mathbb{N}^+ \\
 > \quad \text{Exploration probability } \delta \in (0, 1) \\
@@ -604,7 +619,6 @@ where we chose $\delta = n^{2/3} T^{-1/3}$
 $$
 \begin{array}{l}
 \textbf{Algorithm : EXP3-$\gamma$} \\
-\hline
 \textbf{Input:} \ \text{Number of arms } n, \gamma \in (0, 1) \\
 \textbf{Initialize:} \ w_{i,1} = 1 \text{ for all } i \in [n] \\
 \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
@@ -620,7 +634,6 @@ p_{1,t} & p_{2,t} & \cdots &  p_{n,t}
 
 \quad \text{- } w_{i,t+1} = w_{i,t} \cdot e^{\eta \hat{r}_{i,t}} \\
 \textbf{end} \\
-\hline
 \end{array}
 $$
 
