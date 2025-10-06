@@ -669,6 +669,34 @@ $$
 
 ## Secant method
 
+## October 6, 2025 (Class \_)
+
+Lagrange interpolating polynomial $p_x(x)$   
+
+### Error term in Lagrange interpolation
+
+<span class="blue">**Theorem**:</span> *Error in Lagrange interpolation.*
+
+Let $k \in \mathbb{N}$ and $f: \mathbb{R} \to \mathbb{R}$. Furthermore,
+$f \in \mathbb{C}([a,b])$ and $f^{(k+1)} \in \mathbb{C}([a,b])$. Then, if $p_x$
+is the Lagrange interpolation of $f$ of degree at most $k$, we have,
+
+$$
+R(x) = f(x) - p_x(x) = \dfrac{f^{(k+1)}(\xi)}{(k+1)!} \prod_{i=0}^{k} (x-x_i) , \quad x_0 < \xi < x_k
+$$
+and
+$$
+|R(x)| \leq \dfrac{1}{(k+1)!} \max_{\xi\in[x_0,x_k]} |f^{(k+1)}(\xi)| \max_{x\in[x_0,x_k]} \left| \prod_{i=0}^{k} (x-x_i) \right|.
+$$
+
+We obtain a looser but simpler bound taking $\max_{x\in[x_0,x_k]} \left| \prod_{i=0}^{k} (x-x_i) \right| \leq (x_k-x_0)^{k+1}$,
+$$
+|R(x)| \leq \dfrac{(x_k - x_0)^{k+1}}{(k+1)!} \max_{\xi\in[x_0,x_k]} |f^{(k+1)}(\xi)|.
+$$
+
+> [!note]- Proof
+> TODO
+
 ### See also
 
 ### References

@@ -474,6 +474,8 @@ $$
 > \end{aligned}
 > $$
 
+## Follow the leader (FTL)
+
 ### FTL-BTL lemma
 
 <span class="blue">**Lemma**:</span> *FTL-BTL lemma[^1].*
@@ -483,9 +485,34 @@ $$
 \sum_{t=1}^{T} f_t(x_{t+1}) \leq \sum_{t=1}^{T} f_t(u)
 $$
 
+> [!note]- Proof
+> TODO: using induction
+
 TODO:
 Follow the Regularized Leader
 For linear loss
+
+## Follow the regularized leader (FTRL)
+
+<span class="red">**Note**:</span> The regularizers considered are bounded,
+$\alpha$-strongly convex functions.
+
+$$
+\begin{array}{l}
+\textbf{Algorithm 11:} \ \text{FTRL Algorithm} \\
+\textbf{Input: } \text{convex set } \mathcal{K}, \text{regularization function } R \\
+\textbf{Initialize: } x_1 \text{ ;} \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad - \ \text{Algorithm plays } x_t \in \mathcal{K} \text{ ;} \\
+\quad - \ \text{Environment reveals } w_t \in [0, 1]^d \text{ ;} \\
+\quad - \ \text{Algorithm incurs a loss } \langle w_t, x_t \rangle \text{ ;} \\
+\quad - \ \text{Update} \\
+\qquad \qquad x_{t+1} := \arg\min_{x \in \mathcal{K}} \left[ \sum_{s=1}^t \langle w_s, x \rangle + \frac{1}{\eta} R(x) \right] \\
+\textbf{end for}\\
+\end{array}
+$$
+
+### FTRL with linear loss function and negative entropic regularizer
 
 # September 8, 2025 (Class 10)
 
@@ -640,10 +667,15 @@ $$
 <span class="blue">**Theorem**:</span> For any $\gamma \in (0,1)$,
 any reward sequence $(r_t)_{t\geq 1}$ with $r_t \in [0,1]^n$, we have
 $$
-\max_{i}\sum_{t=1}^{T} r_{i,t} - \sum_{t=1}^{T} r_{i,t} \leq 2\gamma T + \dfrac{n\log(n)}{\gamma}
+\max_{i}\sum_{t=1}^{T} r_{i,t} - \sum_{t=1}^{T} r_{i,t} \leq 2\gamma T + \dfrac{n\log(n)}{\gamma}.
+$$
+Furthermore, taking $\gamma = \sqrt{\dfrac{n\log(n)}{2T}}$,
+$$
+\mathbb{E}[R_T(EXP3-\gamma)] \le 2\sqrt{2Tn\log(n)}
 $$
 
 > [!note]- Proof
+> Upper bounding $\log(W_{T+1}/W_1)$,
 > $$
 > \begin{aligned}
 >     \frac{W_{t+1}}{W_t} &= \sum_{i=1}^{n} \frac{w_{i,t+1}}{W_t} = \sum_{i=1}^{n} \left(\frac{w_{i,t}}{W_t}\right) e^{\gamma \hat{r}_{i,t}/n} \\
@@ -652,9 +684,50 @@ $$
 >     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \left(1 + \frac{\gamma}{n}\hat{r}_{i,t} + \left(\frac{\gamma}{n}\right)^2 \hat{r}_{i,t}^2 \right) \\
 >     & \hspace{5cm} (\text{Using } e^x \le 1 + x + x^2 \text{ for all } x \in [0, 1]) \\[2ex]
 >     &\le \underbrace{\sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma}}_{=1} + \frac{\gamma/n}{1-\gamma} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 \\[2ex]
->     &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t}^2
+>     & \hspace{5cm} \left(\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 = \sum_{i=1}^{n} \underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \le \sum_{i=1}^{n} \hat{r}_{i,t}\right) \\[2ex]
+>     &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     \log \left( \frac{W_{t+1}}{W_t} \right) &\le \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+> \implies \log \left( \frac{W_{T+1}}{W_1} \right) &\le \frac{\gamma/n}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t}
 > \end{aligned}
 > $$
+>
+> Lower bounding $\log(W_{T+1}/W_1)$,
+> $$
+> \begin{aligned}
+>     \log \left( \frac{W_{T+1}}{W_1} \right) &\ge \log \left( \frac{w_{T+1}}{W_1} \right) \\
+> &= \log(e^{\gamma/n \sum_{t=1}^{T} \hat{r}_{i,t}}) - \log(n), \quad \because W_1 = n \\
+> &= \frac{\gamma}{n} \sum_{t=1}^{T} \hat{r}_{i,t} - \log(n)
+> \end{aligned}
+> $$
+>
+> From the above two inequalities,
+> $$
+> \begin{aligned}
+>     \frac{\gamma}{n} \sum_{t=1}^{T} \hat{r}_{i,t} - \log(n) &\le \frac{\gamma/n}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     \sum_{t=1}^{T} \hat{r}_{i,t} &\le \frac{n}{\gamma} \log(n) + \frac{1}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     (1-\gamma) \sum_{t=1}^{T} \hat{r}_{i,t} &\le \frac{1-\gamma}{\gamma} n\log(n) + \sum_{t=1}^{T} r_{i_t,t} + (\gamma/n) \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     \sum_{t=1}^{T} \hat{r}_{i,t} - \sum_{t=1}^{T} r_{i_t,t} &\le \gamma \sum_{t=1}^{T} \hat{r}_{i,t} + \frac{1-\gamma}{\gamma} n\log(n) + (\gamma/n) \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+> \end{aligned}
+> $$
+>
+> Taking $i^* = \arg\max_i \sum_{t=1}^{T}r_{i,t}$ as the best arm in hindsight,
+> $$
+> \begin{aligned}
+>     \mathbb{E}[R_T(EXP3-\gamma)] &\le \dfrac{n\log(n)}{\gamma} + 2\gamma\sum_{t=1}^{T} r_{i^*,t}\\
+>     &\le \dfrac{n\log(n)}{\gamma} + 2\gamma T
+> \end{aligned}
+> $$
+> Taking $\gamma = \sqrt{\dfrac{n\log(n)}{2T}}$,
+> $$
+> \mathbb{E}[R_T(EXP3-\gamma)] \le 2\sqrt{2Tn\log(n)}
+> $$
+>
+> <span class="red">**Note**:</span> Using a tighter bound of $e^x$ in the upper bounding
+> gives a better constant.
+
+# October 6, 2025 (Class 15)
+
+## Stochastic Multi Armed Bandits
 
 ## See also
 
