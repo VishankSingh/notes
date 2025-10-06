@@ -42,9 +42,9 @@ $$
 \textbf{Initialize: } w_{i,1} = 1 \ \forall i \in [N] \\
 \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
 \quad - \ \text{Input: } \text{Expert recommendations } f_{i,t} \in \{0,1\} \\
-\quad - \ \text{Predict: } p_t = \mathbb{I}\{\sum_{i:f_{i,t}=1} w_{i,t-1} \geq \sum_{i:f_{i,t-1}=0} w_{i,t-1}\} \\
+\quad - \ \text{Predict: } p_t = \mathbb{I}\{\sum_{i:f_{i,t}=1} w_{i,t} \geq \sum_{i:f_{i,t}=0} w_{i,t}\} \\
 \quad - \ \text{Observe: } y_t \in \{0,1\} \\
-\quad - \ \text{Update weights: } w_{i,t} \leftarrow w_{i,t-1} \cdot \alpha^{\mathbb{I}\{f_{i,t} \neq y_t\}} \\
+\quad - \ \text{Update weights: } w_{i,t+1} \leftarrow w_{i,t} \cdot \alpha^{\mathbb{I}\{f_{i,t} \neq y_t\}} \\
 \textbf{end for} \\
 \end{array}
 $$
@@ -184,81 +184,80 @@ The bound is given by,
 $$
 R_T(\text{exp wts}) \leq \dfrac{\ln(N)}{\eta} + \dfrac{\eta (b-a)^2 T}{8}.
 $$
-In particular, choosing $\eta = \sqrt{\dfrac{8\ln(N)}{T}}$, we have,
+In particular, choosing $\eta = \sqrt{\dfrac{8\ln(N)}{(b-a)^2T}}$, we have,
 $$
 R_T(\text{exp wts}) \leq (b-a)\sqrt{\dfrac{T}{2}\ln(N)}
 $$
 
-#### Proof:   
-
-**Preliminaries:**
-
-We assume that the loss function $l$ is convex and bounded in $[a,b]$.
-
-We define,
-$$
-\begin{aligned}
-    L_{i,T} &:= \sum_{t=1}^T l(f_{i,t}, y_t) \\
-    \hat{L}_T &:= \sum_{t=1}^T l(a_t, y_t) \\
-    w_{i,t} &:= e^{-\eta L_{i,t}} = e^{-\eta \sum_{s=1}^{t} l(f_{i,s}, y_s)}, \quad \forall t \geq 1 \\
-    W_t &:= \sum_{i=1}^{N} w_{i,t} = \sum_{i=1}^{N} e^{-\eta L_{i,t}}, \quad \forall t \geq 1 \\
-\end{aligned}
-$$
-with $W_0 = N$.
-
-We have the following form of the Hoeffding's lemma.
-Let $X$ be a random variabe with $a \leq X \leq b$ almost surely, then for any $s \in \mathbb{R}$,
-$$
-\ln\mathbb{E}[e^{sX}] \leq s\mathbb{E}[X] + \dfrac{s^2(b-a)^2}{8}
-$$
-
-**Main proof:**
-
-We have,
-$$
-\begin{aligned}
-    \ln \dfrac{W_n}{W_0} &= \ln \left(\sum_{i=1}^{N} \exp \left(-\eta L_{i,n}\right)\right) - \ln N \\
-    &\geq \ln \left(\max_{i \in [N]} e^{-\eta L_{i,n}}\right) - \ln N \\
-    &= -\eta \min_{i \in [N]} L_{i,n} - \ln N
-\end{aligned}
-$$
-
-For $t = 1, \dots, T$,
-$$
-\begin{aligned}
-    \ln \dfrac{W_t}{W_{t-1}} &= \ln \dfrac{\sum_{i=1}^{N} e^{-\eta l(f_{i,t},y_t) } e^{-\eta L_{i,t-1}} }{\sum_{i=1}^{N} e^{-\eta L_{i,t-1}}} \\
-    &= \ln \dfrac{\sum_{i=1}^{N} w_{i,t-1} e^{-\eta l(f_{i,t},y_t)}}{\sum_{i=1}^{N} w_{i,t-1}} \\
-\end{aligned}
-$$
-Using Hoeffding's lemma, we have,
-$$
-\begin{aligned}
-    \ln \dfrac{\sum_{i=1}^{N} w_{i,t-1} e^{-\eta l(f_{i,t},y_t)}}{\sum_{i=1}^{N} w_{i,t-1}} &\leq -\eta \sum_{i=1}^{N} \left(\dfrac{w_{i,t-1}}{\sum_{i=1}^{N} w_{i,t-1}}\right) l(f_{i,t},y_t) + \dfrac{\eta^2 (b-a)^2}{8} \\
-    &= -\eta l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2}{8} \quad \text{(by convexity of } l \text{)} \\
-    \implies \ln \dfrac{W_t}{W_{t-1}} &\leq -\eta l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2}{8} \\
-\end{aligned}
-$$
-
-Now, summing over $t = 1, \dots, T$, we have,
-$$
-\begin{aligned}
-    \ln \dfrac{W_T}{W_0} &= \sum_{t=1}^{T} \ln \dfrac{W_t}{W_{t-1}} \\
-    &\leq -\eta \sum_{t=1}^{T} l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2 T}{8} \\
-    \implies \ln \dfrac{W_T}{W_0} &\leq -\eta \hat{L}_T + \dfrac{\eta^2 (b-a)^2 T}{8} \\
-\end{aligned}
-$$
-
-Using the lower bound on $\ln \dfrac{W_T}{W_0}$, we derived earlier, we have,
-$$
-\begin{aligned}
-    \hat{L}_T - \min_{i \in [N]} L_{i,T} &\leq \dfrac{\ln(N)}{\eta} + \dfrac{\eta (b-a)^2 T}{8} \\
-\end{aligned}
-$$
-
-Choosing the optimal $\eta = \sqrt{\dfrac{8\ln(N)}{(b-a)^2 T}}$, we have,
-$$
-R_T(\text{exp wts}) \leq (b-a)\sqrt{\dfrac{T}{2}\ln(N)}
-$$
+> [!note]- Proof
+> **Preliminaries:**
+>
+> We assume that the loss function $l$ is convex and bounded in $[a,b]$.
+>
+> We define,
+> $$
+> \begin{aligned}
+>     L_{i,T} &:= \sum_{t=1}^T l(f_{i,t}, y_t) \\
+>     \hat{L}_T &:= \sum_{t=1}^T l(a_t, y_t) \\
+>     w_{i,t} &:= e^{-\eta L_{i,t}} = e^{-\eta \sum_{s=1}^{t} l(f_{i,s}, y_s)}, \quad \forall t \geq 1 \\
+>     W_t &:= \sum_{i=1}^{N} w_{i,t} = \sum_{i=1}^{N} e^{-\eta L_{i,t}}, \quad \forall t \geq 1 \\
+> \end{aligned}
+> $$
+> with $W_0 = N$.
+>
+> We have the following form of the Hoeffding's lemma.
+> Let $X$ be a random variabe with $a \leq X \leq b$ almost surely, then for any $s \in \mathbb{R}$,
+> $$
+> \ln\mathbb{E}[e^{sX}] \leq s\mathbb{E}[X] + \dfrac{s^2(b-a)^2}{8}
+> $$
+>
+> **Main proof:**
+>
+> We have,
+> $$
+> \begin{aligned}
+>     \ln \dfrac{W_n}{W_0} &= \ln \left(\sum_{i=1}^{N} \exp \left(-\eta L_{i,n}\right)\right) - \ln N \\
+>     &\geq \ln \left(\max_{i \in [N]} e^{-\eta L_{i,n}}\right) - \ln N \\
+>     &= -\eta \min_{i \in [N]} L_{i,n} - \ln N
+> \end{aligned}
+> $$
+>
+> For $t = 1, \dots, T$,
+> $$
+> \begin{aligned}
+>     \ln \dfrac{W_t}{W_{t-1}} &= \ln \dfrac{\sum_{i=1}^{N} e^{-\eta l(f_{i,t},y_t) } e^{-\eta L_{i,t-1}} }{\sum_{i=1}^{N} e^{-\eta L_{i,t-1}}} \\
+>     &= \ln \dfrac{\sum_{i=1}^{N} w_{i,t-1} e^{-\eta l(f_{i,t},y_t)}}{\sum_{i=1}^{N} w_{i,t-1}} \\
+> \end{aligned}
+> $$
+> Using Hoeffding's lemma, we have,
+> $$
+> \begin{aligned}
+>     \ln \dfrac{\sum_{i=1}^{N} w_{i,t-1} e^{-\eta l(f_{i,t},y_t)}}{\sum_{i=1}^{N} w_{i,t-1}} &\leq -\eta \sum_{i=1}^{N} \left(\dfrac{w_{i,t-1}}{\sum_{i=1}^{N} w_{i,t-1}}\right) l(f_{i,t},y_t) + \dfrac{\eta^2 (b-a)^2}{8} \\
+>     &= -\eta l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2}{8} \quad \text{(by convexity of } l \text{)} \\
+>     \implies \ln \dfrac{W_t}{W_{t-1}} &\leq -\eta l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2}{8} \\
+> \end{aligned}
+> $$
+>
+> Now, summing over $t = 1, \dots, T$, we have,
+> $$
+> \begin{aligned}
+>     \ln \dfrac{W_T}{W_0} &= \sum_{t=1}^{T} \ln \dfrac{W_t}{W_{t-1}} \\
+>     &\leq -\eta \sum_{t=1}^{T} l(a_t, y_t) + \dfrac{\eta^2 (b-a)^2 T}{8} \\
+>     \implies \ln \dfrac{W_T}{W_0} &\leq -\eta \hat{L}_T + \dfrac{\eta^2 (b-a)^2 T}{8} \\
+> \end{aligned}
+> $$
+>
+> Using the lower bound on $\ln \dfrac{W_T}{W_0}$, we derived earlier, we have,
+> $$
+> \begin{aligned}
+>     \hat{L}_T - \min_{i \in [N]} L_{i,T} &\leq \dfrac{\ln(N)}{\eta} + \dfrac{\eta (b-a)^2 T}{8} \\
+> \end{aligned}
+> $$
+>
+> Choosing the optimal $\eta = \sqrt{\dfrac{8\ln(N)}{(b-a)^2 T}}$, we have,
+> $$
+> R_T(\text{exp wts}) \leq (b-a)\sqrt{\dfrac{T}{2}\ln(N)}
+> $$
 
 # August 21, 2025 (Class 6)
 
@@ -271,47 +270,47 @@ $$
 R_T(\text{exp wts}) \leq \dfrac{\log(N)}{\eta}
 $$
 
-Proof:
-
-We define,
-$$
-\begin{aligned}
-    L_{i,T} &:= \sum_{t=1}^T l(f_{i,t}, y_t) \\
-    \hat{L}_T &:= \mathbb{E}\sum_{t=1}^T l(a_t, y_t) \\
-\end{aligned}
-$$
-
-We have,
-$$
-\begin{aligned}
-    R_T(\text{exp wts}) &= \mathbb{E}\sum_{t=1}^T l(a_t, y_t) - \min_{i \in [N]} \sum_{t=1}^T l(f_{i,t}, y_t) \\
-    &= \max_{i \in [N]}\left[ \mathbb{E}\sum_{t=1}^T l(a_t, y_t) - \sum_{t=1}^T l(f_{i,t}, y_t) \right] \\
-    &= \max_{i \in [N]}\left[ \hat{L}_T - L_{i,T} \right] \\
-    &= \log\left[\max_{i \in [N]}  e^{\left(\hat{L}_T - L_{i,T}\right)}\right] \\
-    &= \dfrac{1}{\eta} \log\left[\max_{i \in [N]} e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
-    &= \dfrac{1}{\eta} \log\left[e^{\left(\eta\left(\hat{L}_T - L_{i^*,t}\right)\right)}\right] \qquad \text{where } i^* = \arg\max_{i \in [N]}e^{\left(\hat{L}_T - L_{i,T}\right)} \\
-    &\leq \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
-    \Phi(T) &= \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
-\end{aligned}
-$$
-
-Now, we have,
-$$
-\begin{aligned}
-    R_T(\text{exp wts}) &\leq \Phi(T) \\
-    \text{where } \Phi(T) &= \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
-    \text{and } \Phi(0) &= \dfrac{\log(N)}{\eta}
-\end{aligned}
-$$
-
-It is sufficient to show $\Phi(t) \leq \Phi(t-1) \; \forall t$.
-$$
-\begin{aligned}
-    \sum_{i=1}^{N} e^{\left(\eta\left(\hat{L}_t - L_{i,t}\right)\right)} &\leq \sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_{t-1} - L_{i,t-1}\right)\right)} \\
-    \sum_{i=1}^{N}e^{(\eta \hat{L}_{t-1}) +(\eta \hat{l}_t) -(\eta L_{i,t-1}) - (\eta l_{i,t})} &\leq \sum_{i=1}^{N}e^{(\eta \hat{L}_{t-1}) -(\eta L_{i,t-1})} \\
-    \implies \sum_{i=1}^{N} \left( \dfrac{e^{-\eta L_{i,t-1}}}{\sum_{i=1}^{N} e^{-\eta L_{o,t-1}}} \right) e^{-\eta l_{i,t}} &\leq e^{\eta \hat{l}_t}
-\end{aligned}
-$$
+> [!note]- Proof
+> We define,
+> $$
+> \begin{aligned}
+>     L_{i,T} &:= \sum_{t=1}^T l(f_{i,t}, y_t) \\
+>     \hat{L}_T &:= \mathbb{E}\sum_{t=1}^T l(a_t, y_t) \\
+> \end{aligned}
+> $$
+>
+> We have,
+> $$
+> \begin{aligned}
+>     R_T(\text{exp wts}) &= \mathbb{E}\sum_{t=1}^T l(a_t, y_t) - \min_{i \in [N]} \sum_{t=1}^T l(f_{i,t}, y_t) \\
+>     &= \max_{i \in [N]}\left[ \mathbb{E}\sum_{t=1}^T l(a_t, y_t) - \sum_{t=1}^T l(f_{i,t}, y_t) \right] \\
+>     &= \max_{i \in [N]}\left[ \hat{L}_T - L_{i,T} \right] \\
+>     &= \log\left[\max_{i \in [N]}  e^{\left(\hat{L}_T - L_{i,T}\right)}\right] \\
+>     &= \dfrac{1}{\eta} \log\left[\max_{i \in [N]} e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
+>     &= \dfrac{1}{\eta} \log\left[e^{\left(\eta\left(\hat{L}_T - L_{i^*,t}\right)\right)}\right] \qquad \text{where } i^* = \arg\max_{i \in [N]}e^{\left(\hat{L}_T - L_{i,T}\right)} \\
+>     &\leq \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
+>     \Phi(T) &= \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
+> \end{aligned}
+> $$
+>
+> Now, we have,
+> $$
+> \begin{aligned}
+>     R_T(\text{exp wts}) &\leq \Phi(T) \\
+>     \text{where } \Phi(T) &= \dfrac{1}{\eta} \log\left[\sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_T - L_{i,T}\right)\right)}\right] \\
+>     \text{and } \Phi(0) &= \dfrac{\log(N)}{\eta}
+> \end{aligned}
+> $$
+>
+> It is sufficient to show $\Phi(t) \leq \Phi(t-1) \; \forall t$.
+> $$
+> \begin{aligned}
+>     \sum_{i=1}^{N} e^{\left(\eta\left(\hat{L}_t - L_{i,t}\right)\right)} &\leq \sum_{i=1}^{N}e^{\left(\eta\left(\hat{L}_{t-1} - L_{i,t-1}\right)\right)} \\
+>     \sum_{i=1}^{N}e^{(\eta \hat{L}_{t-1}) +(\eta \hat{l}_t) -(\eta L_{i,t-1}) - (\eta l_{i,t})} &\leq \sum_{i=1}^{N}e^{(\eta \hat{L}_{t-1}) -(\eta L_{i,t-1})} \\
+>     \implies \sum_{i=1}^{N} \left( \dfrac{e^{-\eta L_{i,t-1}}}{\sum_{i=1}^{N} e^{-\eta L_{o,t-1}}} \right) e^{-\eta l_{i,t}} &\leq e^{\eta \hat{l}_t}
+> \end{aligned}
+> $$
+> TODO: Complete this.
 
 # August 25, 2025 (Class 7)
 
@@ -402,7 +401,7 @@ $$
 \end{aligned}
 $$
 
-> [!note]- Proof of regret bound
+> [!note]- Proof
 > We define
 > $$
 > \nabla_t := \nabla f_t(x)
@@ -425,7 +424,7 @@ $$
 > $$
 > \begin{aligned}
 >     \|x^* - x_{t+1}\| &= \|x^* - \Pi_\mathcal{K}(x_t - \eta_t\nabla_t) \| \\
->     &\leq \|x_* - x^t + \eta_t \nabla_t \|, \quad \text{by Pythogorean theorem} \\
+>     &\leq \|x^* - x^t + \eta_t \nabla_t \|, \quad \text{by Pythogorean theorem} \\
 >     \|x^* - x_{t+1}\|^2 &\leq \|x^* - x_t\|^2 + \eta^2_t \|\nabla_t\|^2 + 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle  \\
 >     - 2\eta_t \left\langle x^* - x_t, \nabla_t \right\rangle &\leq \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 + \eta^2_t \|\nabla_t\|^2 \\
 >     2 \left\langle x_t - x^*, \nabla_t \right\rangle &\leq \dfrac{1}{\eta_t} \left( \|x^* - x_t\|^2 - \|x^* - x_{t+1}\|^2 \right) + \eta_t \|\nabla_t\|^2 \\
@@ -458,12 +457,13 @@ $$
 R_T(OGD) \leq \dfrac{G^2}{2\alpha} (1+\log(T))
 $$
 
-> [!note]- Proof of regret bound for strongly convex loss function
+> [!note]- Proof
 > From $\alpha$-strong convexity property we have
 > $$
 > 2(f_t(x_t) - f_t(x^*)) \le 2\nabla_t^T(x_t - x^*) - \alpha \|x_t - x^*\|^2
 > $$
 > We will use the upper bound on the first term from [[AI4010 Online Learning#Regret guarantee on online gradient descent|previous]] proof. We have
+> TODO: check and correct this.
 > $$
 > \begin{aligned}
 >     2R_T(\text{OGD}) &= \sum_{t=1}^{T} 2(f_t(x_t) - f_t(x^*)) \\
@@ -478,7 +478,7 @@ $$
 
 ### FTL-BTL lemma
 
-<span class="blue">**Lemma**:</span> *FTL-BTL lemma[^1].*
+<span class="blue">**Lemma** (*FTL-BTL lemma[^1]*):</span>
 Let $x_1, x_2, \dots$ be the sequence of points chosen by FTL. Then,
 for any $u\in\mathcal{K}$ and for and stopping time $T$, we have
 $$
@@ -494,7 +494,8 @@ For linear loss
 
 ## Follow the regularized leader (FTRL)
 
-<span class="red">**Note**:</span> The regularizers considered are bounded,
+<span class="blue">**Remark**:</span>
+The regularizers considered are bounded,
 $\alpha$-strongly convex functions.
 
 $$
@@ -556,6 +557,27 @@ $$
 
 # September 15, 2025 (Class 12)
 
+## Online Mirror Descent (OMD)
+$$
+\begin{array}{l}
+\textbf{Algorithm: Online Mirror Descent (OMD)} \\
+\textbf{Input:} \ \text{convex set } \mathcal{K}, \text{ function class } \mathcal{F}, \text{ regularization function } R \\
+\textbf{Initialize:} \ x_1 = \arg\min_{x \in \mathcal{K}} R(x) \text{ and } y_1 \text{ such that } \nabla R(y_1) = 0 \text{ ;} \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad \text{- Algorithm plays } x_t \in \mathcal{K} \text{ ;} \\
+\quad \text{- Environment reveals } f_t \in \mathcal{F} \text{ ;} \\
+\quad \text{- Algorithm incurs a loss } f_t(x_t) \in \mathbb{R} \text{ ;} \\
+\quad \text{- Update} \\
+\quad \qquad y_{t+1} \quad \text{such that} \quad \nabla R(y_{t+1}) = \nabla R(y_t) - \eta \nabla_t \quad \text{[Lazy version]} \\
+\quad \qquad y_{t+1} \quad \text{such that} \quad \nabla R(y_{t+1}) = \nabla R(x_t) - \eta \nabla_t \quad \text{[Agile version]} \\
+\\
+\quad \qquad \text{- } x_{t+1} = \arg\min_{x \in \mathcal{K}} B_R(x \| y_{t+1}) \\
+\textbf{end} \\
+\end{array}
+$$
+
+### Lazy OMD and FTRL
+
 # September 22, 2025 (Class 13)
 
 ## Bandits setting
@@ -596,36 +618,8 @@ $$
 \end{array}
 $$
 
-> [!note]- TODO: check this. may not be completely correct.
-> $$
-> \begin{array}{l}
-> \textbf{Algorithm 15:} \ \text{Online Gradient Descent for Multi-Armed Bandits} \\
-> \textbf{Parameters:} \\
-> \quad \text{Number of arms } n \in \mathbb{N}^+ \\
-> \quad \text{Exploration probability } \delta \in (0, 1) \\
-> \quad \text{Learning rate sequence } \{\eta_t\}_{t \ge 1} \subset \mathbb{R}^+ \\
-> \textbf{Initialize:} \\
-> \quad \text{Weight vector } x_1 \in \Delta_{n-1}, \text{ where } \Delta_{n-1} := \{z \in \mathbb{R}^n \mid z_i \ge 0, \sum_{i=1}^n z_i = 1\}. \\
-> \\
-> \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
-> \quad \text{1. Decide to explore or exploit:} \\
-> \quad \quad \text{Draw } b_t \sim \text{Bernoulli}(\delta). \\
-> \\
-> \quad \text{2. Select arm } i_t \in \{1, \dots, n\}: \\
-> \quad \quad i_t \sim \begin{cases} \text{Uniform}(\{1, \dots, n\}) & \text{if } b_t = 1 \\ x_t & \text{if } b_t = 0 \end{cases} \\
-> \\
-> \quad \text{3. Construct unbiased loss vector estimator } \hat{\ell}_t \in \mathbb{R}^n: \\
-> \quad \quad \text{Observe loss } \ell_{i_t, t} \in [0,1] \text{ and set } \hat{\ell}_t = \mathbb{I}\{b_t=1\} \cdot \frac{n}{\delta} \ell_{i_t, t} \, e_{i_t}, \\
-> \quad \quad \text{where } e_{i_t} \text{ is the } i_t\text{-th standard basis vector and } \mathbb{I}\{\cdot\} \text{ is the indicator function}. \\
-> \\
-> \quad \text{4. Update weight vector:} \\
-> \quad \quad x_{t+1} = \Pi_{\Delta_{n-1}}(x_t - \eta_t \hat{\ell}_t), \\
-> \quad \quad \text{where } \Pi_{\Delta_{n-1}}(y) := \arg\min_{z \in \Delta_{n-1}} \|y-z\|_2 \text{ is the Euclidean projection onto the simplex}. \\
-> \textbf{end for}
-> \end{array}
-> $$
-
-<span class="blue">**Lemma**:</span> $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
+<span class="blue">**Lemma**:</span>
+$\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
 
 > [!note]- Proof
 > TODO
@@ -657,17 +651,18 @@ p_{1,t} & p_{2,t} & \cdots &  p_{n,t}
 
 \quad \text{- Observe } r_{i_t,t}, \text{ the reward at time } t \text{ (from arm } i_t) \\
 
-\quad \text{- } \hat{r}_{i,t} = \mathbb{I}\{i_t = i\}\dfrac{r_{j,t}}{p_{j,t}} \\
+\quad \text{- } \hat{r}_{i,t} = \mathbb{I}\{i_t = i\}\dfrac{r_{i_t,t}}{p_{i_t,t}} \\
 
 \quad \text{- } w_{i,t+1} = w_{i,t} \cdot e^{\eta \hat{r}_{i,t}} \\
 \textbf{end} \\
 \end{array}
 $$
 
-<span class="blue">**Theorem**:</span> For any $\gamma \in (0,1)$,
+<span class="blue">**Theorem**:</span>
+For any $\gamma \in (0,1)$,
 any reward sequence $(r_t)_{t\geq 1}$ with $r_t \in [0,1]^n$, we have
 $$
-\max_{i}\sum_{t=1}^{T} r_{i,t} - \sum_{t=1}^{T} r_{i,t} \leq 2\gamma T + \dfrac{n\log(n)}{\gamma}.
+\mathbb{E}[R_T(EXP3-\gamma)] = \max_{i}\sum_{t=1}^{T} r_{i,t} - \mathbb{E}\left[\sum_{t=1}^{T} r_{i_t,t}\right] \leq 2\gamma T + \dfrac{n\log(n)}{\gamma}.
 $$
 Furthermore, taking $\gamma = \sqrt{\dfrac{n\log(n)}{2T}}$,
 $$
@@ -675,6 +670,7 @@ $$
 $$
 
 > [!note]- Proof
+> Let $W_t = \sum_{i=1}^{n}w_{i,t}$.   
 > Upper bounding $\log(W_{T+1}/W_1)$,
 > $$
 > \begin{aligned}
@@ -683,51 +679,74 @@ $$
 >     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \cdot \exp\left(\frac{\gamma \hat{r}_{i,t}}{n}\right) \\
 >     &\le \sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma} \left(1 + \frac{\gamma}{n}\hat{r}_{i,t} + \left(\frac{\gamma}{n}\right)^2 \hat{r}_{i,t}^2 \right) \\
 >     & \hspace{5cm} (\text{Using } e^x \le 1 + x + x^2 \text{ for all } x \in [0, 1]) \\[2ex]
->     &\le \underbrace{\sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma}}_{=1} + \frac{\gamma/n}{1-\gamma} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 \\[2ex]
->     & \hspace{5cm} \left(\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 = \sum_{i=1}^{n} \underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \le \sum_{i=1}^{n} \hat{r}_{i,t}\right) \\[2ex]
->     &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
->     \log \left( \frac{W_{t+1}}{W_t} \right) &\le \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
-> \implies \log \left( \frac{W_{T+1}}{W_1} \right) &\le \frac{\gamma/n}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t}
+>     &\le \frac{1}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \left(1 + \frac{\gamma}{n}\hat{r}_{i,t} + \left(\frac{\gamma}{n}\right)^2 \hat{r}_{i,t}^2 \right) \\
+>     &\le \frac{1}{1-\gamma} \left(\underbrace{\sum_{i=1}^{n} p_{i,t}}_{=1} + \frac{\gamma}{n} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \left(\frac{\gamma}{n}\right)^2 \sum_{i=1}^{n}\underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \right) \\
+>     % &\le \underbrace{\sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma}}_{=1} + \frac{\gamma/n}{1-\gamma} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 \\[2ex]
+>     % & \hspace{5cm} \left(\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 = \sum_{i=1}^{n} \underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \le \sum_{i=1}^{n} \hat{r}_{i,t}\right) \\[2ex]
+>     % &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     \log \left( \frac{W_{t+1}}{W_t} \right) &\le \frac{1}{1-\gamma} \left(  \frac{\gamma}{n} r_{i_t,t} + \left(\frac{\gamma}{n}\right)^2 \sum_{i=1}^{n} \hat{r}_{i,t}\right), \quad \text{using } \log(1+x) \le x \text{ and } \frac{1}{1-\gamma} \ge 1 \\
+> \implies \log \left( \frac{W_{T+1}}{W_1} \right) &\le \frac{1}{1-\gamma} \left(\frac{\gamma}{n} \sum_{t=1}^{T} r_{i_t,t} + \left(\frac{\gamma}{n}\right)^2 \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t}\right), \quad \text{summing from } t=1 \text{ to } T
 > \end{aligned}
 > $$
 >
 > Lower bounding $\log(W_{T+1}/W_1)$,
 > $$
 > \begin{aligned}
->     \log \left( \frac{W_{T+1}}{W_1} \right) &\ge \log \left( \frac{w_{T+1}}{W_1} \right) \\
+>     \log \left( \frac{W_{T+1}}{W_1} \right) &\ge \log \left( \frac{w_{i,T+1}}{W_1} \right) \\
 > &= \log(e^{\gamma/n \sum_{t=1}^{T} \hat{r}_{i,t}}) - \log(n), \quad \because W_1 = n \\
 > &= \frac{\gamma}{n} \sum_{t=1}^{T} \hat{r}_{i,t} - \log(n)
 > \end{aligned}
 > $$
 >
-> From the above two inequalities,
+> Let $i^*$ be the best arm in hindsight. Combining the above upper and lower bounds for $i^*$,
+>
 > $$
 > \begin{aligned}
->     \frac{\gamma}{n} \sum_{t=1}^{T} \hat{r}_{i,t} - \log(n) &\le \frac{\gamma/n}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
->     \sum_{t=1}^{T} \hat{r}_{i,t} &\le \frac{n}{\gamma} \log(n) + \frac{1}{1-\gamma} \sum_{t=1}^{T} r_{i_t,t} + \frac{(\gamma/n)}{1-\gamma} \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
->     (1-\gamma) \sum_{t=1}^{T} \hat{r}_{i,t} &\le \frac{1-\gamma}{\gamma} n\log(n) + \sum_{t=1}^{T} r_{i_t,t} + (\gamma/n) \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
->     \sum_{t=1}^{T} \hat{r}_{i,t} - \sum_{t=1}^{T} r_{i_t,t} &\le \gamma \sum_{t=1}^{T} \hat{r}_{i,t} + \frac{1-\gamma}{\gamma} n\log(n) + (\gamma/n) \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t} \\
+>     \frac{\gamma}{n} \sum_{t=1}^{T} \hat{r}_{i^*,t} - \log(n) &\le \frac{1}{1-\gamma} \left(\frac{\gamma}{n} \sum_{t=1}^{T} r_{i_t,t} + \left(\frac{\gamma}{n}\right)^2 \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t}\right) \\
+>     \frac{\gamma}{n} \sum_{t=1}^{T} r_{i^*,t} - \log(n) &\le \frac{1}{1-\gamma} \left(\frac{\gamma}{n} \mathbb{E}\left[\sum_{t=1}^{T} r_{i_t,t}\right] + \left(\frac{\gamma}{n}\right)^2 \sum_{t=1}^{T} \sum_{i=1}^{n} r_{i,t}\right), \quad \because\mathbb{E}[\hat{r}_{i,t}] = r_{i,t} \\
+>     (1-\gamma)\sum_{t=1}^{T} r_{i^*,t} - \mathbb{E}\left[\sum_{t=1}^{T} r_{i_t,t}\right]  &\le \frac{(1-\gamma)n\log(n)}{\gamma} + \left(\frac{\gamma}{n}\right) \sum_{t=1}^{T} \underbrace{\sum_{i=1}^{n} r_{i,t}}_{\le n} \\
+>     \sum_{t=1}^{T} r_{i^*,t} - \mathbb{E}\left[\sum_{t=1}^{T} r_{i_t,t}\right]  &\le \frac{(1-\gamma)n\log(n)}{\gamma} + \gamma T + \gamma \sum_{t=1}^{T} r_{i^*,t}  \\
+>     \mathbb{E}[R_T(EXP3-\gamma)] &\le \dfrac{n\log(n)}{\gamma} + 2\gamma T, \quad \because r_{i^*,t} \leq 1
 > \end{aligned}
 > $$
 >
-> Taking $i^* = \arg\max_i \sum_{t=1}^{T}r_{i,t}$ as the best arm in hindsight,
-> $$
-> \begin{aligned}
->     \mathbb{E}[R_T(EXP3-\gamma)] &\le \dfrac{n\log(n)}{\gamma} + 2\gamma\sum_{t=1}^{T} r_{i^*,t}\\
->     &\le \dfrac{n\log(n)}{\gamma} + 2\gamma T
-> \end{aligned}
-> $$
 > Taking $\gamma = \sqrt{\dfrac{n\log(n)}{2T}}$,
 > $$
 > \mathbb{E}[R_T(EXP3-\gamma)] \le 2\sqrt{2Tn\log(n)}
 > $$
 >
-> <span class="red">**Note**:</span> Using a tighter bound of $e^x$ in the upper bounding
-> gives a better constant.
+> <span class="blue">**Remark**:</span>
+> Using a tighter bound of $e^x$ in the upper bounding gives a better constant.
 
 # October 6, 2025 (Class 15)
 
 ## Stochastic Multi Armed Bandits
+
+<span class="blue">**Lemma**:</span>
+Let $N_{i,T}$ be the number if times the arm $i$
+has been pulled till time $T$ by an algorithm and let $\nabla_i = \mu_{i^*} - \mu_i$
+be the suboptimality gap. Then,
+$$
+R_T(ALG) = \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}]
+$$
+
+> [!note]- Proof
+> $$
+> N_{i,T} = \sum_{t=1}^{T} \mathbb{I}(i_t = i)
+> $$
+>
+> We have,
+> $$
+> \begin{aligned}
+>     \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}] &= \mathbb{E} \left[ \sum_{i=1}^{N} \left( \mu_{i^*} - \mu_i \right) \left( \sum_{t=1}^{T} \mathbb{I}(i_t = i) \right) \right] \\
+>     &= \mathbb{E} \left[ \sum_{i=1}^{N} \mu_{i^*} \sum_{t=1}^{T} \mathbb{I}(i_t = i) - \sum_{i=1}^{N} \mu_i \sum_{t=1}^{T} \mathbb{I}(i_t = i)\right] \\
+>     &= \mu_{i^*} \left( \sum_{t=1}^{T} \sum_{i=1}^{N} \mathbb{E}\left[ \mathbb{I}(i_t = i) \right] \right) - \mathbb{E}\left[\sum_{t=1}^{T} \sum_{i=1}^{N} \mu_i \mathbb{I}(i_t = i)\right] \\
+>     &= \mu_{i^*}T - \sum_{t=1}^{T} \mu_{i_t}, \quad \quad \quad \because \sum_{i=1}^{N} \mathbb{E}\left[ \mathbb{I}(i_t = i) \right] = 1 \\
+>     \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}] &= R_T(ALG)
+> \end{aligned}
+> $$
+
+## Exploration separate algorithm
 
 ## See also
 

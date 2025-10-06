@@ -4,6 +4,7 @@
 # July 28, 2025 (Class 1)
 
 ## Initial Value problem (IVP)
+<span class="blue">**Definition** (*Initial value problem*):</span>
 An initial value problem (IVP) is a a differential equation together with a specified value, called the initial condition, at a given point in the domain. An IVP is typically expressed in the form:
 $$
 \begin{aligned}
@@ -22,13 +23,17 @@ For an IVP to be well-posed in the sense of Hadamard, it must satisfy three cond
 If any of these conditions are not satisfied, the problem is considered ill-posed.
 
 ## Lipschitz continuity
-<span class="blue">**Definition**:</span> *Lipschitz continuity.* Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
+
+<span class="blue">**Definition** (*Lipschitz continuity.*):</span>
+Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
 $$
 \begin{aligned}
 d_Y(f(x_1), f(x_2)) \leq L d_X(x_1, x_2), \quad \forall x_1, x_2 \in X.
 \end{aligned}
 $$
-<span class="blue">**Definition**:</span> *Locally Lipschitz continuity.* A function $f: X \to Y$ is locally Lipschitz continuous if for every point $x_0 \in X$, there exists a neighborhood $U$ of $x_0$ such that $f$ is Lipschitz continuous on $U$, i.e.
+
+<span class="blue">**Definition** (*Locally Lipschitz continuity.*):</span>
+A function $f: X \to Y$ is locally Lipschitz continuous if for every point $x_0 \in X$, there exists a neighborhood $U$ of $x_0$ such that $f$ is Lipschitz continuous on $U$, i.e.
 $$
 \begin{aligned}
 \exists \; L > 0, \text{ such that } d_Y(f(x_1), f(x_2)) \leq L d_X(x_1, x_2), \quad \forall x_1, x_2 \in U.
@@ -284,8 +289,7 @@ where $y(x_n)$ is the exact value and $y_n$ is the approximated value.
 
 ## Bound on global error in terms of truncation error
 
-<span class="blue">**Theorem**:</span> *Global Error Bound for Single-Step Methods.*
-
+<span class="blue">**Theorem** (*Global Error Bound for Single-Step Methods.*):</span>
 Let the initial value problem (IVP) be defined on the interval $[a,b]$ by
 $$
 y'(x) = f(x,y(x)), \quad y(a) = y_0
@@ -526,9 +530,10 @@ Two methods used for initial approximation are
 
 ## Some theorems and definitions
 
-<span class="blue">**Theorem**:</span> Let $f$ be a real valued function defined and continuous on a bounded closed interval $[a,b]$ of the real line. Assume, further that $f(a)f(b) \leq 0$; then there exists $\xi \in [a,b]$ such that $f(\xi) = 0$.
+<span class="blue">**Theorem**:</span>
+Let $f$ be a real valued function defined and continuous on a bounded closed interval $[a,b]$ of the real line. Assume, further that $f(a)f(b) \leq 0$; then there exists $\xi \in [a,b]$ such that $f(\xi) = 0$.
 
-<span class="blue">**Theorem**:</span> *Intermediate value theorem.*
+<span class="blue">**Theorem** (*Intermediate value theorem*):</span>
 Suppose that $f$ is a real-valued function, defined and continuous on the closed interval $[a,b] \in \mathbb{R}$. Then $f$ is bounded
 function on the interval $[a,b]$ and if $y$ is any number such that
 $$
@@ -536,10 +541,10 @@ $$
 $$
 then there is a number $\xi \in [a,b]$ such tht $f(\xi) = y$.
 
-<span class="blue">**Theorem**:</span> *Brouwer fixed point theorem.*
+<span class="blue">**Theorem** (*Brouwer fixed point theorem*):</span>
 TODO: write this
 
-<span class="blue">**Definition**:</span> *Fixed point iteration.*
+<span class="blue">**Definition** (*Fixed point iteration*):</span>
 Suppose that $g$ is a real valued function, defined and continuous on a bounder closed interval $[a,b]$ of the real line,
 and assume that $g(x) \in [a,b] \forall x \in [a,b]$. Given that $x_0 \in [a,b]$, the recursion defined by
 $$
@@ -553,7 +558,7 @@ $$
 \lim_{k\to\infty} x_k = \xi \implies \xi = g(\xi).
 $$
 
-<span class="blue">**Theorem**:</span> *I'll name it later.*
+<span class="blue">**Theorem** (*A Priori Iteration Bound for Contractions*):</span>
 TODO: write this
 simple iteration $x_{k+1} = g(x_k)$, contraction map on $[a,b]$, $x_0 \in [a,b]$, tolerance $\varepsilon > 0$,
 
@@ -567,11 +572,11 @@ k_o(\varepsilon) \leq \left( \dfrac{\ln|x_1 - x_0| - \ln(\varepsilon(1-L))}{\ln(
 $$
 where $L \in [0,1)$, is the Lipschitz constant of the contraction mapping $g$.
 
-<span class="blue">**Theorem**:</span> *Banach fixed point theorem.*
-
+<span class="blue">**Theorem** (*Banach fixed point theorem*):</span>
 TODO: write this
+
 > [!note]- Proof
-> dsad
+> TODO: write this
 
 # September 3, 2025 (Class 16)
 # September 4, 2025 (Class 17)
@@ -580,7 +585,8 @@ TODO: write this
 # I will divide the notes into classes later.....
 
 ## Stable and unstable fixed points
-<span class="blue">**Definition**:</span> *Stable and unstable fixed points.*
+
+<span class="blue">**Definition** (*Stable and unstable fixed points*):</span>
 Let $g:\mathbb{R}\to\mathbb{R}$ be continuous, and let $\xi \in \mathbb{R}$ be a
 fixed point of $g$ (i.e. $g(\xi)=\xi$).
 We say $\xi$ is a *stable fixed point* (or *attracting fixed point*) if
@@ -620,7 +626,7 @@ $g(\xi)=\xi \iff \xi - \lambda f(\xi) = \xi \iff f(\xi)=0$.
 
 ### Convergence of the iterates in relaxation base iterative method
 
-<span class="blue">**Theorem**:</span> *Local Convergence of the Relaxation Method.*
+<span class="blue">**Theorem** (*Local Convergence of the Relaxation Method*):</span>
 Let $f$ be a continuously differentiable function in a neighborhood of a simple root
 $\xi$ (i.e., $f(\xi)=0$ and $f'(\xi) \neq 0$). The sequence defined by
 $x_{k+1} = x_k - \lambda f(x_k)$ converges to $\xi$ for any initial guess
@@ -673,10 +679,9 @@ $$
 
 Lagrange interpolating polynomial $p_x(x)$   
 
-### Error term in Lagrange interpolation
+## Error term in Lagrange interpolation
 
-<span class="blue">**Theorem**:</span> *Error in Lagrange interpolation.*
-
+<span class="blue">**Theorem** (*Error in Lagrange interpolation*):</span>
 Let $k \in \mathbb{N}$ and $f: \mathbb{R} \to \mathbb{R}$. Furthermore,
 $f \in \mathbb{C}([a,b])$ and $f^{(k+1)} \in \mathbb{C}([a,b])$. Then, if $p_x$
 is the Lagrange interpolation of $f$ of degree at most $k$, we have,
