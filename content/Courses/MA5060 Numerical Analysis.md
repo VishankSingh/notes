@@ -702,6 +702,11 @@ $$
 > [!note]- Proof
 > TODO
 
+# October 8, 2025 (Class \_)
+
+The previous theorem gives high errors in some cases.
+Weierstrass approximation theorem.
+
 ### See also
 
 ### References

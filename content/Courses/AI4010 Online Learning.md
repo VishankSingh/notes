@@ -476,6 +476,23 @@ $$
 
 ## Follow the leader (FTL)
 
+$$
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{Follow The Leader (FTL)} \\
+\textbf{Input:} \ \text{A convex set of possible actions (decision set) } \mathcal{K}. \\
+\\
+\textbf{for} \ t = 1, 2, 3, \dots, T \ \textbf{do} \\
+\quad \text{1. Play the action } x_t \text{ that minimizes the cumulative loss observed so far:} \\
+\quad \qquad x_t := \arg\min_{x \in \mathcal{K}} \sum_{s=1}^{t-1} f_s(x) \\
+\quad \quad \text{(Note: For the first round, } t=1, \text{ the sum is empty, so any action } x_1 \in \mathcal{K} \text{ can be chosen.)} \\
+\\
+\quad \text{2. The environment reveals the loss function for the current round, } f_t. \\
+\\
+\quad \text{3. The algorithm incurs and observes the loss } f_t(x_t). \\
+\textbf{end for}
+\end{array}
+$$
+
 ### FTL-BTL lemma
 
 <span class="blue">**Lemma** (*FTL-BTL lemma[^1]*):</span>
@@ -500,15 +517,15 @@ $\alpha$-strongly convex functions.
 
 $$
 \begin{array}{l}
-\textbf{Algorithm 11:} \ \text{FTRL Algorithm} \\
-\textbf{Input: } \text{convex set } \mathcal{K}, \text{regularization function } R \\
-\textbf{Initialize: } x_1 \text{ ;} \\
+\textbf{Algorithm 11:} \ \text{FTRL Algorithm for general loss function} \\
+\textbf{Input: } \text{convex set } \mathcal{K}, \text{function class } \mathcal{F}, \text{regularization function } R \\
+\textbf{Initialize: } x_1 = \arg\min_{x\in\mathcal{K}}R(x) \\
 \textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
-\quad - \ \text{Algorithm plays } x_t \in \mathcal{K} \text{ ;} \\
-\quad - \ \text{Environment reveals } w_t \in [0, 1]^d \text{ ;} \\
-\quad - \ \text{Algorithm incurs a loss } \langle w_t, x_t \rangle \text{ ;} \\
+\quad - \ \text{Algorithm plays } x_t \in \mathcal{K} \\
+\quad - \ \text{Environment reveals } f_t \in \mathcal{F} \\
+\quad - \ \text{Algorithm incurs a loss } f_t(w_t) \in \mathbb{R} \\
 \quad - \ \text{Update} \\
-\qquad \qquad x_{t+1} := \arg\min_{x \in \mathcal{K}} \left[ \sum_{s=1}^t \langle w_s, x \rangle + \frac{1}{\eta} R(x) \right] \\
+\qquad \qquad x_{t+1} := \arg\min_{x \in \mathcal{K}} \left[ \sum_{s=1}^t \langle \nabla_s, x \rangle + \frac{1}{\eta} R(x) \right] \\
 \textbf{end for}\\
 \end{array}
 $$
@@ -517,25 +534,39 @@ $$
 
 # September 8, 2025 (Class 10)
 
-## Bregman divergence
+## Some mathematical preliminaries
 
+<span class="blue">**Definition** (*Bregman divergence*):</span>
 We define the Bregman divergence, with respect to function $R$, as
 $$
 B_R(x \| y) = R(x) - R(Y) - \left\langle \nabla R(x), x - y \right\rangle
 $$
 
+<span class="blue">**Remark**:</span>
 For twice differentiable functions, the Bregman divergence is equal to the second derivative at an intermediate point.
-For $R(x) = \dfrac{1}{2}\|x\|_{L_2}^2$, we have
-$$
-B_R(x \| y) = \dfrac{1}{2}\|x-y\|^2.
-$$
-For $R(x) = \sum_{i=1}^{d} x_i \log x_i$, $\sum x_i = 1$ and $d = 2$, we have
-$$
-B_R(x \| y) = D_{KL}(x \| y)
-$$
 
-## Dual norm
+> [!note]- note
+> For $R(x) = \dfrac{1}{2}\|x\|_{L_2}^2$, we have
+> $$
+> B_R(x \| y) = \dfrac{1}{2}\|x-y\|^2.
+> $$
+> For $R(x) = \sum_{i=1}^{d} x_i \log x_i$, $\sum x_i = 1$ and $d = 2$, we have
+> $$
+> B_R(x \| y) = D_{KL}(x \| y)
+> $$
 
+> [!note]- Properties of Bregman divergence
+> - It is strictly convex in the first argument
+> - Non-negative $B_R(x \| y) \geq 0$. The proof follows from Taylors theorem.
+> - Asymmetric i.e. $B_R(x \| y) \neq B_R(y \| x)$.
+> - Non-convex in the second argument. Example $R(x) = -\log(x)$ and $(B_R(x \| y) = \log(y) - \log(x) - \frac{x-y}{y}$
+> - $\frac{\partial B_R(x \| y)}{\partial x} = \nabla R(x) - \nabla R(y)$.
+> - Cosine inequality
+> $$
+> B_R(x \| y) + B_R(y \| z) = B_R(x \| z) + \left\langle x-y, \nabla R(z) - \nabla R(y) \right\rangle
+> $$
+
+<span class="blue">**Definition** (*Dual norm*):</span>
 Let $\|\cdot\|_*$ be a norm on the vector space $\mathcal{K} \subseteq \mathbb{R}^n$,
 then the function $\|\cdot\|^*$ defined as
 $$
@@ -544,16 +575,54 @@ $$
 
 is called a dual norm.
 
-## FTRL for strongly convex, twice differentiable regularizers
-
-### Follow the leader - be the leader lemma for FTRL
-
-Let $x_1, x_2, \dots , x_T$ be a sequence of points chosen by FTRL, then for any $u \in \mathcal{K}$, we have
+<span class="blue">**Definition** (*Norm induced by a symmetric positive definite matrix*):</span>
+Let $A \in S^n_{++}[^2]$ be a matrix.
+We define the norm induced by $A$ as
 $$
-\sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R()}{den}
+\|x\|_A = \sqrt{x^TAx}
 $$
+
+<span class="blue">**Lemma**:</span>
+Let $\|x\|_A$ be a norm where $A \in S^n_{++}$. We have the dual norm
+$$
+\|x\|_A^* = \sqrt{x^TA^{-1}x}
+$$
+
+> [!note]- Proof
 
 # September 11, 2025 (Class 11)
+## FTRL for general loss functions
+
+$$
+\begin{array}{l}
+\textbf{Algorithm:} \ \text{FTRL Algorithm for general loss function} \\
+\textbf{Input: } \text{convex set } \mathcal{K}, \text{function class } \mathcal{F}, \text{regularization function } R \\
+\textbf{Initialize: } x_1 = \arg\min_{x\in\mathcal{K}}R(x) \\
+\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
+\quad - \ \text{Algorithm plays } x_t \in \mathcal{K} \\
+\quad - \ \text{Environment reveals } f_t \in \mathcal{F} \\
+\quad - \ \text{Algorithm incurs a loss } f_t(w_t) \in \mathbb{R} \\
+\quad - \ \text{Update} \\
+\qquad \qquad x_{t+1} := \arg\min_{x \in \mathcal{K}} \left[ \sum_{s=1}^t \langle \nabla_s, x \rangle + \frac{1}{\eta} R(x) \right] \\
+\textbf{end for}\\
+\end{array}
+$$
+
+<span class="blue">**Lemma**:</span>
+Let $x_1, x_2, \dots$ be a sequence of points chosen by FTRL, then for any
+$u \in \mathcal{K}$ and $t \ge 1$, we have
+$$
+\sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R(u) - R(x_1)}{\eta}
+$$
+
+### Regret upper bound of FTRL
+We have the regret upper bound as
+$$
+R_T(FTRL) \leq \eta \sum_{t=1}^{T} \left(\|\nabla_t\|^*_t\right)^2 + \dfrac{R(u) - R(x_1)}{\eta}
+$$
+
+> [!note]- Proof
+> TODO
 
 # September 15, 2025 (Class 12)
 
@@ -576,7 +645,32 @@ $$
 \end{array}
 $$
 
-### Lazy OMD and FTRL
+### Equivalence of lazy OMD and FTRL
+
+<span class="blue">**Theorem** (*Equivalence of lazy OMD and FTRL*):</span>
+Let $\mathcal{F}$ be the class of loss functions. Then the lazy OMD and FTRL
+algorithms play the same points,
+$$
+\arg\min_{x\in\mathcal{K}}(B_R(x\|y)) = \arg\min_{x\in\mathcal{K}} \left( \eta \sum_{s=1}^{t-1} \nabla_s^T x + R(x) \right)
+$$
+
+> [!note]- Proof
+> TODO
+
+### Agile OMD
+
+<span class="blue">**Theorem**:</span>
+Let $\mathcal{K}$ be a convex set and $x' = \Pi_{\mathcal{K}}B_R(x\|y)$ be a Bregman
+projection of some $y\in\mathbb{R}^n$ on $\mathcal{K}$ and $u\in\mathcal{K}$. Then
+$$
+B_R(y\|u) \ge B_R(y\|x) + B_R(x\|u)
+$$
+
+<span class="blue">**Theorem** (*Regret bound of Agile OMD*):</span>
+For $\forall u\in\mathcal{K}$, we have
+$$
+R_T(OMD) \leq \frac{\eta}{2} \sum_{t=1}^{T} \left(\|\nabla\|_t^*\right)^2 + \frac{D_R^2}{\eta}
+$$
 
 # September 22, 2025 (Class 13)
 
@@ -753,3 +847,4 @@ $$
 ## References
 
 [^1]: Follow the leader, be the leader lemma
+[^2]: symmetric positive definite matrix
