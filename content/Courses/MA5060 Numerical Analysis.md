@@ -707,6 +707,8 @@ $$
 The previous theorem gives high errors in some cases.
 Weierstrass approximation theorem.
 
-### See also
+# October 10, 2025, (Class \_)
 
-### References
+## See also
+
+## References

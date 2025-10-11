@@ -840,8 +840,71 @@ $$
 > \end{aligned}
 > $$
 
+# October 10, 2025 (Class 16)
+
 ## Exploration separate algorithm
 
+We have, from the [[Hoeffding's Inequality]],
+$$
+\begin{aligned}
+    Pr\{ |\hat{\mu}_{i,t} - \mu_i| \ge \varepsilon_{i,t} \} &\le 2 \exp(-2N_{i,t}\varepsilon_{i,t}^2)\\
+    Pr\{ \hat{\mu}_{i,t} - \mu_i \ge \varepsilon_{i,t} \} &\le   \exp(-2N_{i,t}\varepsilon_{i,t}^2)\\
+\end{aligned}
+$$
+where
+$$
+\begin{aligned}
+    N_{i,t} &:= \text{times arm(i) is pulled till time(t)} \\
+    \hat{\mu}_{i,t} &:= \text{emperical average till time (t)}.
+\end{aligned}
+$$
+We define
+$$
+\begin{aligned}
+    \delta &:= \exp(-2N_{i,t}\varepsilon_{i,t}^2) \\
+    \implies \varepsilon_{i,t} &= \sqrt{\dfrac{\log(1/\delta)}{2N_{i,t}}}
+\end{aligned}
+$$
+
+### Regret analysis of exploration separate algorithm
+
+$$
+\begin{aligned}
+    R_T(ALG) &= \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t}] \\
+    &= \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t'}] + \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t'+1:T}] \\
+\end{aligned}
+$$
+
+We have,
+$$
+\begin{aligned}
+    \underbrace{j}_{r.v.} &= \arg\max_{i\in [N]} \hat{\mu}_{i,t'} \\
+    i^* &= \arg\max_{i\in[N]} \mu_i \\
+    \delta = 1/T^4 &\implies \varepsilon_{i,t'} = \sqrt{\frac{2\log T}{N_{i,t'}}}
+\end{aligned}
+$$
+
+Using the above,
+$$
+\begin{aligned}
+    R_T(ALG) &= \sum_{i=1}^{N} \nabla_i \dfrac{\alpha T}{N} + (T - t') \sum_{i=1}^{N} \mathbb{I}(i=j)\nabla_j\\
+    &\le \alpha T + T \sum_{i=1}^{N} (\mu_{i^*} - \mu_i) \mathbb{I}(i=j), \qquad(\nabla_i < 1; t' > 0)
+\end{aligned}
+$$
+
+Now, we have
+$$
+\begin{aligned}
+    \mu_j &\ge \hat{\mu_j} - \varepsilon_j \qquad \text{w.p. atleast } (1 - 1/T^4)\\
+    \mu_{i^*} - \mu_j &\le \mu_{i^*} - \hat{\mu}_j + \varepsilon_j
+\end{aligned}
+$$
+
+TODO: complete this.
+
+Instance independent (distribution free) regret   
+Instance dependent (distribution dependent) regret   
+UCB1
 ## See also
 
 ## References
