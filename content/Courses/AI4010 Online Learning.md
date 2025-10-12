@@ -94,13 +94,13 @@ $$
 f(\lambda x_1 + (1-\lambda)x_2) < \lambda f(x_1) + (1-\lambda)f(x_2)
 $$
 
-### $\alpha$-strongly convex function
+### strongly convex function
 A function $f: \mathbb{R}^d \to \mathbb{R}$ is $\alpha$-strongly convex if for all $x_1, x_2 \in \mathbb{R}^d$ and $\lambda \in [0,1]$,
 $$
 f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2) - \dfrac{\alpha}{2}\lambda(1-\lambda)||x_1 - x_2||^2
 $$
 
-### Equivalent conditions of $\alpha$-strongly convex function
+### Equivalent conditions of strongly convex function
 Let $f$ be a differentiable function on a convex set $X$. The following statements are equivalent:
 
 - $f$ is $\alpha$-strongly convex on $X$.
@@ -122,13 +122,13 @@ $$
 $$
 - $f(x) - \dfrac{\alpha}{2}\|x\|^2$ is convex.
 
-### $\beta$-smooth function
+### smooth function
 A differentiable function $f: \mathbb{R}^d \to \mathbb{R}$ is $\beta$-smooth if for all $x_1, x_2 \in \mathbb{R}^d$,
 $$
 f(x_1) \leq f(x_2) + \nabla f(x_2)^T (x_1 - x_2) + \dfrac{\beta}{2} ||x_1 - x_2||^2
 $$
 
-### $\alpha$-exp concave function
+### exp concave function
 A function $f: \mathbb{R}^d \to \mathbb{R}$ is $\alpha$-exp concave if for all $x_1, x_2 \in \mathbb{R}^d$ and $\lambda \in [0,1]$,
 $$
 h(x) = e^{-\alpha f(x)}
@@ -263,7 +263,7 @@ $$
 
 Consider $\mathcal{D} = [0,1]$, squared loss $f^n$ and 3 experts $f_1, f_2, f_3$ with constant predictions $f_1(t) = 0$, $f_2(t) = 0.5$, $f_3(t) = 1$, and $\mathcal{Y} = \{0,1\}$.
 
-## An optimal regret bound for Exponential Weights Algorithm for $\eta$-exp concave loss functions
+## An optimal regret bound for Exponential Weights Algorithm for exp concave loss functions
 
 Consider $\eta-exp$ concave loss function, then the regret is bounded by
 $$
@@ -615,6 +615,8 @@ $$
 \sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R(u) - R(x_1)}{\eta}
 $$
 
+> [!note]-
+
 ### Regret upper bound of FTRL
 We have the regret upper bound as
 $$
@@ -726,7 +728,17 @@ $$
 where we chose $\delta = n^{2/3} T^{-1/3}$
 
 > [!note]- Proof
-> TODO
+> $$
+> \begin{aligned}
+>     \mathbb{E}[R_T(OGD-MAB)] &= \mathbb{E} \left[ \sum_{t=1}^{T} l_{i_t,t} - \sum_{t=1}^{T} l_{i^*,t} \right] \\
+>     &= \mathbb{E} \left[ \sum_{t=1}^{T} l_{i_t,t} - \sum_{t=1}^{T} \hat{l}_{i^*,t} \right] \\
+>     &\le \mathbb{E} \left[ \sum_{t=1}^{T} \langle l_t, x_t \rangle - \sum_{t=1}^{T} \hat{l}_{i^*,t} \right] + \delta T \\
+>     &= \mathbb{E}[R_T(OGD)] + \delta T \\
+>     &\le \dfrac{3}{2} GD\sqrt{\delta T} + \delta T, \qquad G = \sup \|\hat{l}\| \le n/\delta, D \le 2 \\
+>     &\le \dfrac{3n}{\delta} \sqrt{\delta T} + \delta T \\
+>     &\le \dfrac{3n}{\delta} \sqrt{n}
+> \end{aligned}
+> $$
 
 # September 25, 2025 (Class 14)
 
