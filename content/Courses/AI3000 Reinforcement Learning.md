@@ -239,6 +239,37 @@ $$
 
 ## Prediction and Control in Reinforcement Learning
 
+# Pictures
+
+<img src="s1.png"/>
+<img src="s2.png"/>
+<img src="s3.png"/>
+<img src="s4.png"/>
+<img src="s5.png"/>
+<img src="s6.png"/>
+<img src="s7.png"/>
+<img src="s8.png"/>
+<img src="s9.png"/>
+<img src="s10.png"/>
+<img src="s11.png"/>
+<img src="s12.png"/>
+<img src="s13.png"/>
+<img src="s14.png"/>
+<img src="s15.png"/>
+<img src="s16.png"/>
+<img src="s17.png"/>
+<img src="s18.png"/>
+<img src="s19.png"/>
+<img src="s20.png"/>
+<img src="s21.png"/>
+<img src="s22.png"/>
+<img src="s23.png"/>
+<img src="s24.png"/>
+<img src="s25.png"/>
+<img src="s26.png"/>
+<img src="s27.png"/>
+<img src="s28.png"/>
+
 ### See also
 
 ### References

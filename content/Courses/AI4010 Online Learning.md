@@ -559,7 +559,7 @@ For twice differentiable functions, the Bregman divergence is equal to the secon
 > - It is strictly convex in the first argument
 > - Non-negative $B_R(x \| y) \geq 0$. The proof follows from Taylors theorem.
 > - Asymmetric i.e. $B_R(x \| y) \neq B_R(y \| x)$.
-> - Non-convex in the second argument. Example $R(x) = -\log(x)$ and $(B_R(x \| y) = \log(y) - \log(x) - \frac{x-y}{y}$
+> - Non-convex in the second argument. Example $R(x) = -\log(x)$ and $(B_R(x \| y) = \log(y) - \log(x) - \frac{x-y}{y})$
 > - $\frac{\partial B_R(x \| y)}{\partial x} = \nabla R(x) - \nabla R(y)$.
 > - Cosine inequality
 > $$
@@ -572,7 +572,6 @@ then the function $\|\cdot\|^*$ defined as
 $$
 \|x\|^* = \sup_{y \in \mathcal{K}, \|y\|_* \leq 1} \langle x,y \rangle = \sup_{y \in \mathcal{K}} \left\langle x , \dfrac{y}{\|y\|_*} \right\rangle,
 $$
-
 is called a dual norm.
 
 <span class="blue">**Definition** (*Norm induced by a symmetric positive definite matrix*):</span>
@@ -718,7 +717,63 @@ $$
 $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
 
 > [!note]- Proof
-> TODO
+> % We have
+>     % $$
+> % \mathbb{E}[l_{i_t,t}] = \mathbb{E}\left[ \sum_{i=1}^n p_{i,t} l_{i,t} \right]
+>     %
+> $$
+>     % where $p_{i,t}$ is the probability of choosing arm $i$ at time $t$.
+>
+>     % Recall that in the algorithm, with probability $\delta$ we explore (choose uniformly), and with probability $1-\delta$ we exploit (choose according to $x_t$). Thus,
+>     % $$
+> % p_{i,t} = \delta \cdot \frac{1}{n} + (1-\delta) x_{i,t}
+>     %
+> $$
+>
+>     % The unbiased estimator for the loss is
+>     % $$
+> % \hat{l}_{i,t} =
+>     % \begin{cases}
+>     % \frac{n}{\delta} l_{i,t} & \text{if } i = i_t \text{ and exploration} \\
+>     % 0 & \text{otherwise}
+>     % \end{cases}
+>     %
+> $$
+>
+>     % So,
+>     % $$
+> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = \mathbb{E}\left[ \sum_{i=1}^n x_{i,t} \hat{l}_{i,t} \right]
+>     %
+> $$
+>     % During exploration, the probability of picking arm $i$ is $\delta/n$, so
+>     % $$
+> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = \sum_{i=1}^n x_{i,t} \cdot \frac{\delta}{n} \cdot \frac{n}{\delta} l_{i,t} = \sum_{i=1}^n x_{i,t} l_{i,t}
+>     %
+> $$
+>     % During exploitation, $\hat{l}_{i,t} = 0$, so the expectation is 0.
+>
+>     % Thus, overall,
+>     % $$
+> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = (1-\delta) \sum_{i=1}^n x_{i,t} l_{i,t}
+>     %
+> $$
+>
+>     % Now,
+>     % $$
+> % \mathbb{E}[l_{i_t,t}] = \sum_{i=1}^n p_{i,t} l_{i,t} = (1-\delta) \sum_{i=1}^n x_{i,t} l_{i,t} + \delta \sum_{i=1}^n \frac{1}{n} l_{i,t}
+>     %
+> $$
+>     % $$
+> % = \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta \sum_{i=1}^n \frac{1}{n} l_{i,t}
+>     %
+> $$
+>     % Since $l_{i,t} \in [0,1]$, the second term is at most $\delta$.
+>
+>     % Therefore,
+>     % $$
+> % \mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta
+>     %
+> $$
 
 ### Regret upper bound of OGD-MAB
 We have,
@@ -913,6 +968,46 @@ $$
 $$
 
 TODO: complete this.
+### Instance independent (distribution-free) regret
+
+The instance independent (distribution-free) regret bound for the exploration-separate algorithm is
+$$
+R_T(\text{ALG}) \leq \alpha T + T \cdot \mathbb{P}(j \neq i^*)
+$$
+where $\alpha T$ is the regret incurred during the exploration phase, and the second term is the regret incurred during the exploitation phase if the empirically best arm $j$ is not the true best arm $i^*$.
+
+Using Hoeffding's inequality, with probability at least $1 - 1/T^4$, the empirical mean of each arm is within $\varepsilon_{i,t'}$ of its true mean. Thus, the probability of choosing a suboptimal arm in the exploitation phase is at most $N/T^4$, so the regret in the exploitation phase is at most $T \cdot N/T^4 = N/T^3$, which is negligible for large $T$.
+
+Therefore, the total regret is
+$$
+R_T(\text{ALG}) \leq \alpha T + o(1)
+$$
+
+### Instance dependent (distribution-dependent) regret
+
+The instance dependent regret bound depends on the suboptimality gaps $\nabla_i = \mu_{i^*} - \mu_i$. After the exploration phase, with high probability, the empirically best arm is the true best arm. Thus, the regret is dominated by the exploration phase:
+$$
+R_T(\text{ALG}) \leq \sum_{i: \nabla_i > 0} \nabla_i \cdot \frac{\alpha T}{N} + o(1)
+$$
+where $\frac{\alpha T}{N}$ is the number of times each arm is pulled during exploration.
+
+% ### UCB1 Algorithm
+
+% The UCB1 algorithm is an alternative to the exploration-separate algorithm, which balances exploration and exploitation at each round. At time $t$, for each arm $i$, define
+% $$
+%     \text{UCB}_i(t) = \hat{\mu}_{i,t} + \sqrt{\frac{2\log t}{N_{i,t}}}
+%
+$$
+% where $\hat{\mu}_{i,t}$ is the empirical mean and $N_{i,t}$ is the number of times arm $i$ has been pulled up to time $t$.
+
+% At each round, UCB1 selects the arm with the highest UCB value.
+
+% The regret of UCB1 is bounded by
+% $$
+%     R_T(\text{UCB1}) \leq \sum_{i: \nabla_i > 0} \left( \frac{8\log T}{\nabla_i} + \nabla_i \right)
+%
+$$
+% which is logarithmic in $T$ for each suboptimal arm.
 
 Instance independent (distribution free) regret   
 Instance dependent (distribution dependent) regret   
