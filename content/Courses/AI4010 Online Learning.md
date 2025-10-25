@@ -575,7 +575,7 @@ $$
 is called a dual norm.
 
 <span class="blue">**Definition** (*Norm induced by a symmetric positive definite matrix*):</span>
-Let $A \in S^n_{++}[^2]$ be a matrix.
+Let $A \in S^n_{++}$[^2] be a matrix.
 We define the norm induced by $A$ as
 $$
 \|x\|_A = \sqrt{x^TAx}
@@ -885,10 +885,10 @@ $$
 
 <span class="blue">**Lemma**:</span>
 Let $N_{i,T}$ be the number if times the arm $i$
-has been pulled till time $T$ by an algorithm and let $\nabla_i = \mu_{i^*} - \mu_i$
+has been pulled till time $T$ by an algorithm and let $\Delta_i = \mu_{i^*} - \mu_i$
 be the suboptimality gap. Then,
 $$
-R_T(ALG) = \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}]
+R_T(ALG) = \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i.T}]
 $$
 
 > [!note]- Proof
@@ -899,15 +899,15 @@ $$
 > We have,
 > $$
 > \begin{aligned}
->     \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}] &= \mathbb{E} \left[ \sum_{i=1}^{N} \left( \mu_{i^*} - \mu_i \right) \left( \sum_{t=1}^{T} \mathbb{I}(i_t = i) \right) \right] \\
+>     \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i.T}] &= \mathbb{E} \left[ \sum_{i=1}^{N} \left( \mu_{i^*} - \mu_i \right) \left( \sum_{t=1}^{T} \mathbb{I}(i_t = i) \right) \right] \\
 >     &= \mathbb{E} \left[ \sum_{i=1}^{N} \mu_{i^*} \sum_{t=1}^{T} \mathbb{I}(i_t = i) - \sum_{i=1}^{N} \mu_i \sum_{t=1}^{T} \mathbb{I}(i_t = i)\right] \\
 >     &= \mu_{i^*} \left( \sum_{t=1}^{T} \sum_{i=1}^{N} \mathbb{E}\left[ \mathbb{I}(i_t = i) \right] \right) - \mathbb{E}\left[\sum_{t=1}^{T} \sum_{i=1}^{N} \mu_i \mathbb{I}(i_t = i)\right] \\
 >     &= \mu_{i^*}T - \sum_{t=1}^{T} \mu_{i_t}, \quad \quad \quad \because \sum_{i=1}^{N} \mathbb{E}\left[ \mathbb{I}(i_t = i) \right] = 1 \\
->     \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i.T}] &= R_T(ALG)
+>     \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i.T}] &= R_T(ALG)
 > \end{aligned}
 > $$
 
-# October 10, 2025 (Class 16)
+# October 9, 2025 (Class 16)
 
 ## Exploration separate algorithm
 
@@ -937,8 +937,8 @@ $$
 
 $$
 \begin{aligned}
-    R_T(ALG) &= \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t}] \\
-    &= \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t'}] + \sum_{i=1}^{N} \nabla_i \mathbb{E}[N_{i,t'+1:T}] \\
+    R_T(ALG) &= \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i,t}] \\
+    &= \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i,t'}] + \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i,t'+1:T}] \\
 \end{aligned}
 $$
 
@@ -954,8 +954,8 @@ $$
 Using the above,
 $$
 \begin{aligned}
-    R_T(ALG) &= \sum_{i=1}^{N} \nabla_i \dfrac{\alpha T}{N} + (T - t') \sum_{i=1}^{N} \mathbb{I}(i=j)\nabla_j\\
-    &\le \alpha T + T \sum_{i=1}^{N} (\mu_{i^*} - \mu_i) \mathbb{I}(i=j), \qquad(\nabla_i < 1; t' > 0)
+    R_T(ALG) &= \sum_{i=1}^{N} \Delta_i \dfrac{\alpha T}{N} + (T - t') \sum_{i=1}^{N} \mathbb{I}(i=j)\nabla_j\\
+    &\le \alpha T + T \sum_{i=1}^{N} (\mu_{i^*} - \mu_i) \mathbb{I}(i=j), \qquad(\Delta_i < 1; t' > 0)
 \end{aligned}
 $$
 
@@ -985,33 +985,103 @@ $$
 
 ### Instance dependent (distribution-dependent) regret
 
-The instance dependent regret bound depends on the suboptimality gaps $\nabla_i = \mu_{i^*} - \mu_i$. After the exploration phase, with high probability, the empirically best arm is the true best arm. Thus, the regret is dominated by the exploration phase:
+The instance dependent regret bound depends on the suboptimality gaps $\Delta_i = \mu_{i^*} - \mu_i$. After the exploration phase, with high probability, the empirically best arm is the true best arm. Thus, the regret is dominated by the exploration phase:
 $$
-R_T(\text{ALG}) \leq \sum_{i: \nabla_i > 0} \nabla_i \cdot \frac{\alpha T}{N} + o(1)
+R_T(\text{ALG}) \leq \sum_{i: \Delta_i > 0} \Delta_i \cdot \frac{\alpha T}{N} + o(1)
 $$
 where $\frac{\alpha T}{N}$ is the number of times each arm is pulled during exploration.
 
-% ### UCB1 Algorithm
+### UCB1 Algorithm
 
-% The UCB1 algorithm is an alternative to the exploration-separate algorithm, which balances exploration and exploitation at each round. At time $t$, for each arm $i$, define
-% $$
-%     \text{UCB}_i(t) = \hat{\mu}_{i,t} + \sqrt{\frac{2\log t}{N_{i,t}}}
-%
+The UCB1 algorithm is an alternative to the exploration-separate algorithm, which balances exploration and exploitation at each round. At time $t$, for each arm $i$, define
 $$
-% where $\hat{\mu}_{i,t}$ is the empirical mean and $N_{i,t}$ is the number of times arm $i$ has been pulled up to time $t$.
-
-% At each round, UCB1 selects the arm with the highest UCB value.
-
-% The regret of UCB1 is bounded by
-% $$
-%     R_T(\text{UCB1}) \leq \sum_{i: \nabla_i > 0} \left( \frac{8\log T}{\nabla_i} + \nabla_i \right)
-%
+\text{UCB}_i(t) = \hat{\mu}_{i,t} + \sqrt{\frac{2\log t}{N_{i,t}}}
 $$
-% which is logarithmic in $T$ for each suboptimal arm.
+where $\hat{\mu}_{i,t}$ is the empirical mean and $N_{i,t}$ is the number of times arm $i$ has been pulled up to time $t$.
 
-Instance independent (distribution free) regret   
-Instance dependent (distribution dependent) regret   
-UCB1
+At each round, UCB1 selects the arm with the highest UCB value.
+
+The instance dependent regret of UCB1 is bounded by
+$$
+R_T^{(I.D.)}(\text{UCB1}) \leq \sum_{i: \Delta_i > 0} \left( \frac{8\log T}{\Delta_i} + \Delta_i \right)
+$$
+which is logarithmic in $T$ for each suboptimal arm.
+
+# October 13, 2025 (Midterm 2)
+# October 16, 2025 (Class 17)
+# October 20, 2025 (Class 18)
+# October 23, 2025 (Class 19)
+
+We have the instance independent regret of UCB1 algorithm as
+$$
+R_T^{(I.I.)}(UCB1) = \mathcal{O}\left(\sqrt{NT\log T}\right)
+$$
+
+> [!note]- Proof of UCB1 instance independent regret bound
+> $$
+> \begin{aligned}
+>     event\; E &:= \left\{ \left| \hat{\mu}_{i,t} - \mu_{i,t} \le \sqrt{\dfrac{2\log T}{N_{i,t-1}}} = \varepsilon_{i,t} \;\;\;\;\forall i, \forall t \le T \right| \right\} \\
+>     \bar{E} &:= \exists t \le T, \exists i, \text{such that E above is violated}
+> \end{aligned}
+> $$
+>
+> We have
+> $$
+> \begin{aligned}
+>     Pr(\bar{E}) &\le \dfrac{2}{T^4} TN, \quad \text{using union bound}\\
+>     &= \dfrac{2N}{T^3} \le \dfrac{2}{T^2} \quad (N<T)
+> \end{aligned}
+> $$
+>
+> $$
+> R_T^{(I.I.)}(UCB1) = \mathbb{E}[R_T|E] Pr(E) + \mathbb{E}[R_T|\bar{E}] Pr(\bar{E})
+> $$
+>
+> Let, without loss of generality, 1 be the best arm.
+>
+> $$
+> \begin{aligned}
+>     \Delta_{i_t} &:= \mu_1 - \mu_{i_t} \leq \mu_1 - \mu_{i_t} + \underbrace{\bar{\mu}_{i_t,t}}_{\text{UCB}} - \bar{\mu}_{1,t}\\
+> \end{aligned}
+> $$
+> $$
+> \begin{aligned}
+>     \mu_1 - \bar{\mu}_{1,t} &= \mu_1 - \hat{\mu}_{1,N_{i,t-1}} - \sqrt{\frac{2\log T}{N_{i,t-1}}} \le 0 \\
+>     \bar{\mu}_{i_t,t} - \mu_{i_t} &= \hat{\mu}_{i_t,N_{i_t,t-1}} + \sqrt{\frac{2\log T}{N_{i_t,t-1}}} - \mu_{i_t} \leq 2 \sqrt{\frac{2\log T}{N_{i_t,t-1}}} \\
+> \end{aligned}
+> $$
+>
+> From the above 3 inequalities,
+> $$
+> \Delta_{i_t} := \mu_1 - \mu_{i_t} \le 2 \sqrt{\frac{2\log T}{N_{i_t,t-1}}}
+> $$
+>
+> Now,
+> $$
+> \begin{aligned}
+>     \sum_{i:\Delta_i>0} \Delta_i \mathbb{E}[N_{i,T}] &= \mathbb{E} \left[ \sum_{i:\Delta_i>0} \Delta_i N_{i,T} \right] \\
+>     &\le \mathbb{E} \left[ \sum_{i:\Delta_i>0} 2 \sqrt{\frac{2\log T}{N_{i,T}}} N_{i,T} \right] \\
+>     &= \mathbb{E} \left[ \sum_{i:\Delta_i>0} \sqrt{8N_{i,T} \log T} \right] \\
+>     &= \sum_{i:\Delta_i>0} \mathbb{E} \left[ \sqrt{8N_{i,T} \log T} \right] \\
+>     &= \sqrt{8\log T} N \sum_{i:\Delta_i>0} \dfrac{1}{N} \mathbb{E} \left[ \sqrt{N_{i,t}} \right] \\
+>     &\le N\sqrt{8\log T} \sqrt{\frac{T}{N}} = \sqrt{8NT\log T} \\
+>     &= \mathcal{O} \left( \sqrt{NT\log T} \right)
+> \end{aligned}
+> $$
+
+### Lower bound on regret for MAB setting
+
+1. Instance independent:
+$$
+\Omega(c\sqrt{NT})
+$$
+2. Instance dependent:
+$$
+\sum_{i:\Delta_i>0} \frac{\Delta_i \log T}{D_{KL} \left( \mu_i \| \mu^* \right)}
+$$
+
+Some discussion on sub gaussian random variables.
+
 ## See also
 
 ## References
