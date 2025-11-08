@@ -675,7 +675,9 @@ $$
 
 ## Secant method
 
-## October 6, 2025 (Class \_)
+# Mid term
+
+# October 6, 2025 (Class \_)
 
 Lagrange interpolating polynomial $p_x(x)$   
 
@@ -708,6 +710,57 @@ The previous theorem gives high errors in some cases.
 Weierstrass approximation theorem.
 
 # October 10, 2025, (Class \_)
+
+## Solution of systems of linear equations
+
+## Forward \& Backward substitution
+
+## Cramer's rule
+
+For a linear system of equations
+$$
+Ax = b,
+$$
+
+given $\det(A) \ne 0$, we have
+$$
+x_i = \dfrac{\det(A_i)}{\det(A)}, \quad i = 1,2,\dots,n
+$$
+We define $A_i$ as
+$$
+A_i = \begin{bmatrix}
+        a_{11} & \cdots & b_1 & \cdots & a_{1n} \\
+        a_{21} & \cdots & b_2 & \cdots & a_{2n} \\
+        \vdots & & \vdots & & \vdots \\
+        a_{n1} & \cdots & b_n & \cdots & a_{nn}
+    \end{bmatrix}
+$$
+
+where $b$ replaces the $i$-th column.
+
+## Gauss' elimination
+
+## Triangular factorization methods
+
+### LU decomposition
+<span class="blue">**Theorem** (*LU decomposition*):</span>
+Let $A_{n\times n}$ be a square matrix. If all $k$ leading principal
+minors of $A$ are non-singular (for $k = 1, \dots, n-1$), then
+$A$ has a unique factorization
+$$
+A = LU,
+$$
+where $L_{n\times n}$ and $U_{n\times n}$ are lower and upper triangular matrices respectively.
+
+#### Explicit formula for LU decomposition
+The elements of $L$ and $U$ are computed as follows:
+$$
+\begin{aligned}
+    L_{ii} &= 1, \quad \text{for } i = 0, \dots, n-1 \\
+    U_{ij} &= A_{ij} - \sum_{k=0}^{i-1} L_{ik} U_{kj}, \quad \text{for } j \ge i \\
+    L_{ij} &= \dfrac{1}{U_{jj}}\left( A_{ij} - \sum_{k=0}^{j-1}L_{ik} U_{kj} \right) , \quad \text{for } i > j
+\end{aligned}
+$$
 
 ## See also
 

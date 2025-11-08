@@ -842,9 +842,6 @@ $$
 >     & \hspace{5cm} (\text{Using } e^x \le 1 + x + x^2 \text{ for all } x \in [0, 1]) \\[2ex]
 >     &\le \frac{1}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \left(1 + \frac{\gamma}{n}\hat{r}_{i,t} + \left(\frac{\gamma}{n}\right)^2 \hat{r}_{i,t}^2 \right) \\
 >     &\le \frac{1}{1-\gamma} \left(\underbrace{\sum_{i=1}^{n} p_{i,t}}_{=1} + \frac{\gamma}{n} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \left(\frac{\gamma}{n}\right)^2 \sum_{i=1}^{n}\underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \right) \\
->     % &\le \underbrace{\sum_{i=1}^{n} \frac{p_{i,t} - \gamma/n}{1-\gamma}}_{=1} + \frac{\gamma/n}{1-\gamma} \underbrace{\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}}_{=r_{i_t,t}} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 \\[2ex]
->     % & \hspace{5cm} \left(\sum_{i=1}^{n} p_{i,t} \hat{r}_{i,t}^2 = \sum_{i=1}^{n} \underbrace{p_{i,t} \hat{r}_{i,t}}_{\le 1} \hat{r}_{i,t} \le \sum_{i=1}^{n} \hat{r}_{i,t}\right) \\[2ex]
->     % &= 1 + \frac{\gamma/n}{1-\gamma} r_{i_t,t} + \frac{(\gamma/n)^2}{1-\gamma} \sum_{i=1}^{n} \hat{r}_{i,t} \\
 >     \log \left( \frac{W_{t+1}}{W_t} \right) &\le \frac{1}{1-\gamma} \left(  \frac{\gamma}{n} r_{i_t,t} + \left(\frac{\gamma}{n}\right)^2 \sum_{i=1}^{n} \hat{r}_{i,t}\right), \quad \text{using } \log(1+x) \le x \text{ and } \frac{1}{1-\gamma} \ge 1 \\
 > \implies \log \left( \frac{W_{T+1}}{W_1} \right) &\le \frac{1}{1-\gamma} \left(\frac{\gamma}{n} \sum_{t=1}^{T} r_{i_t,t} + \left(\frac{\gamma}{n}\right)^2 \sum_{t=1}^{T} \sum_{i=1}^{n} \hat{r}_{i,t}\right), \quad \text{summing from } t=1 \text{ to } T
 > \end{aligned}
@@ -1080,7 +1077,105 @@ $$
 \sum_{i:\Delta_i>0} \frac{\Delta_i \log T}{D_{KL} \left( \mu_i \| \mu^* \right)}
 $$
 
-Some discussion on sub gaussian random variables.
+Some discussion on [[Sub Gaussian Random Variables]].
+
+## Chernoff bounding technique
+
+Let $\{X_i\}_{i=1}^n \approx$ i.i.d. be mean 0 random variables.
+Let $\varepsilon, \delta > 0$ and
+$$
+\Psi_X(\lambda) := \log \left( \mathbb{E} \left[ \exp (\lambda X) \right] \right).
+$$
+Then, $\exists \; T_0 > 0$ such that
+$$
+Pr \left( \frac{1}{T} \sum_{t=1}^{T} X_t \ge \varepsilon \right) \le \delta \quad \forall T \ge T_0.
+$$
+
+> [!note]- Proof of Chernoff bounding technique
+> $$
+> \begin{aligned}
+>     Pr \left( \frac{1}{T} \sum_{t=1}^{T} X_t \ge \varepsilon \right) &= Pr  \left( \sum_{t=1}^{T} X_t \ge T \varepsilon \right) \\
+>     &= Pr  \left( \exp\left(\sum_{t=1}^{T} \lambda X_t\right) \ge \exp(\lambda T \varepsilon) \right) \\
+>     &\le \mathbb{E} \left[ \exp \left( \sum_{t=1}^{T} \lambda X_t \right) \right] \exp (-\lambda T \varepsilon) \\
+>     &= \exp (-\lambda T \varepsilon) \prod_{t=1}^{T} \mathbb{E} \left[ \exp \left(  \lambda X_t \right) \right] \\
+>     &= \exp (-\lambda T \varepsilon) \prod_{t=1}^{T}  \exp \left(  \Psi_X(\lambda) \right) \quad (i.i.d.) \\
+>     &= \exp (-\lambda T \varepsilon) \exp \left( T \Psi_X(\lambda) \right) \\
+>     &= \exp \left( -T \left( -\Psi_X(\lambda) + \lambda \varepsilon \right) \right)
+> \end{aligned}
+> $$
+>
+> Define $\Psi^*_\lambda(\varepsilon)$ as,
+> $$
+> \Psi^*_\lambda(\varepsilon) := \sup_{\lambda > 0} \left[ \lambda \varepsilon - \Psi_X(\lambda) \right]
+> $$
+> and so
+> $$
+> Pr \left( \frac{1}{T} \sum_{t=1}^{T} X_t \ge \varepsilon \right) \le \exp \left( -T \Psi^*_\lambda(\varepsilon) \right) = \delta
+> $$
+
+# October 27, 2025 (Class 20)
+
+## Thompson Sampling
+
+$\alpha_{i_t}$ is equal $S_{i_t} + 1$ , $\beta_{i_t}$ is equal $N_{i_t} + 1$,
+where S and N are success and instances when arm i is pulled.
+
+$$
+\begin{array}{l}
+\textbf{Algorithm : Thompson Sampling} \\
+\textbf{Input:} \ \text{Number of arms } n \\
+\textbf{Initialize:} \ (Prior) Beta_i(1,1) \text{ for all } i \in [n] \\
+\textbf{for} \ t = 1, 2, \dots  \ \textbf{do} \\
+\quad \text{- Draw } \theta_i \sim Beta_i(\alpha_{i_t}, \beta_{i_t}) \;\;\; \forall i \in [n] \\
+\quad \text{- Choose arm } i_t = \arg\max_{i\in[n]} (\theta_i) \\
+\quad \text{- Observe } r_{i_t,t} \sim Bernoulli(\mu_{i_t}) \\
+\quad \text{- Update } \\
+\begin{aligned}
+    \qquad\qquad \alpha_{i_t} &\leftarrow \alpha_{i_t} + r_{i_t,t}\\
+    \qquad\qquad \beta_{i_t} &\leftarrow \beta_{i_t} + 1
+\end{aligned}\\
+
+\textbf{end} \\
+\end{array}
+$$
+
+TODO: correct the above algorithm.
+
+### Regret order of Thompson Sampling
+
+1. Instance dependent regret
+$$
+\mathcal{O} \left( \sum_{i=1}^{n} \frac{\Delta_i (\log T + \log (\log T))}{D_{KL} \left( \mu_i \| \mu_{i^*} \right)} \right)
+$$
+2. Instance independent regret
+$$
+\Omega\left(c\sqrt{NT} \right)
+$$
+
+## Pure exploration setting
+Find the arm which gives the best expected reward.
+
+1. Fixed confidence problem: Given $\varepsilon, \delta > 0$, goal is to find $j$ such that the below probability is satisfied in least number of pulls.
+$$
+Pr(\mu_j \ge \mu_{i^*} - \varepsilon) \ge 1 - \delta
+$$
+2. Fixed budget problem: complementary to the above problem.
+
+## Anytime confidence interval
+We have,
+$$
+Pr\left( \bigcup_{t=1}^{\infty} \left| \hat{\mu}_{i,t} - \mu_i \right| \ge \sqrt{\frac{\log (4t^2/\delta)}{2t}} \right) \le \delta
+$$
+
+> [!note]- Proof
+> TODO: write proof
+
+We also define
+$$
+U(t, \delta) := \sqrt{\frac{\log (4t^2/\delta)}{2t}}
+$$
+
+## Successive elimination
 
 ## See also
 
