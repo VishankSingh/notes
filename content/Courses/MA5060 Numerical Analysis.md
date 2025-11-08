@@ -614,9 +614,9 @@ $x_0$ using the formula:
 $$
 x_{k+1} = x_k - \lambda f(x_k), \quad k \ge 0
 $$
-where $\lambda \neq 0$ is a constant parameter called the \textbf{relaxation parameter}.
+where $\lambda \neq 0$ is a constant parameter called the **relaxation parameter**.
 
-This method can be viewed as a \textbf{fixed-point iteration}, $x_{k+1} = g(x_k)$,
+This method can be viewed as a **fixed-point iteration**, $x_{k+1} = g(x_k)$,
 with the iteration function defined as:
 $$
 g(x) = x - \lambda f(x)
@@ -667,7 +667,7 @@ $$
 >
 > #### Conclusion
 > The condition $0 < \lambda f'(\xi) < 2$ implies that $\lambda$ must have the
-> \textbf{same sign} as $f'(\xi)$. The convergence is fastest when $g'(\xi)$
+> **same sign** as $f'(\xi)$. The convergence is fastest when $g'(\xi)$
 > is closest to zero, which occurs when $1 - \lambda f'(\xi) = 0$, or
 > $\lambda = 1/f'(\xi)$. This observation forms the basis for Newton's method.
 
@@ -742,25 +742,60 @@ where $b$ replaces the $i$-th column.
 
 ## Triangular factorization methods
 
-### LU decomposition
-<span class="blue">**Theorem** (*LU decomposition*):</span>
-Let $A_{n\times n}$ be a square matrix. If all $k$ leading principal
-minors of $A$ are non-singular (for $k = 1, \dots, n-1$), then
-$A$ has a unique factorization
+### LU decomposition based method
+Using [[LU Decomposition]], we have
 $$
-A = LU,
+A = LU.
 $$
-where $L_{n\times n}$ and $U_{n\times n}$ are lower and upper triangular matrices respectively.
 
-#### Explicit formula for LU decomposition
-The elements of $L$ and $U$ are computed as follows:
+We can decompose the original system of linear equations in two,
 $$
 \begin{aligned}
-    L_{ii} &= 1, \quad \text{for } i = 0, \dots, n-1 \\
-    U_{ij} &= A_{ij} - \sum_{k=0}^{i-1} L_{ik} U_{kj}, \quad \text{for } j \ge i \\
-    L_{ij} &= \dfrac{1}{U_{jj}}\left( A_{ij} - \sum_{k=0}^{j-1}L_{ik} U_{kj} \right) , \quad \text{for } i > j
+    Ux &= z \\
+    Lz &= b \\
 \end{aligned}
 $$
+
+The solution to the original system can be obtained by first solving
+$Lz=b$ using **forward substitution** (since $L$ is lower
+triangular), and then solving $Ux=z$ using \obstextbf{backward
+substitution} (since $U$ is upper triangular).
+
+<span class="blue">**Remark**:</span>
+This method can fail for two primary reasons.
+    First, the factorization $A=LU$ (without pivoting) may not
+    exist if a leading principal minor of $A$ is singular.
+    Second, the substitution steps will fail if any diagonal element
+    $L_{ii}$ or $U_{ii}$ is 0. This computationally confirms that
+    $A$ is singular, since $\det(A) = \det(L)\det(U)$.
+
+### Cholesky decomposition based method
+Using [[Cholesky Decomposition]], we have
+$$
+A = LL^T.
+$$
+
+We can decompose the original system of linear equations in two,
+$$
+\begin{aligned}
+    L^T x &= z \\
+    Lz &= b \\
+\end{aligned}
+$$
+
+The solution to the original system can be obtained by first solving
+$Lz=b$ using **forward substitution** (since $L$ is lower
+triangular), and then solving $L^T x=z$ using \obstextbf{backward
+substitution} (since $L^T$ is upper triangular).
+
+<span class="blue">**Remark**:</span>
+This method fails if the matrix $A$ is not symmetric and
+    positive definite. Computationally, this failure occurs
+    during the factorization (not the substitution) if the algorithm
+    requires taking the square root of a non-positive number to
+    compute a diagonal element $L_{ii}$.
+
+## Error analysis for direct methods
 
 ## See also
 
