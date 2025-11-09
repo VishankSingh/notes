@@ -148,6 +148,9 @@ $$
 
 <img src="AI2100_adam_algo.png"/>
 
+## Generative Adversarial Networks
+See [[Generative Adversarial Networks]].
+
 ### See also
 
 ### References
