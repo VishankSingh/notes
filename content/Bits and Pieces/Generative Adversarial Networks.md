@@ -125,6 +125,26 @@ Both generator objectives (min-max and non-saturating) have the same fixed point
 but the non-saturating version provides better gradients and is almost universally
 used in practice.
 
+### Training algorithm of generator
+$$
+\begin{array}{l}
+\textbf{Algorithm 1} \text{ Minibatch stochastic gradient descent training of generative adversarial nets.} \\
+\text{The number of steps to apply to the discriminator, } k, \text{ is a hyperparameter.} \\
+\\
+\textbf{for} \ \text{number of training iterations} \ \textbf{do} \\
+\quad \textbf{for} \ k \ \text{steps} \ \textbf{do} \\
+\quad \quad \text{- Sample minibatch } \{z_j\}_{j=1}^m \sim p_z \text{ (noise prior)}. \\
+\quad \quad \text{- Sample minibatch } \{x_j\}_{j=1}^m \sim p_{data}. \\
+\quad \quad \text{- Update the discriminator by ascending its stochastic gradient:} \\
+\quad \quad \quad \nabla_{\theta_d} \frac{1}{m} \sum_{i=1}^{m} \left[ \log D(x^{(i)}) + \log(1 - D(G(z^{(i)}))) \right] \\
+\quad \textbf{end for} \\
+\quad \text{- Sample minibatch of } m \text{ noise samples } \{z^{(1)}, \dots, z^{(m)}\} \text{ from noise prior } p_z(z). \\
+\quad \text{- Update the generator by descending its stochastic gradient:} \\
+\quad \quad (-1)\nabla_{\theta_g} \frac{1}{m} \sum_{i=1}^{m} \log(D(G(z^{(i)}))), \quad \text{using the alternative objective} \\
+\textbf{end for} \\
+\end{array}
+$$
+
 ## References
 [Generative Adversarial Nets, Goodfellow et al. (2014)](https://arxiv.org/pdf/1406.2661)   
 [NIPS 2016 Tutorial: Generative Adversarial Networks, Goodfellow. (2016)](https://arxiv.org/pdf/1701.00160)

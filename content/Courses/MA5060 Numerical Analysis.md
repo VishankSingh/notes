@@ -708,6 +708,22 @@ $$
 
 The previous theorem gives high errors in some cases.
 Weierstrass approximation theorem.
+## Hermite interpolation
+
+<span class="blue">**Theorem** (*Hermite interpolation*):</span>
+For an unknown function $f: \mathbb{R} \to \mathbb{R}$, we have for data points
+$\{ x_i \}_0^n$, $\{ y_i = f(x_i) \}_0^n$ and $\{ z_i = f'(x_i) \}_0^n$.
+Then we have the Hermite interpolation polynomial $p$ of degree $2n+1$,
+$$
+p_{2n+1}(x) = \sum_{k=0}^{n} \left( H_k(x)y_k + K_k(x)z_k \right)
+$$
+where
+$$
+\begin{aligned}
+    H_k(x) &= \left( l_k(x) \right)^2 \left( 1-2l'_k(x_k) (x-x_k) \right) \\
+    K_k(x) &= \left( l_k(x )\right)^2 (x-x_k)
+\end{aligned}
+$$
 
 # October 10, 2025, (Class \_)
 
