@@ -1,6 +1,3 @@
----
-
----
 Considering an [[Optimization Problem]] with assumptions $\mathcal{D} \notin \phi$, and optimal value $p^*$ exists.
 
 The *Lagrangian* $L : \mathbb{R}^n \times\mathbb{R}^m\times\mathbb{R}^p \to \mathbb{R}$ associated with the problem is defined as

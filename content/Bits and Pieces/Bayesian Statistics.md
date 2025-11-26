@@ -1,6 +1,3 @@
----
-
----
 In Bayesian statistics, we treat parameters $\boldsymbol{\theta}$ as unknown random variables, and the data $\mathcal{D}$ as fixed. The goal is to compute the posterior distribution $p(\boldsymbol{\theta} | \mathcal{D})$ using Bayes' theorem:
 
 $$

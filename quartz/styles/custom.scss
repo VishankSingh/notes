@@ -7,3 +7,52 @@
 .green { color: #2ecc71; }
 .orange { color: orange; }
 
+.alg-container {
+  display: block;     
+  width: 100%;          
+  border-top: 2px solid var(--darkgray);
+  border-bottom: 2px solid var(--darkgray);
+  
+  box-sizing: border-box; 
+  margin-top: 16px;
+}
+
+.alg-header {
+  width: 100%;
+  padding: 4px 0px;  
+  border-bottom: 1px solid var(--darkgray);
+  background-color: transparent;
+  
+  text-align: left;
+
+  p {
+    margin: 0;
+  }
+
+  .katex-display {
+    text-align: left;
+    .katex {
+      text-align: left;
+    }
+  }
+}
+
+.alg-body {
+  width: 100%;
+  padding: 10px 10px;
+  overflow-x: auto;    
+  text-align: left;    
+
+  .katex-display {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    
+    > .katex {
+      text-align: left;
+      display: block;
+    }
+  }
+  
+  p { margin: 0; }
+}

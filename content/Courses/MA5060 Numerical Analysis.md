@@ -1,6 +1,3 @@
----
-
----
 # July 28, 2025 (Class 1)
 
 ## Initial Value problem (IVP)
@@ -301,7 +298,7 @@ $$
 y_{n+1} = y_n + h \phi(x_n, y_n; h), \quad n = 0, 1, \ldots, N-1,
 $$
 where $h = (b-a)/N$ is the uniform step size, $x_n = a+nh$ and $y_n$ is the approximation to $y(x_n)$.
-We assume $\phi$ is a continuous function of its arguments, and satisfies Lipschitz condition (see [[MA5060 Numerical Analysis#Lipschitz continuity|Lipschitz continuity]]) with respect to its second argument, with Lipschitz constant $L$.
+We assume $\phi$ is a continuous function of its arguments, and satisfies Lipschitz condition (see [[MA5060 Numerical Analysis#lipschitz-continuity|Lipschitz continuity]]) with respect to its second argument, with Lipschitz constant $L$.
 
 Then we have
 $$
@@ -396,7 +393,7 @@ TODO: write the proof
 
 ## Euler method
 
-From the first order [[MA5060 Numerical Analysis#Taylor's method|taylor's method]] method we can get the
+From the first order [[MA5060 Numerical Analysis#taylors-method|taylor's method]] method we can get the
 Euler method.
 $$
 y_{n+1} = y_n + h y'_n = y_n + h f(x_n, y_n)
@@ -774,8 +771,8 @@ $$
 
 The solution to the original system can be obtained by first solving
 $Lz=b$ using **forward substitution** (since $L$ is lower
-triangular), and then solving $Ux=z$ using \obstextbf{backward
-substitution} (since $U$ is upper triangular).
+triangular), and then solving $Ux=z$ using **backward substitution**
+(since $U$ is upper triangular).
 
 <span class="blue">**Remark**:</span>
 This method can fail for two primary reasons.
@@ -801,8 +798,8 @@ $$
 
 The solution to the original system can be obtained by first solving
 $Lz=b$ using **forward substitution** (since $L$ is lower
-triangular), and then solving $L^T x=z$ using \obstextbf{backward
-substitution} (since $L^T$ is upper triangular).
+triangular), and then solving $L^T x=z$ using **backward substitution**
+(since $L^T$ is upper triangular).
 
 <span class="blue">**Remark**:</span>
 This method fails if the matrix $A$ is not symmetric and

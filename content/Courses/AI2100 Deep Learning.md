@@ -1,6 +1,3 @@
----
-
----
 # July 28, 2025 (Class 1)
 
 Course Logistics
@@ -150,6 +147,9 @@ $$
 
 ## Generative Adversarial Networks
 See [[Generative Adversarial Networks]].
+
+## Variational Autoencoders
+See [[Variational Autoencoders]]
 
 ### See also
 

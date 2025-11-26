@@ -1,6 +1,3 @@
----
-
----
 [[AI2100 Deep Learning]]  
 [[AI2200 Concentration Inequalities]]  
 [[AI3000 Reinforcement Learning]]  

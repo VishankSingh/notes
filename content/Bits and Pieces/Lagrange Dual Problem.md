@@ -1,6 +1,3 @@
----
-
----
 The optimization problem to maximize the [[Lagrange Dual Function]] $g$ over the set of dual variables $(\lambda, \nu)$
 $$
 \begin{aligned}

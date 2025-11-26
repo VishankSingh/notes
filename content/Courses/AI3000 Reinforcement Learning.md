@@ -1,6 +1,3 @@
----
-
----
 ### Stochastic Process
 A stochastic or random process, denoted by $\{s_t\}_{t\in T}$, can be defined as a collection of
 random variables that is indexed by some mathematical set $T$
@@ -269,6 +266,20 @@ $$
 <img src="s26.png"/>
 <img src="s27.png"/>
 <img src="s28.png"/>
+
+# Function approximation methods
+## Monte Carlo based value function fitting
+Use Monte Carlo to get rollouts
+
+Perform supervised regression
+
+$$
+\begin{aligned}
+    y_i &= \sum_{H}^{k=0} \left( \gamma^k r_{t+k+1} \mid s_t = s \right) \\
+    &(s_i, y_i) \\
+    L(\phi) &= \frac{1}{2} \sum_{N}^{i=1} \left( V_{\phi}^{\pi} (s_i) - y_i \right)^2
+\end{aligned}
+$$
 
 ### See also
 

@@ -1,6 +1,3 @@
----
-
----
 Let $x \sim p_x(x)$ be a random variable and $y = f(x)$ where $f$ is a deterministic function.
 
 ### Invertible transformations

@@ -1,6 +1,3 @@
----
-
----
 Let $X_1$ and $X_2$ be jointly continuous random variables with joint probability distribution density function
 $f_{X_1, X_2}$.
 

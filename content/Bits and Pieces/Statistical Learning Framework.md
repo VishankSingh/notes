@@ -1,6 +1,3 @@
----
-
----
 The statistical learning framework can be formulated as
 $$
 (\mathcal{X}, \mathcal{Y}, \mathcal{P}, \mathcal{H}, \mathcal{L})

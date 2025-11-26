@@ -1,6 +1,3 @@
----
-
----
 An optimization problem is a problem of form
 $$
 \begin{aligned}

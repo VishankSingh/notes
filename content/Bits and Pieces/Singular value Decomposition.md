@@ -1,6 +1,3 @@
----
-
----
 Singular value decomposition (SVD) is the generalization of the [[Eigen Decomposition]] to non-square matrices. Formally, for any matrix $A \in \mathbb{R}^{m \times n}$, the SVD is given by
 $$
 A = U \Sigma V^T

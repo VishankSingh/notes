@@ -1,6 +1,3 @@
----
-
----
 # July 31, 2025 (Class 1)
 
 Online learning is a sequential learning problem
@@ -8,16 +5,29 @@ Online learning is a sequential learning problem
 - No concept of training/test data. Data set is not given at the start at once.
 - Decisions on the go. No concept of training loss/accuracy.
 
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 1}\ \text{ Online Learning Framework }$$
+
+</div>
+
+<div class="alg-body">
+
 $$
-\begin{array}{l}
-\textbf{Algorithm 1:} \ \text{Online Learning Framework} \\
-\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
-\quad - \ \text{ALG selects action } a_t \in \mathcal{A} \\
-\quad - \ \text{Environment/adversary selects outcome } y_t \in \mathcal{Y} \ \text{and/or loss function } l_t \in \mathcal{L} \\
-\quad - \ \text{ALG incurs loss } l(a_t, y_t) \\
-\textbf{end for} \\
+\begin{array}{rl}
+1: & \textbf{for } \text{$t=1,2,\dots$} \textbf{ do} \\
+2: & \quad \text{ALG selects action $a_t \in \mathcal{A}$} \\
+3: & \quad \text{Environment/adversary selects outcome $y_t \in \mathcal{Y}$ and/or loss function $l_t \in \mathcal{L}$} \\
+4: & \quad \text{ALG incurs loss $l(a_t, y_t)$} \\
+5: & \textbf{end for} \\
 \end{array}
 $$
+
+</div>
+
+</div>
 
 ## Learning with Expert Advice
 $$
@@ -462,7 +472,7 @@ $$
 > $$
 > 2(f_t(x_t) - f_t(x^*)) \le 2\nabla_t^T(x_t - x^*) - \alpha \|x_t - x^*\|^2
 > $$
-> We will use the upper bound on the first term from [[AI4010 Online Learning#Regret guarantee on online gradient descent|previous]] proof. We have
+> We will use the upper bound on the first term from [[AI4010 Online Learning#regret-guarantee-on-online-gradient-descent|previous]] proof. We have
 > TODO: check and correct this.
 > $$
 > \begin{aligned}

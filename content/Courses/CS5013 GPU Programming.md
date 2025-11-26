@@ -1,6 +1,3 @@
----
-
----
 Matrix multiplication.
 Matrix transpose.
 Reductions.

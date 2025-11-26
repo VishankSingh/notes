@@ -1,6 +1,3 @@
----
-
----
 For a single dimension vector case
 $$
 \mathcal{N}(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left\{-\frac{(x - \mu)^2}{2 \sigma^2}\right\}

@@ -1,6 +1,3 @@
----
-
----
 The mixture of experts (MoE) is a machine learning technique that combines multiple models (experts) to improve performance on a task. Each expert specializes in different aspects of the data, and a gating mechanism decides which expert to use for a given input. This approach allows for more flexible and powerful models, especially in complex tasks where different data patterns may require different handling.
 It can be formulated as
 $$

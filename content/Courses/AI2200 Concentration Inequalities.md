@@ -1,6 +1,3 @@
----
-
----
 # July 29, 2025 (Class 1)
 
 ## Probability Space
@@ -127,7 +124,7 @@ $$
 
 ### Continuation of the bernoulli random variables example
 
-[[AI2200 Concentration Inequalities#An example|See: Original example]]. This is a continuation of that.
+[[AI2200 Concentration Inequalities#an-example|See: Original example]]. This is a continuation of that.
 $$
 \begin{aligned}
     \phi_{A_N}(t) = \mathbb{E}[e^{tA_N}] &= \mathbb{E}\left[e^{\frac{t}{N} \sum_{i=1}^{N} X_i }\right] \\

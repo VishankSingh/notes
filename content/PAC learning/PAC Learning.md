@@ -1,6 +1,3 @@
----
-
----
 A concept class $\mathcal{C}$ is said to be PAC learnable if there exists a learning algorithm
 $\mathcal{A}$ and a polynomial function $poly(1/\epsilon, 1/\delta, \ldots)$ such that for any
 $\epsilon>0$, $\delta>0$, any distributions $\mathcal{D}$ on $\mathcal{X}$ and

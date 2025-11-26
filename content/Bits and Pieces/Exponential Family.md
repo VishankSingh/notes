@@ -1,6 +1,3 @@
----
-
----
 Any distribution $p(x|\eta)$, $\eta \in \mathbb{R}^K$ with fixed support over $\mathcal{X} \subseteq\mathbb{R}^D$, is in the exponential family if its density can be written in the formulated
 $$
 p(x|\eta) \triangleq \dfrac{1}{Z(\eta)} h(x) \exp\left(\eta^T \mathcal{T}(x)\right) = h(x) \exp\left(\eta^T \mathcal{T}(x) - A(\eta)\right)

@@ -1,6 +1,3 @@
----
-
----
 ### Learning Bound for Finite Hypothesis Class — Consistent Case
 
 Let $\mathcal{H}$ be a finite hypothesis class mapping $\mathcal{X} \to \mathcal{Y}$, and let

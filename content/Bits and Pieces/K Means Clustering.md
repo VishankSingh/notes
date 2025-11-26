@@ -1,6 +1,3 @@
----
-
----
 The K-Means Clustering algorithm is a popular unsupervised learning method used to partition a set of data points into $k$ distinct clusters. The algorithm aims to minimize the within-cluster variance, which is the sum of squared distances between each point and the centroid of its assigned cluster.
 We have a data set $\{x_i\}_{i=1}^n$ consisting of $n$ data points in a $m$-dimensional space with distance metric $d$.
 The K-Means Clustering algorithm can be described as follows:
@@ -28,3 +25,8 @@ where $m_j$ is the mean of cluster $j$.
 To note, random Initialization is never used in practice, as it can lead to poor clustering results. Instead, methods like K-Means++ ([arthur2007kmeanspp](https://theory.stanford.edu/~sergei/papers/kMeansPP-soda.pdf)) are often used to select initial means that are more likely to lead to better clustering outcomes.
 
 ### See also
+
+## References
+
+- **arthur2007kmeanspp** — Arthur, David and Vassilvitskii, Sergei (2007). <em>k-means++: the advantages of careful seeding</em>.
+  https://theory.stanford.edu/~sergei/papers/kMeansPP-soda.pdf

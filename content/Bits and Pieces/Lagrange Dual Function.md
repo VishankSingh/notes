@@ -1,6 +1,3 @@
----
-
----
 Considering an [[Optimization Problem]] with assumptions $\mathcal{D} \notin \phi$, and optimal value $p^*$ exists.
 
 The *Lagrange dual function* (or *dual function*) $g: \mathbb{R}^m \times \mathbb{R}^p \to \mathbb{R}$, where $\lambda\in\mathbb{R}^m$ and $\nu\in\mathbb{R}^p$ as

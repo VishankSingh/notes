@@ -1,6 +1,3 @@
----
-
----
 According to the Markov property, a stochastic process $X_t$ is said to satisfy the Markov property with respect to a filtration $\mathcal{F}_t$ if the conditional distribution of $X_t$ given the past $\mathcal{F}_{t-1}$ depends only on the present state $X_{t-1}$. Formally, this can be expressed as:
 $$
 \mathbb{P}(X_t \in A | \mathcal{F}_{t-1}) = \mathbb{P}(X_t \in A | X_{t-1})

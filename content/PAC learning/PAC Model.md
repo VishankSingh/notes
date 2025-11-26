@@ -1,6 +1,3 @@
----
-
----
 The PAC model can be characterised by
 $$
 (\mathcal{X}, \mathcal{Y}, \mathcal{C}, \mathcal{D}, \mathcal{H}, S)
