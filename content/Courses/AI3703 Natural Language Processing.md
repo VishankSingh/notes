@@ -60,7 +60,7 @@ generative process, example corpus
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 1}\ \text{ Generative Process (Latent Dirichlet Distribution) }$$
+$$\textbf{Algorithm 2}\ \text{ Generative Process (Latent Dirichlet Distribution) }$$
 
 </div>
 
