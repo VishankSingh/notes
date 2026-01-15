@@ -45,7 +45,7 @@ $$
 \end{aligned}
 $$
 
-<span class="red">hello</span>  
+<span class="red">hello $\color{red}{fdsg}$</span>
 
 ```js title="Somethingtitle" showLineNumbers{23} {1-3,5} /fp/
 export function trimPathSuffix(fp: string): string {

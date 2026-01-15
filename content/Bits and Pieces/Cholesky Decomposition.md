@@ -3,7 +3,7 @@ title:
 draft:
 tags:
 ---
-<span class="blue">**Theorem** (*Cholesky decomposition*):</span>
+<span class="blue"><strong>Theorem</strong> (<em>Cholesky decomposition</em>):</span>
 Let $A_{n\times n}$ be a real, **symmetric**, and **positive definite**
 matrix. Then $A$ has a unique factorization
 $$

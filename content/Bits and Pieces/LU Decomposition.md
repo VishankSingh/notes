@@ -3,7 +3,7 @@ title:
 draft:
 tags:
 ---
-<span class="blue">**Theorem** (*LU decomposition*):</span>
+<span class="blue"><strong>Theorem</strong> (<em>LU decomposition</em>):</span>
 Let $A_{n\times n}$ be a square matrix. If all $k$ leading principal
 minors of $A$ are non-singular (for $k = 1, \dots, n-1$), then
 $A$ has a unique factorization

@@ -56,3 +56,12 @@
   
   p { margin: 0; }
 }
+
+
+
+html[saved-theme="dark"] img[src$=".svg"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+
+

@@ -5,3 +5,10 @@
 [[AI4010 Online Learning]]  
 [[CS5013 GPU Programming]]  
 [[MA5060 Numerical Analysis]]  
+
+[[AI2113 Optimization 2]]  
+[[AI3603 Computer Vision]]  
+[[AI3703 Natural Language Processing]]  
+[[CS4443 Software Engineering]]  
+[[EE2101 Control Systems]]  
+[[EM5023 Business Analytics using Python]]  

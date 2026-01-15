@@ -163,20 +163,33 @@ $$
 
 ## Exponential Weights Algorithm (action setting)
 
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 2}\ \text{ Exponential Weights Algorithm (action setting) }$$
+
+</div>
+
+<div class="alg-body">
+
 $$
-\begin{array}{l}
-\textbf{Algorithm} \ \text{Exponential Weights Algorithm (action setting)} \\
-\textbf{Input: } \text{N experts, learning rate } \eta > 0 \text{, a convex loss function } l \\
-\textbf{Initialize: } w_{i,1} = 1 \ \forall i \in [N] \\
-\textbf{for} \ t = 1, 2, \dots \ \textbf{do} \\
-\quad - \ \text{Input: } f_{i,t} \in \mathcal{D} \text{ (convex set)} \\
-\quad - \ \text{Algorithm takes action: } a_t = \dfrac{\sum_{i=1}^{N} w_{i,t-1} f_{i,t}}{\sum_{i=1}^{N} w_{i,t-1}} \\
-\quad - \ \text{Adversary selects: } y_t \in \mathcal{Y} \\
-\quad - \ \text{Algorithm incurs loss } l(a_t, y_t) \\
-\quad - \ \text{Update weights: } w_{i,t} \leftarrow w_{i,t-1} \cdot e^{-\eta l(f_{i,t}, y_t)} \\
-\textbf{end for} \\
+\begin{array}{rl}
+1: & \text{\textbf{Input:} $N$ experts, learning rate $\eta > 0$, convex loss function $l$} \\
+2: & \text{\textbf{Initialize:} $w_{i,1} = 1 \quad \forall i \in [N]$} \\
+3: & \textbf{for } \text{$t = 1, 2, \dots$} \textbf{ do} \\
+4: & \quad \text{\textbf{Input:} expert predictions $f_{i,t} \in \mathcal{D}$ (convex set)} \\
+5: & \quad \text{\textbf{Algorithm takes action:} $a_t = \frac{\sum_{i=1}^{N} w_{i,t-1} f_{i,t}}{\sum_{i=1}^{N} w_{i,t-1}}$} \\
+6: & \quad \text{\textbf{Adversary selects:} $y_t \in \mathcal{Y}$} \\
+7: & \quad \text{\textbf{Algorithm incurs loss:} $l(a_t, y_t)$} \\
+8: & \quad \text{\textbf{Update weights:} $w_{i,t} \gets w_{i,t-1} \cdot e^{-\eta \, l(f_{i,t}, y_t)}$} \\
+9: & \textbf{end for} \\
 \end{array}
 $$
+
+</div>
+
+</div>
 
 We define the best action in hindsight as
 $$
@@ -505,7 +518,7 @@ $$
 
 ### FTL-BTL lemma
 
-<span class="blue">**Lemma** (*FTL-BTL lemma[^1]*):</span>
+<span class="blue"><strong>Lemma</strong> (<em>FTL-BTL lemma[^1]</em>):</span>
 Let $x_1, x_2, \dots$ be the sequence of points chosen by FTL. Then,
 for any $u\in\mathcal{K}$ and for and stopping time $T$, we have
 $$
@@ -521,7 +534,7 @@ For linear loss
 
 ## Follow the regularized leader (FTRL)
 
-<span class="blue">**Remark**:</span>
+<span class="blue"><strong>Remark</strong>:</span>
 The regularizers considered are bounded,
 $\alpha$-strongly convex functions.
 
@@ -546,13 +559,13 @@ $$
 
 ## Some mathematical preliminaries
 
-<span class="blue">**Definition** (*Bregman divergence*):</span>
+<span class="blue"><strong>Definition</strong> (<em>Bregman divergence</em>):</span>
 We define the Bregman divergence, with respect to function $R$, as
 $$
 B_R(x \| y) = R(x) - R(Y) - \left\langle \nabla R(x), x - y \right\rangle
 $$
 
-<span class="blue">**Remark**:</span>
+<span class="blue"><strong>Remark</strong>:</span>
 For twice differentiable functions, the Bregman divergence is equal to the second derivative at an intermediate point.
 
 > [!note]- note
@@ -576,7 +589,7 @@ For twice differentiable functions, the Bregman divergence is equal to the secon
 > B_R(x \| y) + B_R(y \| z) = B_R(x \| z) + \left\langle x-y, \nabla R(z) - \nabla R(y) \right\rangle
 > $$
 
-<span class="blue">**Definition** (*Dual norm*):</span>
+<span class="blue"><strong>Definition</strong> (<em>Dual norm</em>):</span>
 Let $\|\cdot\|_*$ be a norm on the vector space $\mathcal{K} \subseteq \mathbb{R}^n$,
 then the function $\|\cdot\|^*$ defined as
 $$
@@ -584,14 +597,14 @@ $$
 $$
 is called a dual norm.
 
-<span class="blue">**Definition** (*Norm induced by a symmetric positive definite matrix*):</span>
+<span class="blue"><strong>Definition</strong> (<em>Norm induced by a symmetric positive definite matrix</em>):</span>
 Let $A \in S^n_{++}$[^2] be a matrix.
 We define the norm induced by $A$ as
 $$
 \|x\|_A = \sqrt{x^TAx}
 $$
 
-<span class="blue">**Lemma**:</span>
+<span class="blue"><strong>Lemma</strong>:</span>
 Let $\|x\|_A$ be a norm where $A \in S^n_{++}$. We have the dual norm
 $$
 \|x\|_A^* = \sqrt{x^TA^{-1}x}
@@ -617,7 +630,7 @@ $$
 \end{array}
 $$
 
-<span class="blue">**Lemma**:</span>
+<span class="blue"><strong>Lemma</strong>:</span>
 Let $x_1, x_2, \dots$ be a sequence of points chosen by FTRL, then for any
 $u \in \mathcal{K}$ and $t \ge 1$, we have
 $$
@@ -658,7 +671,7 @@ $$
 
 ### Equivalence of lazy OMD and FTRL
 
-<span class="blue">**Theorem** (*Equivalence of lazy OMD and FTRL*):</span>
+<span class="blue"><strong>Theorem</strong> (<em>Equivalence of lazy OMD and FTRL</em>):</span>
 Let $\mathcal{F}$ be the class of loss functions. Then the lazy OMD and FTRL
 algorithms play the same points,
 $$
@@ -670,14 +683,14 @@ $$
 
 ### Agile OMD
 
-<span class="blue">**Theorem**:</span>
+<span class="blue"><strong>Theorem</strong>:</span>
 Let $\mathcal{K}$ be a convex set and $x' = \Pi_{\mathcal{K}}B_R(x\|y)$ be a Bregman
 projection of some $y\in\mathbb{R}^n$ on $\mathcal{K}$ and $u\in\mathcal{K}$. Then
 $$
 B_R(y\|u) \ge B_R(y\|x) + B_R(x\|u)
 $$
 
-<span class="blue">**Theorem** (*Regret bound of Agile OMD*):</span>
+<span class="blue"><strong>Theorem</strong> (<em>Regret bound of Agile OMD</em>):</span>
 For $\forall u\in\mathcal{K}$, we have
 $$
 R_T(OMD) \leq \frac{\eta}{2} \sum_{t=1}^{T} \left(\|\nabla\|_t^*\right)^2 + \frac{D_R^2}{\eta}
@@ -723,67 +736,25 @@ $$
 \end{array}
 $$
 
-<span class="blue">**Lemma**:</span>
+<span class="blue"><strong>Lemma</strong>:</span>
 $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
 
 > [!note]- Proof
-> % We have
->     % $$
-> % \mathbb{E}[l_{i_t,t}] = \mathbb{E}\left[ \sum_{i=1}^n p_{i,t} l_{i,t} \right]
->     %
-> $$
->     % where $p_{i,t}$ is the probability of choosing arm $i$ at time $t$.
+> >     > >     > $$
+>     >
+>     >     > >     > $$
 >
->     % Recall that in the algorithm, with probability $\delta$ we explore (choose uniformly), and with probability $1-\delta$ we exploit (choose according to $x_t$). Thus,
->     % $$
-> % p_{i,t} = \delta \cdot \frac{1}{n} + (1-\delta) x_{i,t}
->     %
-> $$
+>     >     > >     >     >     >     >     > $$
 >
->     % The unbiased estimator for the loss is
->     % $$
-> % \hat{l}_{i,t} =
->     % \begin{cases}
->     % \frac{n}{\delta} l_{i,t} & \text{if } i = i_t \text{ and exploration} \\
->     % 0 & \text{otherwise}
->     % \end{cases}
->     %
-> $$
+>     >     > >     > $$
+>     >     > >     > $$
+>     >
+>     >     > >     > $$
 >
->     % So,
->     % $$
-> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = \mathbb{E}\left[ \sum_{i=1}^n x_{i,t} \hat{l}_{i,t} \right]
->     %
-> $$
->     % During exploration, the probability of picking arm $i$ is $\delta/n$, so
->     % $$
-> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = \sum_{i=1}^n x_{i,t} \cdot \frac{\delta}{n} \cdot \frac{n}{\delta} l_{i,t} = \sum_{i=1}^n x_{i,t} l_{i,t}
->     %
-> $$
->     % During exploitation, $\hat{l}_{i,t} = 0$, so the expectation is 0.
->
->     % Thus, overall,
->     % $$
-> % \mathbb{E}[\langle \hat{l}_t, x_t \rangle] = (1-\delta) \sum_{i=1}^n x_{i,t} l_{i,t}
->     %
-> $$
->
->     % Now,
->     % $$
-> % \mathbb{E}[l_{i_t,t}] = \sum_{i=1}^n p_{i,t} l_{i,t} = (1-\delta) \sum_{i=1}^n x_{i,t} l_{i,t} + \delta \sum_{i=1}^n \frac{1}{n} l_{i,t}
->     %
-> $$
->     % $$
-> % = \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta \sum_{i=1}^n \frac{1}{n} l_{i,t}
->     %
-> $$
->     % Since $l_{i,t} \in [0,1]$, the second term is at most $\delta$.
->
->     % Therefore,
->     % $$
-> % \mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta
->     %
-> $$
+>     >     > >     > $$
+>     > >     > $$
+>     >
+>     >     > >     > $$
 
 ### Regret upper bound of OGD-MAB
 We have,
@@ -829,7 +800,7 @@ p_{1,t} & p_{2,t} & \cdots &  p_{n,t}
 \end{array}
 $$
 
-<span class="blue">**Theorem**:</span>
+<span class="blue"><strong>Theorem</strong>:</span>
 For any $\gamma \in (0,1)$,
 any reward sequence $(r_t)_{t\geq 1}$ with $r_t \in [0,1]^n$, we have
 $$
@@ -883,14 +854,14 @@ $$
 > \mathbb{E}[R_T(EXP3-\gamma)] \le 2\sqrt{2Tn\log(n)}
 > $$
 >
-> <span class="blue">**Remark**:</span>
+> <span class="blue"><strong>Remark</strong>:</span>
 > Using a tighter bound of $e^x$ in the upper bounding gives a better constant.
 
 # October 6, 2025 (Class 15)
 
 ## Stochastic Multi Armed Bandits
 
-<span class="blue">**Lemma**:</span>
+<span class="blue"><strong>Lemma</strong>:</span>
 Let $N_{i,T}$ be the number if times the arm $i$
 has been pulled till time $T$ by an algorithm and let $\Delta_i = \mu_{i^*} - \mu_i$
 be the suboptimality gap. Then,

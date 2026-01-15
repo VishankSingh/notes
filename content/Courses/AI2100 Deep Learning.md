@@ -117,7 +117,32 @@ $$
 \end{aligned}
 $$
 
-<img src="AI2100_sgd_momentum.png"/>
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 1}\ \text{ Stochastic gradient descent (SGD) with momentum }$$
+
+</div>
+
+<div class="alg-body">
+
+$$
+\begin{array}{rl}
+& \textbf{Require: }\text{Learning rate $\epsilon$, momentum parameter $\alpha$.} \\
+& \textbf{Require: }\text{Initial parameter $\boldsymbol{\theta}$, initial velocity $\boldsymbol{v}$.} \\
+1: & \textbf{while }\text{stopping criterion not met}\textbf{ do} \\
+2: & \quad \text{Sample a minibatch of $m$ examples from the training set $\{\boldsymbol{x}^{(1)}, \dots, \boldsymbol{x}^{(m)}\}$ with corresponding targets $\boldsymbol{y}^{(i)}$.} \\
+3: & \quad \text{Compute gradient estimate: $\boldsymbol{g} \leftarrow \frac{1}{m} \nabla_{\boldsymbol{\theta}} \sum_i L(f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}), \boldsymbol{y}^{(i)})$} \\
+4: & \quad \text{Compute velocity update: $\boldsymbol{v} \leftarrow \alpha\boldsymbol{v} - \epsilon\boldsymbol{g}$} \\
+5: & \quad \text{Apply update: $\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \boldsymbol{v}$} \\
+6: & \textbf{end while} \\
+\end{array}
+$$
+
+</div>
+
+</div>
 
 ## Nesterov Momentum
 
@@ -135,15 +160,105 @@ $$
 
 # AdaGrad (Adaptive Gradient)
 
-<img src="AI2100_adagrad_algo.png"/>
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 2}\ \text{ The AdaGrad algorithm }$$
+
+</div>
+
+<div class="alg-body">
+
+$$
+\begin{array}{rl}
+1: & \text{\textbf{Require:} Global learning rate $\epsilon$} \\
+2: & \text{\textbf{Require:} Initial parameter $\boldsymbol{\theta}$} \\
+3: & \text{\textbf{Require:} Small constant $\delta$, perhaps $10^{-7}$, for numerical stability} \\
+4: & \text{Initialize gradient accumulation variable $\boldsymbol{r} = \mathbf{0}$} \\
+5: & \textbf{while }\text{stopping criterion not met}\textbf{ do} \\
+6: & \quad \text{Sample a minibatch of $m$ examples from the training set $\{\boldsymbol{x}^{(1)}, \dots, \boldsymbol{x}^{(m)}\}$ with corresponding targets $\boldsymbol{y}^{(i)}$.} \\
+7: & \quad \text{Compute gradient: $\boldsymbol{g} \leftarrow \frac{1}{m} \nabla_{\boldsymbol{\theta}} \sum_i L(f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}), \boldsymbol{y}^{(i)})$} \\
+8: & \quad \text{Accumulate squared gradient: $\boldsymbol{r} \leftarrow \boldsymbol{r} + \boldsymbol{g} \odot \boldsymbol{g}$} \\
+9: & \quad \text{Compute update: $\Delta \boldsymbol{\theta} \leftarrow -\frac{\epsilon}{\delta+\sqrt{\boldsymbol{r}}} \odot \boldsymbol{g}$. \quad (Division and square root applied element-wise)} \\
+10: & \quad \text{Apply update: $\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \Delta \boldsymbol{\theta}$} \\
+11: & \textbf{end while} \\
+\end{array}
+$$
+
+</div>
+
+</div>
 
 ## RMSProp
 
-<img src="AI2100_rmsprop_algo.png"/>
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 3}\ \text{ The RMSProp algorithm }$$
+
+</div>
+
+<div class="alg-body">
+
+$$
+\begin{array}{rl}
+& \textbf{Require: }\text{Global learning rate $\epsilon$, decay rate $\rho$.} \\
+& \textbf{Require: }\text{Initial parameter $\boldsymbol{\theta}$} \\
+& \textbf{Require: }\text{Small constant $\delta$, usually $10^{-6}$, used to stabilize division by small numbers.} \\
+1: & \text{Initialize accumulation variables $\boldsymbol{r} = 0$} \\
+2: & \textbf{while }\text{stopping criterion not met}\textbf{ do} \\
+3: & \quad \text{Sample a minibatch of $m$ examples from the training set $\{\boldsymbol{x}^{(1)}, \dots, \boldsymbol{x}^{(m)}\}$ with corresponding targets $\boldsymbol{y}^{(i)}$.} \\
+4: & \quad \text{Compute gradient: $\boldsymbol{g} \leftarrow \frac{1}{m} \nabla_{\boldsymbol{\theta}} \sum_i L(f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}), \boldsymbol{y}^{(i)})$} \\
+5: & \quad \text{Accumulate squared gradient: $\boldsymbol{r} \leftarrow \rho \boldsymbol{r} + (1 - \rho)\boldsymbol{g} \odot \boldsymbol{g}$} \\
+6: & \quad \text{Compute parameter update: $\Delta \boldsymbol{\theta} = - \frac{\epsilon}{\sqrt{\delta + \boldsymbol{r}}} \odot \boldsymbol{g}$. \quad ($\frac{1}{\sqrt{\delta + \boldsymbol{r}}}$ applied element-wise)} \\
+7: & \quad \text{Apply update: $\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \Delta \boldsymbol{\theta}$} \\
+8: & \textbf{end while} \\
+\end{array}
+$$
+
+</div>
+
+</div>
 
 ## Adam (Adaptive Moments)
 
-<img src="AI2100_adam_algo.png"/>
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 4}\ \text{ The Adam algorithm }$$
+
+</div>
+
+<div class="alg-body">
+
+$$
+\begin{array}{rl}
+& \textbf{Require: }\text{Step size $\epsilon$ (Suggested default: 0.001)} \\
+& \textbf{Require: }\text{Exponential decay rates for moment estimates, $\rho_1$ and $\rho_2$ in $[0, 1)$. (Suggested defaults: 0.9 and 0.999 respectively)} \\
+& \textbf{Require: }\text{Small constant $\delta$ used for numerical stabilization. (Suggested default: $10^{-8}$)} \\
+& \textbf{Require: }\text{Initial parameters $\boldsymbol{\theta}$} \\
+1: & \text{Initialize 1st and 2nd moment variables $\boldsymbol{s} = \mathbf{0}, \boldsymbol{r} = \mathbf{0}$} \\
+2: & \text{Initialize time step $t = 0$} \\
+3: & \textbf{while }\text{stopping criterion not met}\textbf{ do} \\
+4: & \quad \text{Sample a minibatch of $m$ examples from the training set $\{\boldsymbol{x}^{(1)}, \dots, \boldsymbol{x}^{(m)}\}$ with corresponding targets $\boldsymbol{y}^{(i)}$.} \\
+5: & \quad \text{Compute gradient: $\boldsymbol{g} \leftarrow \frac{1}{m} \nabla_{\boldsymbol{\theta}} \sum_i L(f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}), \boldsymbol{y}^{(i)})$} \\
+6: & \quad \text{$t \leftarrow t + 1$} \\
+7: & \quad \text{Update biased first moment estimate: $\boldsymbol{s} \leftarrow \rho_1 \boldsymbol{s} + (1 - \rho_1)\boldsymbol{g}$} \\
+8: & \quad \text{Update biased second moment estimate: $\boldsymbol{r} \leftarrow \rho_2 \boldsymbol{r} + (1 - \rho_2)\boldsymbol{g} \odot \boldsymbol{g}$} \\
+9: & \quad \text{Correct bias in first moment: $\hat{\boldsymbol{s}} \leftarrow \frac{\boldsymbol{s}}{1 - \rho_1^t}$} \\
+10: & \quad \text{Correct bias in second moment: $\hat{\boldsymbol{r}} \leftarrow \frac{\boldsymbol{r}}{1 - \rho_2^t}$} \\
+11: & \quad \text{Compute update: $\Delta \boldsymbol{\theta} = -\epsilon \frac{\hat{\boldsymbol{s}}}{\sqrt{\hat{\boldsymbol{r}}} + \delta}$ \quad (operations applied element-wise)} \\
+12: & \quad \text{Apply update: $\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \Delta \boldsymbol{\theta}$} \\
+13: & \textbf{end while} \\
+\end{array}
+$$
+
+</div>
+
+</div>
 
 ## Generative Adversarial Networks
 See [[Generative Adversarial Networks]].
