@@ -41,3 +41,35 @@ $$
 $$
 
 ### Region of Convergence (RoC)
+
+### Properties of Laplace Transform
+
+### Standard Laplace Transform Pairs
+
+$$
+\begin{array}{|c|c|c|c|}
+\hline
+\text{Function} & \text{Time Domain } f(t) & \text{Laplace Domain } F(s) & \text{ROC} \\
+\hline
+\text{Impulse} & \delta(t) & 1 & \text{All } s \\
+\hline
+\text{Step} & u(t) & \dfrac{1}{s} & \Re(s) > 0 \\
+\hline
+\text{Ramp} & tu(t) & \dfrac{1}{s^2} & \Re(s) > 0 \\
+\hline
+\text{Power} & t^n u(t) & \dfrac{n!}{s^{n+1}} & \Re(s) > 0 \\
+\hline
+\text{Exponential} & e^{-at}u(t) & \dfrac{1}{s+a} & \Re(s) > -a \\
+\hline
+\text{Sine} & \sin(\omega t)u(t) & \dfrac{\omega}{s^2 + \omega^2} & \Re(s) > 0 \\
+\hline
+\text{Cosine} & \cos(\omega t)u(t) & \dfrac{s}{s^2 + \omega^2} & \Re(s) > 0 \\
+\hline
+\end{array}
+$$
+
+# January 16, 2025 (Class 4)
+
+# January 19, 2025 (Class 5)
+
+# January 20, 2025 (Class 6)

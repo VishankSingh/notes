@@ -47,9 +47,6 @@ Statistical idea
 SVD
 Truncated SVD
 Term decoument matrix
-LDA  (Latent Dirichlet Allocation)
-
-# January 12, 2026 (Class 3)
 
 ## Latent Dirichlet Allocation (LDA)
 
@@ -60,7 +57,7 @@ generative process, example corpus
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 2}\ \text{ Generative Process (Latent Dirichlet Distribution) }$$
+$$\textbf{Algorithm 1}\ \text{ Generative Process (Latent Dirichlet Distribution) }$$
 
 </div>
 
@@ -85,21 +82,29 @@ $$
 
 </div>
 
+<span class="blue"><strong>Remark</strong>:</span>
+$\phi_k$ is the word topic distribution, and $\theta_m$ is the document topic distribution.
+
 <span class="blue"><strong>Definition</strong> (<em>Dirichlet Distribution</em>):</span>
 $$
 p(\theta\mid\alpha) = \dfrac{\Gamma(\sum_{i=1}^{k}\alpha_i)}{\prod_{i=1}^{k}\Gamma(\alpha_i)} \prod_{i=1}^{k} \theta_i^{\alpha_i - 1}
 $$
 
-Doc Topic Distribution
-Word Topic Distribution
-
-Dirichlet Distribution
+![[AI3703 Natural Language Processing_tikz_1.svg]]
 
 $$
-p(\beta, \theta, z, w) = \left(  \right)
+p(\beta, \theta, z, w) = \left( \prod_{i=1}^{K} p(\beta_i \mid \eta) \right) \left( \prod_{i=1}^{K} p(\theta_d \mid \alpha) \prod_{n=1}^{N} p(z_{d,n}\mid \theta_d) p(w_{d,n} \mid \beta_{1:K} , z_{d,n}) \right)
 $$
 
-Parameter estimation using Gibbs Sampling
+### Parameter estimation using Gibbs Sampling
+
+$$
+p(z\mid w,\alpha,\beta) = \dfrac{p(z,w\mid \alpha,\beta)}{\sum_{z} p(z,w\mid \alpha,\beta)}
+$$
+
+$$
+P(z_i = j | \mathbf{z}_{-i}, \mathbf{w}) \propto \frac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)} + W\beta} \frac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + T\alpha}
+$$
 
 Supervised Topic Models
 
@@ -134,3 +139,7 @@ p(w_o\mid w_1) = \dfrac{\exp(dot(v'_{w_o}, v_{w_l}))}{\sum_{w=1}^{W} \exp(dot(v'
 $$
 
 With negative sampling, the objective function becomes
+
+$$
+\log \sigma(v'_{w_0} \cdot v_{w_l}) + \sum_{i=1}^{K} \log \sigma(-v'_{w_i} \cdot v_{w_l})
+$$
