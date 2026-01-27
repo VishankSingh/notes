@@ -73,3 +73,28 @@ $$
 # January 19, 2025 (Class 5)
 
 # January 20, 2025 (Class 6)
+
+## Second Order System
+We have $G(s)$ as,
+$$
+G(s) = \dfrac{b}{s^2 + as + b}
+$$
+and
+$$
+\zeta \coloneqq \frac{a}{2\sqrt{b}} \quad w_n \coloneqq \sqrt{b}.
+$$
+
+From this
+$$
+G(s) = \frac{w_n^2}{s^2 + 2\zeta w_n s + w_n^2},
+$$
+with poles as
+$$
+\sigma_{1,2} = -\zeta w_n \pm w_n \sqrt{\zeta^2 - 1}.
+$$
+
+### Relation between $\zeta$ and the step response
+
+#### For $\zeta > 1$:
+
+Poles are real.

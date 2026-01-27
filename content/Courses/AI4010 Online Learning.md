@@ -740,21 +740,6 @@ $$
 $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
 
 > [!note]- Proof
-> >     > >     > $$
->     >
->     >     > >     > $$
->
->     >     > >     >     >     >     >     > $$
->
->     >     > >     > $$
->     >     > >     > $$
->     >
->     >     > >     > $$
->
->     >     > >     > $$
->     > >     > $$
->     >
->     >     > >     > $$
 
 ### Regret upper bound of OGD-MAB
 We have,
