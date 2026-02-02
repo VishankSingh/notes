@@ -9,7 +9,7 @@ Online learning is a sequential learning problem
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 1}\ \text{ Online Learning Framework }$$
+$$\textbf{Algorithm 2}\ \text{ Online Learning Framework }$$
 
 </div>
 
@@ -167,7 +167,7 @@ $$
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 2}\ \text{ Exponential Weights Algorithm (action setting) }$$
+$$\textbf{Algorithm 3}\ \text{ Exponential Weights Algorithm (action setting) }$$
 
 </div>
 

@@ -121,7 +121,7 @@ $$
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 2}\ \text{ Stochastic gradient descent (SGD) with momentum }$$
+$$\textbf{Algorithm 1}\ \text{ Stochastic gradient descent (SGD) with momentum }$$
 
 </div>
 
@@ -164,7 +164,7 @@ $$
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 3}\ \text{ The AdaGrad algorithm }$$
+$$\textbf{Algorithm 2}\ \text{ The AdaGrad algorithm }$$
 
 </div>
 
@@ -196,7 +196,7 @@ $$
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 4}\ \text{ The RMSProp algorithm }$$
+$$\textbf{Algorithm 3}\ \text{ The RMSProp algorithm }$$
 
 </div>
 
@@ -228,7 +228,7 @@ $$
 
 <div class="alg-header">
 
-$$\textbf{Algorithm 5}\ \text{ The Adam algorithm }$$
+$$\textbf{Algorithm 4}\ \text{ The Adam algorithm }$$
 
 </div>
 

@@ -388,5 +388,19 @@ The relationship between the primal and dual optimal values is governed by
 # Game Theoretic Interpretation of Duality
 
 # KKT Conditions
+Consider a standard optimization problem with strong duality and differentiable
+constraints. Let $x^*$ be the primal optima and $\lambda^*$ be the dual optima.
+
+<span class="blue"><strong>Definition</strong> (<em>KKT Conditions</em>):</span>
+The following statements constitute the KKT conditions,
+
+1. $f_i(x^*) \le 0$ \& $h_j(x^*) = 0$, $\forall i,j$ (Primal feasibility).
+2. $\mathbf{\lambda}_i^* \ge 0$, $\forall i$ (Dual feasibility).
+3. $\lambda_i^* f_i(x^*) = 0$, $\forall i$ (Complementary slackness).
+4. $\nabla_x L(x^*,\lambda) = 0$.
 
 # Mechanistic Interpretation of KKT Conditions
+
+![[AI2113 Optimization 2_tikz_0.svg]]
+
+# Multicriterion Optimization
