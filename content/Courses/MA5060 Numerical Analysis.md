@@ -21,6 +21,8 @@ If any of these conditions are not satisfied, the problem is considered ill-pose
 
 ## Lipschitz continuity
 
+##### <span style="color: white;">sec:lipschitz-continuity</span>
+
 <span class="blue"><strong>Definition</strong> (<em>Lipschitz continuity.</em>):</span>
 Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
 $$
@@ -133,6 +135,8 @@ Single step methods are categorized in two types:
 where $\phi$ is a continuous function of its arguments, and assumed to satisfy Lipschitz condition w.r.t. $y$, (also called as the increment function).
 
 ## Taylor's method
+
+##### <span style="color: white;">sec:taylor-method</span>
 
 $$
 y' = f(x,y), \quad y(x_o) = y_o, x \in [x_o, b]
@@ -298,7 +302,7 @@ $$
 y_{n+1} = y_n + h \phi(x_n, y_n; h), \quad n = 0, 1, \ldots, N-1,
 $$
 where $h = (b-a)/N$ is the uniform step size, $x_n = a+nh$ and $y_n$ is the approximation to $y(x_n)$.
-We assume $\phi$ is a continuous function of its arguments, and satisfies Lipschitz condition (see [[MA5060 Numerical Analysis#lipschitz-continuity|Lipschitz continuity]]) with respect to its second argument, with Lipschitz constant $L$.
+We assume $\phi$ is a continuous function of its arguments, and satisfies Lipschitz condition (see [[MA5060 Numerical Analysis#seclipschitz-continuity|Lipschitz continuity]]) with respect to its second argument, with Lipschitz constant $L$.
 
 Then we have
 $$
@@ -393,7 +397,7 @@ TODO: write the proof
 
 ## Euler method
 
-From the first order [[MA5060 Numerical Analysis#taylors-method|taylor's method]] method we can get the
+From the first order [[MA5060 Numerical Analysis#sectaylor-method|taylor's method]] method we can get the
 Euler method.
 $$
 y_{n+1} = y_n + h y'_n = y_n + h f(x_n, y_n)

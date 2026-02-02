@@ -412,6 +412,8 @@ $$
 $$
 
 ### Regret guarantee on online gradient descent
+
+##### <span style="color: white;">sec:regret-guarantee-on-online-gradient-descent</span>
 We have,
 $$
 R_T(OGD) \leq \dfrac{3}{2} DG \sqrt{T},
@@ -485,7 +487,7 @@ $$
 > $$
 > 2(f_t(x_t) - f_t(x^*)) \le 2\nabla_t^T(x_t - x^*) - \alpha \|x_t - x^*\|^2
 > $$
-> We will use the upper bound on the first term from [[AI4010 Online Learning#regret-guarantee-on-online-gradient-descent|previous]] proof. We have
+> We will use the upper bound on the first term from [[AI4010 Online Learning#secregret-guarantee-on-online-gradient-descent|previous]] proof. We have
 > TODO: check and correct this.
 > $$
 > \begin{aligned}

@@ -71,12 +71,23 @@ $$
 
 ### Huber Penalty
 
-## Moreau Envelope
+# Moreau Envelope
 
 <span class="blue"><strong>Definition</strong> (<em>Moreau Envelope</em>):</span>
 Given $f:\mathbb{R}^n \to \mathbb{R}$, we have the Moreau Envelope as
 $$
-f_u(\mathbf{x}) = \min_{\mathbf{y}\in\mathbb{R}^n} \left\{ f(\mathbf{y}) + \dfrac{1}{2u} \|\mathbf{x}-\mathbf{y}\|^2 \right\}.
+f_u(\mathbf{x}) = \inf_{\mathbf{y}\in\mathbb{R}^n} \left\{ f(\mathbf{y}) + \dfrac{1}{2u} \|\mathbf{x}-\mathbf{y}\|^2 \right\}.
+$$
+
+<span class="blue"><strong>Remark</strong>:</span>
+The above expression is essentially an infimal convolution of $uf:\mathbb{R}^n \to \mathbb{R}$
+and $g:\mathbb{R}^n \to \mathbb{R}$ where $g = (1/2)\|\cdot\|^2_2$.
+
+<span class="blue"><strong>Definition</strong> (<em>Proximal Operator</em>):</span>
+The proximal operator $prox_u(\mathbf{x}) : \mathbb{R}^n \to \mathbb{R}^n$ of $f$ with parameter
+$u$ is defined as,
+$$
+prox_u(\mathbf{x}) = \arg \min_{\mathbf{y}\in\mathbb{R}^n} \left\{ f(\mathbf{y}) + \dfrac{1}{2u} \|\mathbf{x}-\mathbf{y}\|^2 \right\}.
 $$
 
 ### Properties of Moreau Envelope
@@ -102,11 +113,7 @@ $x^*$ is a minima of $f$ if and only if $x^*$ is a minima of $f_u$.
 
 <span class="blue"><strong>Remark</strong>:</span>
 $$
-\nabla f_u(\mathbf{x}) = \frac{1}{u} (1 - prox_u(x)),
-$$
-where,
-$$
-prox_u(x) = \arg \min_{\mathbf{y}\in\mathbb{R}^n} \left\{ f(\mathbf{y}) + \dfrac{1}{2u} \|\mathbf{x}-\mathbf{y}\|^2 \right\}.
+\nabla f_u(\mathbf{x}) = \frac{1}{u} (1 - prox_u(x)).
 $$
 
 # Epigraphs
@@ -293,13 +300,93 @@ only if Fenchel's inequality holds with equality.
 
 ## Partial Minimization \& Relation To Conjugate
 
-Let $f : \mathbb{R}^n \times \mathbb{R}^k \to \mathbb{R} \cup \{+\infty\}$ be a function of two variables $(\mathbf{x}, \mathbf{y})$, where $\mathbf{x} \in \mathbb{R}^n$ and $\mathbf{y} \in \mathbb{R}^k$.
+Let $f : \mathbb{R}^n \times \mathbb{R}^k \to \mathbb{R} \cup \{+\infty\}$ be a
+function of two variables $(\mathbf{x}, \mathbf{y})$, where
+$\mathbf{x} \in \mathbb{R}^n$ and $\mathbf{y} \in \mathbb{R}^k$.
 
 <span class="blue"><strong>Definition</strong> (<em>Partial Minimization</em>):</span>
-The partial minimization of $f$ with respect to $\mathbf{x}$ is the function $h : \mathbb{R}^k \to \mathbb{R} \cup \{+\infty\}$ defined as:
+The partial minimization of $f$ with respect to $\mathbf{x}$ is the function
+$h : \mathbb{R}^k \to \mathbb{R} \cup \{+\infty\}$ defined as,
 $$
-h(\mathbf{y}) = \inf_{\mathbf{x} \in \mathbb{R}^n} f(\mathbf{x}, \mathbf{y})
+h(\mathbf{y}) = \inf_{\mathbf{x} \in \mathbb{R}^n} f(\mathbf{x}, \mathbf{y}).
 $$
 
 <span class="blue"><strong>Lemma</strong> (<em>Preservation of Convexity</em>):</span>
-If $f$ is jointly convex in $(\mathbf{x}, \mathbf{y})$, then $h(\mathbf{y})$ is a convex function.
+If $f$ is jointly convex in $(\mathbf{x}, \mathbf{y})$, then $h(\mathbf{y})$
+is a convex function.
+
+<span class="blue"><strong>Remark</strong>:</span>
+$$
+f^*(\mathbf{m}_1, \mathbf{m}_2) = \sup_{\mathbf{x}, \mathbf{y}} \left( \mathbf{m}_1^T \mathbf{x} + \mathbf{m}_2^T \mathbf{y} - f(\mathbf{x}, \mathbf{y}) \right)
+$$
+
+<span class="blue"><strong>Remark</strong>:</span>
+$h^*(\mathbf{m}) = f^*(0,\mathbf{m})$
+> [!note]- Proof
+> $$
+> \begin{aligned}
+>     h^*(\mathbf{m}) &= \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - h(\mathbf{y}) \right) \\
+>     &= \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - \min_{\mathbf{x}} f(\mathbf{x}, \mathbf{y}) \right) \\
+>     &= \sup_{\mathbf{y}} \sup_{\mathbf{x}} \left( \mathbf{m}^T \mathbf{y} - f(\mathbf{x}, \mathbf{y}) \right) = f^*(0, \mathbf{m})
+> \end{aligned}
+> $$
+
+<span class="blue"><strong>Remark</strong>:</span>
+$\sup \left[-f^*(0,\mathbf{m})\right] \le \inf f(\mathbf{x},0)$ i.e. $h^{**}(0) \le h(0)$
+
+### Perturbation Interpretation Of Duality
+
+For any problem  $p^* = \min_{\mathbf{x}} f(\mathbf{x})$, "the" dual is constructed by
+
+1. Introduce perturbations $\mathbf{y}$, and extend $f$ such that $f(\mathbf{x}, 0)$ returns the function to minimize
+2. the dual is $d^* = \sup \left[ -f^*(0, \mathbf{m}) \right]$
+
+where $\mathbf{m}$ is the dual variable and $\mathbf{x}$ is the primal variable.
+
+We have
+$$
+d^* \leq p^*,
+$$
+under convexity + mild conditions, we have strong duality, i.e. $d^* = p^*$.
+
+# Lagrangian Duality
+
+Given the optimization problem in standard form:
+$$
+p^* = \inf \{ f_0(x) \mid f_i(x) \le 0, \; i=1, \dots, m, \; x \in \mathcal{D} \}
+$$
+where $\mathcal{D} \subseteq \mathbb{R}^n$ is the intersection of the domains of all functions $f_i$.
+
+## The Lagrangian and Dual Function
+Define the **Lagrangian** $L: \mathbb{R}^n \times \mathbb{R}^m \to \mathbb{R}$
+for $\lambda \succeq 0$ as,
+$$
+L(x, \lambda) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x).
+$$
+The **Lagrange dual function** $g: \mathbb{R}^m \to \mathbb{R}$ is defined as the
+pointwise infimum of the Lagrangian over $x$,
+$$
+g(\lambda) = \inf_{x \in \mathcal{D}} L(x, \lambda).
+$$
+By the property of pointwise infima, $g$ is a concave function, and it provides a lower
+bound on the primal optimal value: $g(\lambda) \le p^*$ for all $\lambda \succeq 0$.
+
+## The Dual Problem
+The **Lagrange dual problem** seeks the tightest lower bound,
+$$
+\begin{aligned}
+    d^* = \sup_{\lambda} & \quad g(\lambda) \\
+    \text{s.t.} & \quad \lambda \succeq 0
+\end{aligned}
+$$
+The relationship between the primal and dual optimal values is governed by
+**Weak Duality** ($d^* \le p^*$). Under constraint qualifications
+(e.g., Slater's condition) and convexity, **Strong Duality** holds ($d^* = p^*$).
+
+# Shadow Price Interpretation of Duality
+
+# Game Theoretic Interpretation of Duality
+
+# KKT Conditions
+
+# Mechanistic Interpretation of KKT Conditions

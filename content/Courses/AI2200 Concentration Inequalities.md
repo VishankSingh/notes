@@ -70,6 +70,7 @@ $$
 Pr[|X - \mu| \geq \delta] \leq \frac{\mathbb{E}[|X - \mu|^{2k}]}{\delta^{2k}}.
 $$
 
+##### <span style="color: white;">sec:an-example</span>
 ### An example
 
 Let $X_1, X_2, \dots, X_N \sim$ i.i.d. random variables with $\mathbb{E}[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2$. We define $A_N$ as
@@ -124,7 +125,7 @@ $$
 
 ### Continuation of the bernoulli random variables example
 
-[[AI2200 Concentration Inequalities#an-example|See: Original example]]. This is a continuation of that.
+[[AI2200 Concentration Inequalities#secan-example|See: Original example]]. This is a continuation of that.
 $$
 \begin{aligned}
     \phi_{A_N}(t) = \mathbb{E}[e^{tA_N}] &= \mathbb{E}\left[e^{\frac{t}{N} \sum_{i=1}^{N} X_i }\right] \\

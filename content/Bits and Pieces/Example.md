@@ -59,6 +59,8 @@ export function trimPathSuffix(fp: string): string {
 
 ![[hmm.svg]]
 
+##### <span style="color: white;">test-para</span>
+
 <div class="alg-container">
 
 <div class="alg-header">
@@ -109,6 +111,8 @@ $$
 </div>
 
 </div>
+
+[[Example#test-para|test para link]]
 
 ### See also
 
