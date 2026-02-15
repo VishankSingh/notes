@@ -21,7 +21,7 @@ If any of these conditions are not satisfied, the problem is considered ill-pose
 
 ## Lipschitz continuity
 
-##### <span style="color: white;">sec:lipschitz-continuity</span>
+##### <span style="color: transparent;">sec:lipschitz-continuity</span>
 
 <span class="blue"><strong>Definition</strong> (<em>Lipschitz continuity.</em>):</span>
 Given metric spaces $(X, d_X)$ and $(Y, d_Y)$, a function $f: X \to Y$ is Lipschitz continuous if there exists a constant $L > 0$ such that
@@ -136,7 +136,7 @@ where $\phi$ is a continuous function of its arguments, and assumed to satisfy L
 
 ## Taylor's method
 
-##### <span style="color: white;">sec:taylor-method</span>
+##### <span style="color: transparent;">sec:taylor-method</span>
 
 $$
 y' = f(x,y), \quad y(x_o) = y_o, x \in [x_o, b]

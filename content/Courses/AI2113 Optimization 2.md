@@ -23,24 +23,6 @@ $$
 \min_{\mathbf{x}\in\mathbb{R}^n} \|\mathbf{A}\mathbf{x}-\mathbf{b}\|.
 $$
 
-<span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{\ell_1}$ norm</em>):</span>
-For $\mathbf{y} \in \mathbb{R}^m$, $\ell_1$ norm is defined as
-$$
-\left\| \mathbf{y} \right\|_1 = \sum_{i=1}^{m} |y_i|
-$$
-
-<span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{\ell_2}$ norm</em>):</span>
-For $\mathbf{y} \in \mathbb{R}^m$, $\ell_2$ norm is defined as
-$$
-\left\| \mathbf{y} \right\|_2 = \left( \sum_{i=1}^{m} y_i^2 \right)^{1/2}
-$$
-
-<span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{\ell_\infty}$ norm</em>):</span>
-For $\mathbf{y} \in \mathbb{R}^m$, $\ell_\infty$ norm is defined as
-$$
-\left\| \mathbf{y} \right\|_\infty = \max_{1 \le i \le m} |y_i|
-$$
-
 ## Penalty Functions
 
 ### Norm Based ($p = 1,2,\infty$)
@@ -71,6 +53,7 @@ $$
 
 ### Huber Penalty
 
+##### <span style="color: transparent;">sec-Moreau-Envelope</span>
 # Moreau Envelope
 
 <span class="blue"><strong>Definition</strong> (<em>Moreau Envelope</em>):</span>
@@ -113,7 +96,7 @@ $x^*$ is a minima of $f$ if and only if $x^*$ is a minima of $f_u$.
 
 <span class="blue"><strong>Remark</strong>:</span>
 $$
-\nabla f_u(\mathbf{x}) = \frac{1}{u} (1 - prox_u(x)).
+\nabla f_u(\mathbf{x}) = \frac{1}{u} (x - prox_u(x)).
 $$
 
 # Epigraphs
@@ -142,8 +125,7 @@ $$
 -f^*(0) = \min_{\mathbf{x}\in\mathbb{R}^n} f(\mathbf{x})
 $$
 
-<span class="blue"><strong>Remark</strong>:</span>
-{Fenchel Young inequality}
+<span class="blue"><strong>Theorem</strong> (<em>Fenchel Young inequality</em>):</span>
 $$
 f(\mathbf{x}) + f^*(\mathbf{m}) \ge \mathbf{m}^T \mathbf{x}
 $$
@@ -232,7 +214,8 @@ If $f$ is convex but not closed, $f^{**}$ is the lower semi-continuous closure o
 
 # Duality
 
-<span class="blue"><strong>Corollary</strong>:</span>
+##### <span style="color: transparent;">sec:Fenchel-Young-Corollary</span>
+<span class="blue"><strong>Corollary</strong> (<em>Fenchel-Young-Corollary</em>):</span>
 Let $f : \mathbb{R}^n \to \mathbb{R}$ be a convex and differentiable function. For any $\mathbf{x}, \mathbf{m} \in \mathbb{R}^n$, the following statements are equivalent:
 
 1. $\mathbf{m} = \nabla f(\mathbf{x})$
@@ -334,6 +317,9 @@ $h^*(\mathbf{m}) = f^*(0,\mathbf{m})$
 <span class="blue"><strong>Remark</strong>:</span>
 $\sup \left[-f^*(0,\mathbf{m})\right] \le \inf f(\mathbf{x},0)$ i.e. $h^{**}(0) \le h(0)$
 
+<span class="blue"><strong>Remark</strong>:</span>
+Partial minimization appears naturally when eliminating primal variables in dual constructions.
+
 ### Perturbation Interpretation Of Duality
 
 For any problem  $p^* = \min_{\mathbf{x}} f(\mathbf{x})$, "the" dual is constructed by
@@ -403,4 +389,133 @@ The following statements constitute the KKT conditions,
 
 ![[AI2113 Optimization 2_tikz_0.svg]]
 
+There's maybe no need for this.
+
+Yeah, there's no need for this.
+
 # Multicriterion Optimization
+
+Some shit. Write it.
+
+# Moreau Envelope (Continued)
+
+Continued from [[AI2113 Optimization 2#sec-moreau-envelope|here]].
+
+> [!note]- Example
+> $$
+> p^* = \min_{\mathbf{x}} \| \mathbf{A}\mathbf{x} - \mathbf{b} \|_2 \quad \quad g(x) = p^*
+> $$
+>
+> Reframe as:
+> $$
+> \begin{aligned}
+> \min_{\mathbf{x}, \mathbf{y}} & \quad \|\mathbf{y}\|_2 \\
+> \text{s.t.} & \quad \mathbf{A}\mathbf{x} - \mathbf{b} = \mathbf{y}
+> \end{aligned}
+> $$
+>
+> **Lagrangian:**
+> $$
+> L(\mathbf{x}, \mathbf{y}, \mathbf{v}) = \|\mathbf{y}\|_2 + \mathbf{v}^T (\mathbf{A}\mathbf{x} - \mathbf{b} - \mathbf{y})
+> $$
+>
+> **Dual Function:**
+> $$
+> \begin{aligned}
+> g(\mathbf{v}) &= \inf_{\mathbf{x}, \mathbf{y}} \left[ \|\mathbf{y}\|_2 + \mathbf{v}^T (\mathbf{A}\mathbf{x} - \mathbf{b} - \mathbf{y}) \right] \\
+> &= -\mathbf{v}^T \mathbf{b} + \left[ \inf_{\mathbf{x}, \mathbf{y}} \left( \underbrace{ \|\mathbf{y}\|_2 - \mathbf{v}^T \mathbf{y} }_{\substack{-\infty \text{ if } \|\mathbf{v}\|_2 > 1 \\ 0 \text{ otherwise}}} \right) + \left( \underbrace{ (\mathbf{A}^T \mathbf{v})^T \mathbf{x} }_{\substack{0 \text{ if } \mathbf{A}^T \mathbf{v} = 0 \\ -\infty \text{ otherwise}}} \right) \right]
+> \end{aligned}
+> $$
+>
+>
+> **Result:**
+> $$
+> g(\mathbf{v}) =
+> \begin{cases}
+> -\mathbf{v}^T \mathbf{b} & \text{if } \mathbf{A}^T \mathbf{v} = 0 \text{ \& } \|\mathbf{v}\|_2 \le 1 \\
+> -\infty & \text{otherwise}
+> \end{cases}
+> $$
+
+## Dual of Moreau envelope
+
+Let $f: \mathbb{R}^n \to \mathbb{R} \cup \{+\infty\}$ be a proper, closed, convex
+function. Recall the Moreau envelope $f_u(x)$ with parameter $u > 0$ is defined as the
+infimal convolution of $f$ and a quadratic kernel,
+$$
+f_u(x) = \inf_y \left\{ f(y) + \frac{1}{2u} \|x - y\|^2 \right\}.
+$$
+
+To derive its dual representation, we rewrite this as a constrained minimization problem
+by introducing an auxiliary variable $z$
+$$
+\begin{aligned}
+    \min_{y, z} \quad & f(y) + \frac{1}{2u} \|z\|^2 \\
+    \text{s.t.} \quad & x - y = z.
+\end{aligned}
+$$
+
+The dual function $g(v)$ is given by
+$$
+g(v) = \langle v, x \rangle - f^*(v) - \frac{u}{2} \|v\|^2,
+$$
+which leads to the identity
+$$
+f_u(x) = \left( f^* + \frac{u}{2} \|\cdot\|^2 \right)^*(x).
+$$
+
+> [!note]- Proof
+> We form the Lagrangian $L(y, z, v)$ with dual variable $v \in \mathbb{R}^n$,
+> $$
+> L(y, z, v) = f(y) + \frac{1}{2u} \|z\|^2 + \langle v, x - y - z \rangle.
+> $$
+>
+> The Lagrange dual function $g(v)$ is obtained by minimizing the Lagrangian with
+> respect to the primal variables $y$ and $z$,
+> $$
+> \begin{aligned}
+>     g(v) &= \inf_{y, z} L(y, z, v) \\
+>     &= \inf_{y, z} \left\{ f(y) + \frac{1}{2u} \|z\|^2 + \langle v, x \rangle - \langle v, y \rangle - \langle v, z \rangle \right\} \\
+>     &= \langle v, x \rangle + \inf_{y} \big\{ f(y) - \langle v, y \rangle \big\} + \inf_{z} \left\{ \frac{1}{2u} \|z\|^2 - \langle v, z \rangle \right\}.
+> \end{aligned}
+> $$
+>
+> We evaluate the infima term-wise:
+>
+> \textbf{1. Term involving $y$:}
+> Using the definition of the Fenchel conjugate,
+> $f^*(v) = \sup_y \{ \langle v, y \rangle - f(y) \}$, we have,
+> $$
+> \inf_y \{ f(y) - \langle v, y \rangle \} = - \sup_y \{ \langle v, y \rangle - f(y) \} = -f^*(v).
+> $$
+>
+> \textbf{2. Term involving $z$:}
+> This is the conjugate of the quadratic function
+> $h(z) = \frac{1}{2u}\|z\|^2$. Setting the gradient with respect to $z$ to zero,
+> $$
+> \nabla_z \left( \frac{1}{2u} \|z\|^2 - \langle v, z \rangle \right) = \frac{z}{u} - v = 0 \implies z = uv.
+> $$
+>
+> Substituting $z = uv$ back into the expression,
+> $$
+> \frac{1}{2u} \|uv\|^2 - \langle v, uv \rangle = \frac{u}{2} \|v\|^2 - u \|v\|^2 = -\frac{u}{2} \|v\|^2.
+> $$
+>
+> Combining these, the dual function
+> $$
+> g(v) = \langle v, x \rangle - f^*(v) - \frac{u}{2} \|v\|^2.
+> $$
+>
+> The dual problem consists of maximizing $g(v)$. Since $f$ is proper, closed, and convex, strong duality holds ($p^* = d^*$), and we can express the primal optimum as the supremum of the dual:
+> $$
+> \begin{aligned}
+>     f_u(x) &= \sup_v g(v) \\
+>     &= \sup_v \left\{ \langle v, x \rangle - \left( f^*(v) + \frac{u}{2} \|v\|^2 \right) \right\}.
+> \end{aligned}
+> $$
+> Recognizing the right-hand side as the Fenchel conjugate of the function $\phi(v) = f^*(v) + \frac{u}{2} \|v\|^2$ evaluated at $x$, we conclude:
+> $$
+> f_u(x) = \left( f^* + \frac{u}{2} \|\cdot\|^2 \right)^*(x).
+> $$
+
+## Moreau Decomposition

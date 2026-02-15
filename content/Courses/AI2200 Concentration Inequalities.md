@@ -70,7 +70,7 @@ $$
 Pr[|X - \mu| \geq \delta] \leq \frac{\mathbb{E}[|X - \mu|^{2k}]}{\delta^{2k}}.
 $$
 
-##### <span style="color: white;">sec:an-example</span>
+##### <span style="color: transparent;">sec:an-example</span>
 ### An example
 
 Let $X_1, X_2, \dots, X_N \sim$ i.i.d. random variables with $\mathbb{E}[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2$. We define $A_N$ as

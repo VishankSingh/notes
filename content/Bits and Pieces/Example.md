@@ -59,7 +59,7 @@ export function trimPathSuffix(fp: string): string {
 
 ![[hmm.svg]]
 
-##### <span style="color: white;">test-para</span>
+##### <span style="color: transparent;">test-para</span>
 
 <div class="alg-container">
 

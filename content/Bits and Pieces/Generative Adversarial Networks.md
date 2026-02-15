@@ -126,24 +126,36 @@ but the non-saturating version provides better gradients and is almost universal
 used in practice.
 
 ### Training algorithm of generator
+
+<div class="alg-container">
+
+<div class="alg-header">
+
+$$\textbf{Algorithm 1}\ \text{ Minibatch stochastic gradient descent training of Generative Adversarial Networks }$$
+
+</div>
+
+<div class="alg-body">
+
 $$
-\begin{array}{l}
-\textbf{Algorithm 1} \text{ Minibatch stochastic gradient descent training of generative adversarial nets.} \\
-\text{The number of steps to apply to the discriminator, } k, \text{ is a hyperparameter.} \\
-\\
-\textbf{for} \ \text{number of training iterations} \ \textbf{do} \\
-\quad \textbf{for} \ k \ \text{steps} \ \textbf{do} \\
-\quad \quad \text{- Sample minibatch } \{z_j\}_{j=1}^m \sim p_z \text{ (noise prior)}. \\
-\quad \quad \text{- Sample minibatch } \{x_j\}_{j=1}^m \sim p_{data}. \\
-\quad \quad \text{- Update the discriminator by ascending its stochastic gradient:} \\
-\quad \quad \quad \nabla_{\theta_d} \frac{1}{m} \sum_{i=1}^{m} \left[ \log D(x^{(i)}) + \log(1 - D(G(z^{(i)}))) \right] \\
-\quad \textbf{end for} \\
-\quad \text{- Sample minibatch of } m \text{ noise samples } \{z^{(1)}, \dots, z^{(m)}\} \text{ from noise prior } p_z(z). \\
-\quad \text{- Update the generator by descending its stochastic gradient:} \\
-\quad \quad (-1)\nabla_{\theta_g} \frac{1}{m} \sum_{i=1}^{m} \log(D(G(z^{(i)}))), \quad \text{using the alternative objective} \\
-\textbf{end for} \\
+\begin{array}{rl}
+1: & \text{\textbf{Input:} Discriminator steps $k$, minibatch size $m$} \\
+2: & \text{Initialize generator parameters $\theta_g$ and discriminator parameters $\theta_d$} \\
+3: & \textbf{for } \text{number of training iterations} \textbf{ do} \\
+4: & \quad \textbf{for } \text{$k$ steps} \textbf{ do} \\
+5: & \quad \quad \text{Sample minibatch $\{x^{(1)}, \dots, x^{(m)}\} \sim p_{\text{data}}(x)$} \\
+6: & \quad \quad \text{Sample minibatch $\{z^{(1)}, \dots, z^{(m)}\} \sim p_z(z)$} \\
+7: & \quad \quad \text{Update the discriminator by ascending its stochastic gradient: $\nabla_{\theta_d} \frac{1}{m} \sum_{i=1}^{m} \Big[\log D(x^{(i)}) + \log\big(1 - D(G(z^{(i)}))\big)\Big]$} \\
+8: & \quad \textbf{end for} \\
+9: & \quad \text{Sample minibatch $\{z^{(1)}, \dots, z^{(m)}\} \sim p_z(z)$} \\
+10: & \quad \text{Update the generator by descending its stochastic gradient (non-saturating loss):$\nabla_{\theta_g}\frac{1}{m}\sum_{i=1}^{m}\log D(G(z^{(i)}))$} \\
+11: & \textbf{end for} \\
 \end{array}
 $$
+
+</div>
+
+</div>
 
 ## References
 [Generative Adversarial Nets, Goodfellow et al. (2014)](https://arxiv.org/pdf/1406.2661)   
