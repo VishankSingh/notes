@@ -23,7 +23,76 @@ $$
 \min_{\mathbf{x}\in\mathbb{R}^n} \|\mathbf{A}\mathbf{x}-\mathbf{b}\|.
 $$
 
+Depending on the norm chosen, this results in different convex optimization problems
+with unique statistical interpretations and solution characteristics.
+
+### $\ell_1$ Norm Approximation (Sum of Absolute Residuals)
+
+$$
+\|Ax - b\|_1 = \sum_{i=1}^{m} |(Ax - b)_i|
+$$
+
+Also known as **Least Absolute Deviations (LAD)**.
+
+- **Robustness:** Unlike the $\ell_2$ norm, the $\ell_1$ norm places less weight on large residuals (outliers). It yields a robust estimator where the solution tends to minimize the median of the residuals rather than the mean.
+- **Sparsity:** In problems like Basis Pursuit (where we minimize $\|x\|_1$ subject to constraints), $\ell_1$ induces sparsity. Here, in residual minimization, it allows many residual entries to be exactly zero.
+
+#### Convex Formulation (Linear Program):
+The problem is non-differentiable at zero. We reformulate it as a Linear Program (LP) by introducing slack variables $t \in \mathbb{R}^m$:
+
+$$
+\begin{aligned}
+& \text{minimize} & & \mathbf{1}^T t \\
+& \text{subject to} & & -t \preceq Ax - b \preceq t
+\end{aligned}
+$$
+where $\preceq$ denotes component-wise inequality.
+
+### $\ell_2$ Norm Approximation (Least Squares)
+
+$$
+\|Ax - b\|_2 = \left( \sum_{i=1}^{m} (Ax - b)_i^2 \right)^{1/2}
+$$
+
+Minimizing the $\ell_2$ norm is equivalent to minimizing the squared Euclidean norm $\|Ax - b\|_2^2$. This is the standard **Least Squares** problem.
+
+- **Statistical Interpretation:** Corresponds to the Maximum Likelihood Estimator (MLE) under the assumption of Gaussian noise.
+- **Sensitivity:** Highly sensitive to outliers because errors are squared.
+
+#### Convex Formulation (Unconstrained Quadratic):
+This is a differentiable, unconstrained convex problem with a closed-form analytical solution (assuming $A$ is full rank):
+$$
+x^\star = (A^T A)^{-1} A^T b
+$$
+
+### $\ell_\infty$ Norm Approximation (Chebyshev)
+
+$$
+\|Ax - b\|_\infty = \max_{1 \le i \le m} |(Ax - b)_i|
+$$
+
+Also known as **Minimax** or **Chebyshev approximation**.
+
+- **Goal:** Minimizes the worst-case residual.
+- **Applications:** Critical in control design and engineering where ensuring that error never exceeds a safety threshold is more important than the average error.
+
+#### Convex Formulation (Linear Program):
+We introduce a scalar variable $t \in \mathbb{R}$ representing the maximum bound:
+
+$$
+\begin{aligned}
+& \text{minimize} & & t \\
+& \text{subject to} & & -t\mathbf{1} \preceq Ax - b \preceq t\mathbf{1}
+\end{aligned}
+$$
+
 ## Penalty Functions
+
+In many approximation problems, we minimize a sum of penalty functions applied to the residuals $r_i = (Ax - b)_i$. The problem takes the form:
+$$
+\min_{x} \sum_{i=1}^{m} \phi(r_i)
+$$
+where $\phi : \mathbb{R} \to \mathbb{R}$ is a convex penalty function.
 
 ### Norm Based ($p = 1,2,\infty$)
 

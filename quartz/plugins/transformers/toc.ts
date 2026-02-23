@@ -41,6 +41,18 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options>> = (userO
               visit(tree, "heading", (node) => {
                 if (node.depth <= opts.maxDepth) {
                   const text = toString(node)
+                  // +++++
+                  // if (text.includes("ell_1")) {
+                  //   console.log(node);11
+                  // }
+                  // const text = node.children
+                  //   .map((child: any) => {
+                  //     if (child.type === "inlineMath") {
+                  //       return `$${child.value}$`
+                  //     }
+                  //     return toString(child)
+                  //   })
+                  //   .join("")
                   highestDepth = Math.min(highestDepth, node.depth)
                   toc.push({
                     depth: node.depth,
