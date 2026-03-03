@@ -89,18 +89,29 @@ to robustly identify boundaries:
 
 # Blob Detection
 
-In computer vision, a \textbf{blob} is defined as a contiguous region of pixels exhibiting spatial coherence in properties such as intensity, color, or texture, distinct from the surrounding background. Blob detection algorithms aim to localize these distinct structures, which often correspond to objects or object parts in a scene.
+In computer vision, a \textbf{blob} is defined as a contiguous region of pixels exhibiting
+spatial coherence in properties such as intensity, color, or texture, distinct from the
+surrounding background. Blob detection algorithms aim to localize these distinct
+structures, which often correspond to objects or object parts in a scene.
 
 ## The Laplacian Operator
-To detect regions bounded by rapid intensity transitions, we analyze the second spatial derivative of the image. The isotropic 2D analog of the second derivative is the \textbf{Laplacian operator}.
+To detect regions bounded by rapid intensity transitions, we analyze the second spatial
+derivative of the image. The isotropic 2D analog of the second derivative is the
+\textbf{Laplacian operator}.
 
-For a continuous 2D image intensity function $f(x, y)$, the Laplacian, $\nabla^2 f$, is defined as the trace of the Hessian matrix (the sum of the unmixed second-order partial derivatives):
+For a continuous 2D image intensity function $f(x, y)$, the Laplacian, $\nabla^2 f$, is
+defined as the trace of the Hessian matrix (the sum of the unmixed second-order partial
+derivatives):
 $$ \nabla^2 f = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} $$
 
 ## Laplacian of Gaussian (LoG)
-Because second-derivative operators severely amplify high-frequency spatial noise, direct application to raw images is ill-posed. The signal must first be regularized via convolution with a Gaussian low-pass filter, $G_\sigma(x, y)$.
+Because second-derivative operators severely amplify high-frequency spatial noise, direct
+application to raw images is ill-posed. The signal must first be regularized via
+convolution with a Gaussian low-pass filter, $G_\sigma(x, y)$.
 
-By the associative property of convolution, we can pre-compute the \textbf{Laplacian of Gaussian (LoG)} filter and convolve it directly with the image: $\nabla^2 (f * G_\sigma) = f * \nabla^2 G_\sigma$.
+By the associative property of convolution, we can pre-compute the \textbf{Laplacian of
+Gaussian (LoG)} filter and convolve it directly with the image:
+$\nabla^2 (f * G_\sigma) = f * \nabla^2 G_\sigma$.
 
 Defining the 2D Gaussian with variance $\sigma^2$:
 $$ G_\sigma(x,y) = \frac{1}{2\pi\sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}} $$
@@ -108,33 +119,64 @@ $$ G_\sigma(x,y) = \frac{1}{2\pi\sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}} $$
 Applying the Laplacian operator analytically yields the LoG filter:
 $$ \nabla^2 G_\sigma(x, y) = \frac{x^2 + y^2 - 2\sigma^2}{\sigma^4} G_\sigma(x, y) $$
 
-The 3D morphology of the LoG operator resembles an inverted "Mexican hat." It is characterized by a prominent central peak surrounded by an isotropic negative annulus that asymptotically approaches zero.
+The 3D morphology of the LoG operator resembles an inverted "Mexican hat." It is
+characterized by a prominent central peak surrounded by an isotropic negative annulus that
+asymptotically approaches zero.
 
 ## Discrete Approximation of the LoG
-For digital images, the continuous Laplacian is approximated using finite differences. The second-order partial derivatives are modeled in 1D as:
-\begin{align*}
-    \frac{\partial^2 f}{\partial x^2} &\approx f(x+1, y) - 2f(x, y) + f(x-1, y) \\
-    \frac{\partial^2 f}{\partial y^2} &\approx f(x, y+1) - 2f(x, y) + f(x, y-1)
-\end{align*}
+For digital images, the continuous Laplacian is approximated using finite differences.
+The second-order partial derivatives are modeled in 1D as:
+$$
+\begin{aligned}
+  \frac{\partial^2 f}{\partial x^2} &\approx f(x+1, y) - 2f(x, y) + f(x-1, y) \\
+  \frac{\partial^2 f}{\partial y^2} &\approx f(x, y+1) - 2f(x, y) + f(x, y-1)
+\end{aligned}
+$$
 
 These linear operations correspond to convolution with the following 1D spatial kernels:
 
-- \textbf{x-kernel:} $\begin{bmatrix} 1 & -2 & 1 \end{bmatrix}$
-- \textbf{y-kernel:} $\begin{bmatrix} 1 \\ -2 \\ 1 \end{bmatrix}$
+- **x-kernel:** $\begin{bmatrix} 1 & -2 & 1 \end{bmatrix}$
+- **y-kernel:** $\begin{bmatrix} 1 \\ -2 \\ 1 \end{bmatrix}$
 
-Superimposing these orthogonal kernels yields the standard 4-connected discrete Laplacian approximation:
+Superimposing these orthogonal kernels yields the standard 4-connected discrete Laplacian
+approximation:
 $$
 \begin{bmatrix} 0 & 0 & 0 \\ 1 & -2 & 1 \\ 0 & 0 & 0 \end{bmatrix} + \begin{bmatrix} 0 & 1 & 0 \\ 0 & -2 & 0 \\ 0 & 1 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & -4 & 1 \\ 0 & 1 & 0 \end{bmatrix}
 $$
 
 ## Blob Detection Strategy
 
-Detecting blobs via the LoG operator relies on finding the spatial extrema of the filter response:
+Detecting blobs via the LoG operator relies on finding the spatial extrema of the filter
+response:
 
-- \textbf{Convolution \& Extrema:} The image is convolved with the LoG kernel. The spatial coordinates $(x,y)$ of local extrema in the response correspond to blob centers.
-- \textbf{Template Matching:} The LoG kernel inherently acts as a matched filter. It yields a maximal response when its central region aligns with a blob of corresponding scale (radius $r \approx \sqrt{2}\sigma$) and contrasting background.
-- \textbf{Polarity Independence:} Dark blobs on bright backgrounds produce strong positive extrema, while bright blobs on dark backgrounds yield strong negative extrema. Both designate valid blob detections.
+- **Convolution \& Extrema:** The image is convolved with the LoG kernel.
+    The spatial coordinates $(x,y)$ of local extrema in the response correspond to blob
+    centers.
+- **Template Matching:** The LoG kernel inherently acts as a matched
+    filter. It yields a maximal response when its central region aligns with a blob of
+    corresponding scale (radius $r \approx \sqrt{2}\sigma$) and contrasting background.
+- **Polarity Independence:** Dark blobs on bright backgrounds produce
+    strong positive extrema, while bright blobs on dark backgrounds yield strong negative
+    extrema. Both designate valid blob detections.
 
 # Corner Detection
 
 ## Harris Corner Detector
+
+[[Harris Corner Detector]]
+
+## Multi-Scale Detection
+
+# Image Descriptors
+
+## MOPS (Multi Scale Oriented Patches)
+
+## SIFT (Scale Invariant Feature Transform)
+
+## GIST
+
+## HoG (Histograms of Oriented Gradients)
+
+## SURF (Speeded Up Robust Features)
+
+# Feature Matching

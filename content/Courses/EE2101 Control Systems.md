@@ -107,7 +107,7 @@ $$
 \omega_d \coloneqq \omega_n\sqrt{1-\zeta^2}
 $$
 $$
-y(t) = u(t) - e^{-\zeta \omega_n t} \cos(\omega_d t) u(t) - \frac{\zeta}{\sqrt{1-\zeta^2}} e^{-\zeta \omega_n t} \sin(\omega_d t) u(t)
+y(t) = \left(1 - e^{-\zeta \omega_n t} \cos(\omega_d t) - \frac{\zeta}{\sqrt{1-\zeta^2}} e^{-\zeta \omega_n t} \sin(\omega_d t) \right) u(t)
 $$
 
 <span class="blue"><strong>Definition</strong> (<em>Rise time, $\color{#338cc7}{T_r}$</em>):</span>
@@ -122,11 +122,11 @@ $$
 T_p = \frac{\pi}{\omega_n \sqrt{1-\zeta^2}}
 $$
 
-<span class="blue"><strong>Definition</strong> (<em>Percent overshoot, $\color{#338cc7}{\% OS}$</em>):</span>
+<span class="blue"><strong>Definition</strong> (<em>Max overshoot, $\color{#338cc7}{OS}$</em>):</span>
 The amount that the waveform overshoots the steady-state, or ﬁnal, value at the peak time,
-expressed as a percentage of the steady-state value.
+expressed as a ratio of the steady-state value.
 $$
-\% OS = \exp\left( -\zeta\pi / \sqrt{1-\zeta^2} \right) \times 100
+OS = \exp\left( -\zeta\pi / \sqrt{1-\zeta^2} \right)
 $$
 
 <span class="blue"><strong>Definition</strong> (<em>Settling time, $\color{#338cc7}{T_s}$</em>):</span>
@@ -135,3 +135,79 @@ stay within $\pm 2\%$ of the steady-state value.
 $$
 T_s = \frac{-\ln \left(0.02 \sqrt{1-\zeta^2}\right)}{\zeta\omega_n} \approx \frac{4}{\zeta\omega_n}
 $$
+
+# Second Order System With Additional Pole
+
+# Feedback Loop
+
+<span class="blue"><strong>Definition</strong> (<em>Feedback Loop Transfer Function</em>):</span>
+$$
+T(s) \coloneqq \frac{Y(s)}{R(s)} = \frac{G(s)}{1+G(s)H(S)}
+$$
+
+# Unity Feedback Steady State Error
+
+![[EE2101 Control Systems_tikz_1.svg]]
+
+Consider a unity feedback system with forward transfer function $G(s)$.
+The closed-loop structure is
+$$
+Y(s) = G(s)E(s), \qquad E(s) = R(s) - Y(s).
+$$
+
+<span class="blue"><strong>Definition</strong> (<em>Steady State Error</em>):</span>
+Suppose the closed-loop system is asymptotically stable and the limits exist.
+The steady-state error is defined as
+$$
+e_{ss} := \lim_{t \to \infty} e(t).
+$$
+If $e(t)$ admits a Laplace transform $E(s)$ and the Final Value Theorem applies, then
+$$
+e_{ss} = \lim_{s \to 0} sE(s).
+$$
+
+<span class="blue"><strong>Theorem</strong> (<em>Steady-State Error for Unity Feedback</em>):</span>
+For a unity feedback system with forward transfer function $G(s)$,
+if the closed-loop system is asymptotically stable and the Final Value Theorem applies, then
+$$
+e_{ss} = \lim_{s \to 0} \frac{sR(s)}{1+G(s)}.
+$$
+
+> [!note]- Proof
+> From the unity feedback structure,
+> $$
+> E(s) = R(s) - Y(s).
+> $$
+> Since $Y(s) = G(s)E(s)$, we substitute to obtain
+> $$
+> E(s) = R(s) - G(s)E(s).
+> $$
+> Rearranging,
+> $$
+> E(s)(1 + G(s)) = R(s).
+> $$
+> Hence,
+> $$
+> E(s) = \frac{R(s)}{1 + G(s)}.
+> $$
+>
+> Assume:
+>
+> 1. The closed-loop system is asymptotically stable.
+> 2. $sE(s)$ has no poles in the closed right half-plane except possibly at $s=0$.
+>
+> Then the Final Value Theorem applies, and
+> $$
+> e_{ss} = \lim_{t \to \infty} e(t) = \lim_{s \to 0} sE(s).
+> $$
+>
+> Substituting the expression for $E(s)$,
+> $$
+> e_{ss} = \lim_{s \to 0} s \frac{R(s)}{1 + G(s)}.
+> $$
+>
+> This proves the result.
+
+\begin{hiddennote}
+fdsf
+\end{hiddennote}
