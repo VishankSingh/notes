@@ -9,6 +9,21 @@ import { i18n } from "../i18n"
 import OverflowListFactory from "./OverflowList"
 import { concatenateResources } from "../util/resources"
 
+// +++++
+import katex from "katex"
+
+// +++++
+function renderMathInString(str: string) {
+  return str.replace(/__MATH_START__(.*?)__MATH_END__/g, (match, math) => {
+    try {
+      // Server-side render the math to HTML
+      return katex.renderToString(math, { throwOnError: false })
+    } catch (e) {
+      return math
+    }
+  })
+}
+
 interface Options {
   layout: "modern" | "legacy"
 }
@@ -61,9 +76,15 @@ export default ((opts?: Partial<Options>) => {
         >
           {fileData.toc.map((tocEntry) => (
             <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-              <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+              {/* <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
                 {tocEntry.text}
-              </a>
+              </a> */}
+              {/* Updated anchor tag below  +++++ */}
+              <a 
+                href={`#${tocEntry.slug}`} 
+                data-for={tocEntry.slug}
+                dangerouslySetInnerHTML={{ __html: renderMathInString(tocEntry.text) }}
+              ></a>
             </li>
           ))}
         </OverflowList>
@@ -86,9 +107,15 @@ export default ((opts?: Partial<Options>) => {
         <ul>
           {fileData.toc.map((tocEntry) => (
             <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-              <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+              {/* <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
                 {tocEntry.text}
-              </a>
+              </a> */}
+              {/* Updated anchor tag below  +++++ */}
+              <a 
+                href={`#${tocEntry.slug}`} 
+                data-for={tocEntry.slug}
+                dangerouslySetInnerHTML={{ __html: renderMathInString(tocEntry.text) }}
+              ></a>
             </li>
           ))}
         </ul>

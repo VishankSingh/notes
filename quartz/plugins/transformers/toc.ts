@@ -24,6 +24,21 @@ interface TocEntry {
   slug: string // this is just the anchor (#some-slug), not the canonical slug
 }
 
+// +++++
+function extractTextWithMath(node: any): string {
+  // Wrap math in unique delimiters to avoid conflicts with literal '$' text
+  if (node.type === "inlineMath" || node.type === "math") {
+    return `__MATH_START__${node.value}__MATH_END__`
+  }
+  if ("children" in node) {
+    return node.children.map(extractTextWithMath).join("")
+  }
+  if ("value" in node) {
+    return node.value
+  }
+  return ""
+}
+
 const slugAnchor = new Slugger()
 export const TableOfContents: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => {
   const opts = { ...defaultOptions, ...userOpts }
@@ -40,24 +55,35 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options>> = (userO
               let highestDepth: number = opts.maxDepth
               visit(tree, "heading", (node) => {
                 if (node.depth <= opts.maxDepth) {
-                  const text = toString(node)
+                  // const text = toString(node)
+                  // // +++++
+                  // // if (text.includes("ell_1")) {
+                  // //   console.log(node);11
+                  // // }
+                  // // const text = node.children
+                  // //   .map((child: any) => {
+                  // //     if (child.type === "inlineMath") {
+                  // //       return `$${child.value}$`
+                  // //     }
+                  // //     return toString(child)
+                  // //   })
+                  // //   .join("")
+                  // highestDepth = Math.min(highestDepth, node.depth)
+                  // toc.push({
+                  //   depth: node.depth,
+                  //   text,
+                  //   slug: slugAnchor.slug(text),
+                  // })
+
                   // +++++
-                  // if (text.includes("ell_1")) {
-                  //   console.log(node);11
-                  // }
-                  // const text = node.children
-                  //   .map((child: any) => {
-                  //     if (child.type === "inlineMath") {
-                  //       return `$${child.value}$`
-                  //     }
-                  //     return toString(child)
-                  //   })
-                  //   .join("")
+                  const plainText = toString(node)
+                  const displayText = extractTextWithMath(node) // Our new function
                   highestDepth = Math.min(highestDepth, node.depth)
+
                   toc.push({
                     depth: node.depth,
-                    text,
-                    slug: slugAnchor.slug(text),
+                    text: displayText,
+                    slug: slugAnchor.slug(plainText), // Keep slugs clean!
                   })
                 }
               })

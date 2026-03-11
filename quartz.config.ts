@@ -84,7 +84,7 @@ const config: QuartzConfig = {
           "\\mat": "\\mathbf{#1}",
           "\\E": "\\mathbb{E}",
           "\\R": "\\mathbb{R}",
-          "\\Tr": "\\text{Tr}",
+          "\\Tr": "\\operatorname{Tr}",
           "\\norm": "\\left\\lVert #1 \\right\\rVert"
         } 
       }),
