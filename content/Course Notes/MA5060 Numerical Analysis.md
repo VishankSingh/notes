@@ -158,7 +158,8 @@ $$
 \dfrac{(x-x_o)^{p+1}}{(p+1)!} y^{(p+1)}(\xi), \quad \xi \in (x_o, x)
 $$
 
-> [!note]- Derivation of remainder term
+> [!note]- Proof
+> [Derivation of remainder term]
 > To get the specific form of the remainder term, we can use the integral form of the remainder in Taylor's theorem:
 > $$
 > \begin{aligned}
@@ -175,7 +176,8 @@ $$
 \mathcal{E}_n = \dfrac{h^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n)
 $$
 
-> [!note]- Derivation of truncation error
+> [!note]- Proof
+> [Derivation of truncation error]
 > At $x = x_{n+1}$,
 > $$
 > y(x_{n+1}) = y(x_n) + (x_{n+1} - x_n) y'(x_n) + \ldots + \dfrac{(x_{n+1} - x_n)^p}{p!} y^{(p)}(x_n) + \dfrac{(x_{n+1} - x_n)^{p+1}}{(p+1)!} y^{(p+1)}(\xi_n).
@@ -312,7 +314,9 @@ where $T = \underset{0 \leq n \leq N-1}{\max} |T_n|$ and $T_n$ are the local tru
 
 This result establishes that if the local truncation error $T_n$ is small, the global error will also be small, with its growth controlled exponentially by the Lipschitz constant L and the width of the integration interval.
 
-> [!note]- Proof of the bound on global error
+> [!note]- Proof
+> [Proof of the bound on global error]
+>
 > We have,
 > $$
 > \begin{aligned}
@@ -577,6 +581,7 @@ where $L \in [0,1)$, is the Lipschitz constant of the contraction mapping $g$.
 TODO: write this
 
 > [!note]- Proof
+> [Proof]
 > TODO: write this
 
 # September 3, 2025 (Class 16)
@@ -638,6 +643,7 @@ $$
 $$
 
 > [!note]- Proof
+> [Proof]
 > The iteration converges locally to $\xi$ if the iteration function
 > $g(x) = x - \lambda f(x)$ is a contraction mapping in a neighborhood of $\xi$.
 > A sufficient condition for this is that $g$ is continuously differentiable and
@@ -703,7 +709,8 @@ $$
 $$
 
 > [!note]- Proof
-> TODO
+> [Proof]
+>     TODO
 
 # October 8, 2025 (Class \_)
 

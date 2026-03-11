@@ -208,6 +208,9 @@ $$
 >
 > This proves the result.
 
-\begin{hiddennote}
-fdsf
-\end{hiddennote}
+### Unity Feedback Steady State Error for Step Input
+### Unity Feedback Steady State Error for Ramp Input
+### Unity Feedback Steady State Error for Parabola Input
+
+## Non Unity Feedback Steady State Error
+## Steady State Error with Disturbance

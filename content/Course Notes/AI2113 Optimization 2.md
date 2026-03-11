@@ -375,6 +375,7 @@ $$
 <span class="blue"><strong>Remark</strong>:</span>
 $h^*(\mathbf{m}) = f^*(0,\mathbf{m})$
 > [!note]- Proof
+> [Proof]
 > $$
 > \begin{aligned}
 >     h^*(\mathbf{m}) &= \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - h(\mathbf{y}) \right) \\
@@ -470,7 +471,7 @@ Some shit. Write it.
 
 Continued from [[AI2113 Optimization 2#sec-moreau-envelope|here]].
 
-> [!note]- Example
+> [!example]- Example
 > $$
 > p^* = \min_{\mathbf{x}} \| \mathbf{A}\mathbf{x} - \mathbf{b} \|_2 \quad \quad g(x) = p^*
 > $$
@@ -588,3 +589,109 @@ $$
 > $$
 
 ## Moreau Decomposition
+
+# Proximal Algorithms
+
+## Fixed Point
+
+# Tutorial 1: Projection on $\ell_1$ ball
+
+# Statistical Interpretation of Norm Approximation
+
+# Analysis of Least Squares
+
+## Problem Setup and Definitions
+
+Let us define a dataset comprising a fixed design matrix $\mathbf{A} \in \R^{n \times d}$ (where $n > d$) representing the feature vectors, and a random response vector $\mathbf{y} \in \R^n$. We assume the labels are generated according to a linear ground-truth model:
+$$
+\mathbf{y} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}
+$$
+
+where $\mathbf{x}^* \in \R^d$ is the true, unknown parameter vector, and $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is the observation noise vector. The goal is to learn an estimator $\hat{\mathbf{x}}$ that closely approximates $\mathbf{y} \approx \mathbf{A}\hat{\mathbf{x}}$.
+
+<span class="blue"><strong>Definition</strong> (<em>Risk and Excess Risk</em>):</span>
+Let $\tilde{\mathbf{y}} = \mathbf{A}\mathbf{x}^* + \tilde{\bm{\epsilon}}$ be an independent test sample drawn from the identical data-generating process, where $\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is independent of $\bm{\epsilon}$. The **Risk** of an estimator $\hat{\mathbf{x}}$ is defined as:
+$$
+\mathcal{R}(\hat{\mathbf{x}}) = \frac{1}{n} \E_{\bm{\epsilon}, \tilde{\bm{\epsilon}}} \norm{\tilde{\mathbf{y}} - \mathbf{A}\hat{\mathbf{x}}}^2
+$$
+The **Excess Risk** isolates the error attributable to the estimation of $\mathbf{x}^*$ by removing the irreducible noise $\sigma^2$:
+$$
+\mathcal{E}(\hat{\mathbf{x}}) = \frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\mathbf{x}^* - \hat{\mathbf{x}})}^2
+$$
+
+<span class="blue"><strong>Lemma</strong> (<em>Bias-Variance Decomposition</em>):</span>
+The excess risk of any estimator $\hat{\mathbf{x}}$ can be additively decomposed into an approximation error (Bias term) and a prediction error (Variance term):
+$$
+\mathcal{E}(\hat{\mathbf{x}}) = \underbrace{\frac{1}{n} \norm{\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}])}^2}_{\text{Bias}} + \underbrace{\frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\hat{\mathbf{x}} - \E[\hat{\mathbf{x}}])}^2}_{\text{Variance}}
+$$
+> [!note]- Proof
+> By adding and subtracting $\E[\hat{\mathbf{x}}]$, we have $\mathbf{A}(\mathbf{x}^* - \hat{\mathbf{x}}) = \mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]) + \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})$. Taking the expected squared norm, the cross-term $\frac{2}{n} \E [(\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]))^\top \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})]$ vanishes because $\E[\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}}] = \mathbf{0}$. The remaining terms form the bias and variance components.
+
+## Analysis of Ordinary Least Squares (OLS)
+
+<span class="blue"><strong>Theorem</strong> (<em>Risk of OLS</em>):</span>
+The Ordinary Least Squares estimator, defined as $\hat{\mathbf{x}}_{\text{OLS}} = \arg\min_{\mathbf{x}} \norm{\mathbf{y} - \mathbf{A}\mathbf{x}}^2$, is an unbiased estimator with an excess risk of exactly $\frac{\sigma^2 d}{n}$.
+> [!note]- Proof
+> The closed-form solution is $\hat{\mathbf{x}}_{\text{OLS}} = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{y}$.
+> Taking the expectation:
+> $$
+> \E[\hat{\mathbf{x}}_{\text{OLS}}] = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \E[\mathbf{A}\mathbf{x}^* + \bm{\epsilon}] = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{A}\mathbf{x}^* = \mathbf{x}^*
+> $$
+> Since the estimator is unbiased, the excess risk is entirely variance. As derived in standard regression analysis, the variance evaluates to $\frac{\sigma^2 d}{n}$.
+
+## Analysis of Ridge Regression
+
+To mitigate the variance term characteristic of OLS, particularly in settings where $d$ is large relative to $n$, we introduce $\ell_2$ regularization.
+
+<span class="blue"><strong>Definition</strong> (<em>Ridge Estimator</em>):</span>
+For a regularization parameter $\lambda > 0$, the Ridge estimator is:
+$$
+\hat{\mathbf{x}}_{\text{ridge}} = \arg\min_{\mathbf{x}} \left[ \frac{1}{n} \norm{\mathbf{y} - \mathbf{A}\mathbf{x}}^2 + \lambda \norm{\mathbf{x}}^2 \right] = \frac{1}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{A}^\top \mathbf{y}
+$$
+where $\mathbf{\Sigma} = \frac{1}{n}\mathbf{A}^\top \mathbf{A}$ is the empirical covariance matrix.
+
+By substituting $\mathbf{y} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, the expected Ridge estimator is $\E[\hat{\mathbf{x}}_{\text{ridge}}] = (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} \mathbf{x}^*$, demonstrating that Ridge regression introduces bias.
+
+<span class="blue"><strong>Lemma</strong> (<em>Ridge Bias Bound</em>):</span>
+The bias term for the Ridge estimator is bounded by $\frac{\lambda}{4} \norm{\mathbf{x}^*}^2$.
+> [!note]- Proof
+> Let $\Delta\mathbf{x} = \mathbf{x}^* - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \left(\mathbf{I} - (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{\Sigma}\right)\mathbf{x}^* = \lambda(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{x}^*$.
+> The bias is:
+> $$
+> \text{Bias} = \frac{1}{n} \norm{\mathbf{A}\Delta\mathbf{x}}^2 = (\Delta\mathbf{x})^\top \mathbf{\Sigma} (\Delta\mathbf{x}) = \lambda^2 (\mathbf{x}^*)^\top (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{x}^*
+> $$
+> Because $\mathbf{\Sigma}$ and $(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}$ commute, we rewrite this as $(\mathbf{x}^*)^\top \left[ \lambda^2 \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right] \mathbf{x}^*$.
+> Let $\mathbf{\Sigma} = \mathbf{V}\mathbf{D}\mathbf{V}^\top$ be the eigendecomposition with eigenvalues $\mu_i \ge 0$. The eigenvalues of the bracketed matrix are $f(\mu_i) = \frac{\lambda^2 \mu_i}{(\mu_i + \lambda)^2}$. Using the identity $(\mu_i + \lambda)^2 = (\mu_i - \lambda)^2 + 4\mu_i\lambda \ge 4\mu_i\lambda$, we have $f(\mu_i) \le \frac{\lambda^2 \mu_i}{4\mu_i\lambda} = \frac{\lambda}{4}$.
+> By the Rayleigh quotient, the quadratic form is bounded by the maximum eigenvalue times $\norm{\mathbf{x}^*}^2$:
+> $$
+> \text{Bias} \le \frac{\lambda}{4} \norm{\mathbf{x}^*}^2
+> $$
+
+<span class="blue"><strong>Lemma</strong> (<em>Ridge Variance Bound</em>):</span>
+The variance term for the Ridge estimator is bounded by $\frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n\lambda}$.
+> [!note]- Proof
+> The deviation is $\hat{\mathbf{x}}_{\text{ridge}} - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \frac{1}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{A}^\top \bm{\epsilon}$.
+> The variance is $\E \left[ \norm{\mathbf{C}\bm{\epsilon}}^2 \right]$ where $\mathbf{C} = \frac{1}{n\sqrt{n}}\mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top$. For any fixed matrix $\mathbf{C}$ and $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$, $\E\norm{\mathbf{C}\bm{\epsilon}}^2 = \sigma^2 \Tr(\mathbf{C}^\top \mathbf{C})$.
+> Evaluating the trace:
+> $$
+> \text{Variance} &= \sigma^2 \Tr\left( \frac{1}{n^3} \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \right) \\
+>     &= \frac{\sigma^2}{n} \Tr\left( \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) = \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right)
+> $$
+> The trace is the sum of eigenvalues $\sum_i \frac{\mu_i^2}{(\mu_i + \lambda)^2}$. Since $\frac{\mu_i}{(\mu_i + \lambda)^2} \le \frac{1}{4\lambda}$ as shown previously:
+> $$
+> \sum_i \mu_i \left( \frac{\mu_i}{(\mu_i + \lambda)^2} \right) \le \sum_i \mu_i \left( \frac{1}{4\lambda} \right) = \frac{\Tr(\mathbf{\Sigma})}{4\lambda}
+> $$
+> Thus, $\text{Variance} \le \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n\lambda}$.
+
+<span class="blue"><strong>Theorem</strong> (<em>Excess Risk of Ridge Regression</em>):</span>
+By selecting the optimal regularization parameter $\lambda = \frac{\sigma\sqrt{\Tr(\mathbf{\Sigma})}}{\norm{\mathbf{x}^*}\sqrt{n}}$, the excess risk of the Ridge estimator is bounded by $\mathcal{O}\left(\frac{1}{\sqrt{n}}\right)$.
+> [!note]- Proof
+> Combining the lemmas, the upper bound on the excess risk is:
+> $$
+> \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\norm{\mathbf{x}^*}^2}{4}\lambda + \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n} \frac{1}{\lambda}
+> $$
+> This bound is of the form $f(\lambda) = a\lambda + \frac{b}{\lambda}$. By the AM-GM inequality ($a\lambda + \frac{b}{\lambda} \ge 2\sqrt{ab}$), the minimum is achieved at $\lambda = \sqrt{b/a}$.
+> Substituting $a = \frac{\norm{\mathbf{x}^*}^2}{4}$ and $b = \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n}$, we find the optimal $\lambda$. The corresponding minimal risk bound is $2\sqrt{ab}$, which evaluates to:
+> $$
+> \min_{\lambda > 0} \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\sigma \norm{\mathbf{x}^*} \sqrt{\Tr(\mathbf{\Sigma})}}{2\sqrt{n}}
+> $$

@@ -213,6 +213,8 @@ R_T(\text{exp wts}) \leq (b-a)\sqrt{\dfrac{T}{2}\ln(N)}
 $$
 
 > [!note]- Proof
+> [Proof]
+>
 > **Preliminaries:**
 >
 > We assume that the loss function $l$ is convex and bounded in $[a,b]$.
@@ -294,6 +296,7 @@ R_T(\text{exp wts}) \leq \dfrac{\log(N)}{\eta}
 $$
 
 > [!note]- Proof
+> [Proof]
 > We define,
 > $$
 > \begin{aligned}
@@ -427,6 +430,7 @@ $$
 $$
 
 > [!note]- Proof
+> [Proof]
 > We define
 > $$
 > \nabla_t := \nabla f_t(x)
@@ -483,6 +487,7 @@ R_T(OGD) \leq \dfrac{G^2}{2\alpha} (1+\log(T))
 $$
 
 > [!note]- Proof
+> [Proof]
 > From $\alpha$-strong convexity property we have
 > $$
 > 2(f_t(x_t) - f_t(x^*)) \le 2\nabla_t^T(x_t - x^*) - \alpha \|x_t - x^*\|^2
@@ -528,7 +533,8 @@ $$
 $$
 
 > [!note]- Proof
-> TODO: using induction
+> [Proof]
+>     TODO: using induction
 
 TODO:
 Follow the Regularized Leader
@@ -570,7 +576,8 @@ $$
 <span class="blue"><strong>Remark</strong>:</span>
 For twice differentiable functions, the Bregman divergence is equal to the second derivative at an intermediate point.
 
-> [!note]- note
+> [!note]- Proof
+> [note]
 > For $R(x) = \dfrac{1}{2}\|x\|_{L_2}^2$, we have
 > $$
 > B_R(x \| y) = \dfrac{1}{2}\|x-y\|^2.
@@ -580,7 +587,9 @@ For twice differentiable functions, the Bregman divergence is equal to the secon
 > B_R(x \| y) = D_{KL}(x \| y)
 > $$
 
-> [!note]- Properties of Bregman divergence
+> [!note]- Proof
+> [Properties of Bregman divergence]
+>
 > - It is strictly convex in the first argument
 > - Non-negative $B_R(x \| y) \geq 0$. The proof follows from Taylors theorem.
 > - Asymmetric i.e. $B_R(x \| y) \neq B_R(y \| x)$.
@@ -613,6 +622,7 @@ $$
 $$
 
 > [!note]- Proof
+> [Proof]
 
 # September 11, 2025 (Class 11)
 ## FTRL for general loss functions
@@ -639,7 +649,7 @@ $$
 \sum_{s=1}^{t} f_s(x_{s+1}) - \sum_{s=1}^{t}f_s(u) \leq \dfrac{R(u) - R(x_1)}{\eta}
 $$
 
-> [!note]-
+> [!note]- Proof
 
 ### Regret upper bound of FTRL
 We have the regret upper bound as
@@ -648,7 +658,8 @@ R_T(FTRL) \leq \eta \sum_{t=1}^{T} \left(\|\nabla_t\|^*_t\right)^2 + \dfrac{R(u)
 $$
 
 > [!note]- Proof
-> TODO
+> [Proof]
+>     TODO
 
 # September 15, 2025 (Class 12)
 
@@ -681,7 +692,8 @@ $$
 $$
 
 > [!note]- Proof
-> TODO
+> [Proof]
+>     TODO
 
 ### Agile OMD
 
@@ -742,6 +754,7 @@ $$
 $\mathbb{E}[l_{i_t,t}] \leq \mathbb{E}[\langle \hat{l}_t, x_t \rangle] + \delta$
 
 > [!note]- Proof
+> [Proof]
 
 ### Regret upper bound of OGD-MAB
 We have,
@@ -751,6 +764,7 @@ $$
 where we chose $\delta = n^{2/3} T^{-1/3}$
 
 > [!note]- Proof
+> [Proof]
 > $$
 > \begin{aligned}
 >     \mathbb{E}[R_T(OGD-MAB)] &= \mathbb{E} \left[ \sum_{t=1}^{T} l_{i_t,t} - \sum_{t=1}^{T} l_{i^*,t} \right] \\
@@ -799,6 +813,7 @@ $$
 $$
 
 > [!note]- Proof
+> [Proof]
 > Let $W_t = \sum_{i=1}^{n}w_{i,t}$.   
 > Upper bounding $\log(W_{T+1}/W_1)$,
 > $$
@@ -857,6 +872,7 @@ R_T(ALG) = \sum_{i=1}^{N} \Delta_i \mathbb{E}[N_{i.T}]
 $$
 
 > [!note]- Proof
+> [Proof]
 > $$
 > N_{i,T} = \sum_{t=1}^{T} \mathbb{I}(i_t = i)
 > $$
@@ -982,7 +998,8 @@ $$
 R_T^{(I.I.)}(UCB1) = \mathcal{O}\left(\sqrt{NT\log T}\right)
 $$
 
-> [!note]- Proof of UCB1 instance independent regret bound
+> [!note]- Proof
+> [Proof of UCB1 instance independent regret bound]
 > $$
 > \begin{aligned}
 >     event\; E &:= \left\{ \left| \hat{\mu}_{i,t} - \mu_{i,t} \le \sqrt{\dfrac{2\log T}{N_{i,t-1}}} = \varepsilon_{i,t} \;\;\;\;\forall i, \forall t \le T \right| \right\} \\
@@ -1059,7 +1076,8 @@ $$
 Pr \left( \frac{1}{T} \sum_{t=1}^{T} X_t \ge \varepsilon \right) \le \delta \quad \forall T \ge T_0.
 $$
 
-> [!note]- Proof of Chernoff bounding technique
+> [!note]- Proof
+> [Proof of Chernoff bounding technique]
 > $$
 > \begin{aligned}
 >     Pr \left( \frac{1}{T} \sum_{t=1}^{T} X_t \ge \varepsilon \right) &= Pr  \left( \sum_{t=1}^{T} X_t \ge T \varepsilon \right) \\
@@ -1136,7 +1154,8 @@ Pr\left( \bigcup_{t=1}^{\infty} \left| \hat{\mu}_{i,t} - \mu_i \right| \ge \sqrt
 $$
 
 > [!note]- Proof
-> TODO: write proof
+> [Proof]
+>     TODO: write proof
 
 We also define
 $$

@@ -9,7 +9,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Notes",
+    pageTitle: "🌌 Notes",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -82,6 +82,10 @@ const config: QuartzConfig = {
         customMacros: {
           "\\vct": "\\mathbf{#1}",
           "\\mat": "\\mathbf{#1}",
+          "\\E": "\\mathbb{E}",
+          "\\R": "\\mathbb{R}",
+          "\\Tr": "\\text{Tr}",
+          "\\norm": "\\left\\lVert #1 \\right\\rVert"
         } 
       }),
     ],
