@@ -77,13 +77,13 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options>> = (userO
 
                   // +++++
                   const plainText = toString(node)
-                  const displayText = extractTextWithMath(node) // Our new function
+                  const displayText = extractTextWithMath(node)
                   highestDepth = Math.min(highestDepth, node.depth)
 
                   toc.push({
                     depth: node.depth,
                     text: displayText,
-                    slug: slugAnchor.slug(plainText), // Keep slugs clean!
+                    slug: slugAnchor.slug(plainText),
                   })
                 }
               })

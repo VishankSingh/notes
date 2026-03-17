@@ -576,7 +576,9 @@ $$
 > g(v) = \langle v, x \rangle - f^*(v) - \frac{u}{2} \|v\|^2.
 > $$
 >
-> The dual problem consists of maximizing $g(v)$. Since $f$ is proper, closed, and convex, strong duality holds ($p^* = d^*$), and we can express the primal optimum as the supremum of the dual:
+> The dual problem consists of maximizing $g(v)$. Since $f$ is proper, closed, and convex,
+> strong duality holds ($p^* = d^*$), and we can express the primal optimum as the supremum
+> of the dual:
 > $$
 > \begin{aligned}
 >     f_u(x) &= \sup_v g(v) \\
@@ -602,46 +604,67 @@ $$
 
 ## Problem Setup and Definitions
 
-Let us define a dataset comprising a fixed design matrix $\mathbf{A} \in \R^{n \times d}$ (where $n > d$) representing the feature vectors, and a random response vector $\mathbf{y} \in \R^n$. We assume the labels are generated according to a linear ground-truth model:
+Let us define a dataset comprising a fixed design matrix $\mathbf{A} \in \R^{n \times d}$
+(where $n > d$) representing the feature vectors, and a random response vector
+$\mathbf{y} \in \R^n$. We assume the labels are generated according to a linear
+ground-truth model:
 $$
 \mathbf{y} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}
 $$
 
-where $\mathbf{x}^* \in \R^d$ is the true, unknown parameter vector, and $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is the observation noise vector. The goal is to learn an estimator $\hat{\mathbf{x}}$ that closely approximates $\mathbf{y} \approx \mathbf{A}\hat{\mathbf{x}}$.
+where $\mathbf{x}^* \in \R^d$ is the true, unknown parameter vector, and
+$\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is the observation noise
+vector. The goal is to learn an estimator $\hat{\mathbf{x}}$ that closely approximates
+$\mathbf{y} \approx \mathbf{A}\hat{\mathbf{x}}$.
 
 <span class="blue"><strong>Definition</strong> (<em>Risk and Excess Risk</em>):</span>
-Let $\tilde{\mathbf{y}} = \mathbf{A}\mathbf{x}^* + \tilde{\bm{\epsilon}}$ be an independent test sample drawn from the identical data-generating process, where $\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is independent of $\bm{\epsilon}$. The **Risk** of an estimator $\hat{\mathbf{x}}$ is defined as:
+Let $\tilde{\mathbf{y}} = \mathbf{A}\mathbf{x}^* + \tilde{\bm{\epsilon}}$ be an independent test
+sample drawn from the identical data-generating process, where
+$\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$ is independent of
+$\bm{\epsilon}$. The **Risk** of an estimator $\hat{\mathbf{x}}$ is defined as:
 $$
 \mathcal{R}(\hat{\mathbf{x}}) = \frac{1}{n} \E_{\bm{\epsilon}, \tilde{\bm{\epsilon}}} \norm{\tilde{\mathbf{y}} - \mathbf{A}\hat{\mathbf{x}}}^2
 $$
-The **Excess Risk** isolates the error attributable to the estimation of $\mathbf{x}^*$ by removing the irreducible noise $\sigma^2$:
+The **Excess Risk** isolates the error attributable to the estimation of
+$\mathbf{x}^*$ by removing the irreducible noise $\sigma^2$:
 $$
 \mathcal{E}(\hat{\mathbf{x}}) = \frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\mathbf{x}^* - \hat{\mathbf{x}})}^2
 $$
 
 <span class="blue"><strong>Lemma</strong> (<em>Bias-Variance Decomposition</em>):</span>
-The excess risk of any estimator $\hat{\mathbf{x}}$ can be additively decomposed into an approximation error (Bias term) and a prediction error (Variance term):
+The excess risk of any estimator $\hat{\mathbf{x}}$ can be additively decomposed into an
+approximation error (Bias term) and a prediction error (Variance term):
 $$
-\mathcal{E}(\hat{\mathbf{x}}) = \underbrace{\frac{1}{n} \norm{\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}])}^2}_{\text{Bias}} + \underbrace{\frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\hat{\mathbf{x}} - \E[\hat{\mathbf{x}}])}^2}_{\text{Variance}}
+\mathcal{E}(\hat{\mathbf{x}}) = \underbrace{\frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}])}^2}_{\text{Bias}} + \underbrace{\frac{1}{n} \E_{\bm{\epsilon}} \norm{\mathbf{A}(\hat{\mathbf{x}} - \E[\hat{\mathbf{x}}])}^2}_{\text{Variance}}
 $$
 > [!note]- Proof
-> By adding and subtracting $\E[\hat{\mathbf{x}}]$, we have $\mathbf{A}(\mathbf{x}^* - \hat{\mathbf{x}}) = \mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]) + \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})$. Taking the expected squared norm, the cross-term $\frac{2}{n} \E [(\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]))^\top \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})]$ vanishes because $\E[\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}}] = \mathbf{0}$. The remaining terms form the bias and variance components.
+> By adding and subtracting $\E[\hat{\mathbf{x}}]$, we have
+> $\mathbf{A}(\mathbf{x}^* - \hat{\mathbf{x}}) = \mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]) + \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})$.
+> Taking the expected squared norm, the cross-term
+> $\frac{2}{n} \E [(\mathbf{A}(\mathbf{x}^* - \E[\hat{\mathbf{x}}]))^\top \mathbf{A}(\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}})]$
+> vanishes because $\E[\E[\hat{\mathbf{x}}] - \hat{\mathbf{x}}] = \mathbf{0}$. The remaining terms
+> form the bias and variance components.
 
 ## Analysis of Ordinary Least Squares (OLS)
 
 <span class="blue"><strong>Theorem</strong> (<em>Risk of OLS</em>):</span>
-The Ordinary Least Squares estimator, defined as $\hat{\mathbf{x}}_{\text{OLS}} = \arg\min_{\mathbf{x}} \norm{\mathbf{y} - \mathbf{A}\mathbf{x}}^2$, is an unbiased estimator with an excess risk of exactly $\frac{\sigma^2 d}{n}$.
+The Ordinary Least Squares estimator, defined as
+$\hat{\mathbf{x}}_{\text{OLS}} = \arg\min_{\mathbf{x}} \norm{\mathbf{y} - \mathbf{A}\mathbf{x}}^2$, is
+an unbiased estimator with an excess risk of exactly $\frac{\sigma^2 d}{n}$.
 > [!note]- Proof
-> The closed-form solution is $\hat{\mathbf{x}}_{\text{OLS}} = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{y}$.
+> The closed-form solution is
+> $\hat{\mathbf{x}}_{\text{OLS}} = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{y}$.
 > Taking the expectation:
 > $$
 > \E[\hat{\mathbf{x}}_{\text{OLS}}] = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \E[\mathbf{A}\mathbf{x}^* + \bm{\epsilon}] = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{A}\mathbf{x}^* = \mathbf{x}^*
 > $$
-> Since the estimator is unbiased, the excess risk is entirely variance. As derived in standard regression analysis, the variance evaluates to $\frac{\sigma^2 d}{n}$.
+> Since the estimator is unbiased, the excess risk is entirely variance. As derived in
+> standard regression analysis, the variance evaluates to $\frac{\sigma^2 d}{n}$.
 
 ## Analysis of Ridge Regression
 
-To mitigate the variance term characteristic of OLS, particularly in settings where $d$ is large relative to $n$, we introduce $\ell_2$ regularization.
+To mitigate the variance term characteristic of OLS, particularly in settings where $d$
+is large relative to $n$, we introduce $\ell_2$ regularization.
 
 <span class="blue"><strong>Definition</strong> (<em>Ridge Estimator</em>):</span>
 For a regularization parameter $\lambda > 0$, the Ridge estimator is:
@@ -650,15 +673,21 @@ $$
 $$
 where $\mathbf{\Sigma} = \frac{1}{n}\mathbf{A}^\top \mathbf{A}$ is the empirical covariance matrix.
 
-By substituting $\mathbf{y} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, the expected Ridge estimator is $\E[\hat{\mathbf{x}}_{\text{ridge}}] = (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} \mathbf{x}^*$, demonstrating that Ridge regression introduces bias.
+By substituting $\mathbf{y} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, the expected Ridge
+estimator is
+$\E[\hat{\mathbf{x}}_{\text{ridge}}] = (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} \mathbf{x}^*$,
+demonstrating that Ridge regression introduces bias.
 
 <span class="blue"><strong>Lemma</strong> (<em>Ridge Bias Bound</em>):</span>
 The bias term for the Ridge estimator is bounded by $\frac{\lambda}{4} \norm{\mathbf{x}^*}^2$.
 > [!note]- Proof
-> Let $\Delta\mathbf{x} = \mathbf{x}^* - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \left(\mathbf{I} - (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{\Sigma}\right)\mathbf{x}^* = \lambda(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{x}^*$.
+> Let
+> $$
+> \Delta\mathbf{x} = \mathbf{x}^* - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \left(\mathbf{I} - (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{\Sigma}\right)\mathbf{x}^* = \lambda(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{x}^*.
+> $$
 > The bias is:
 > $$
-> \text{Bias} = \frac{1}{n} \norm{\mathbf{A}\Delta\mathbf{x}}^2 = (\Delta\mathbf{x})^\top \mathbf{\Sigma} (\Delta\mathbf{x}) = \lambda^2 (\mathbf{x}^*)^\top (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{x}^*
+> \text{Bias} = \frac{1}{n} \norm{\mathbf{A}\Delta\mathbf{x}}^2 = (\Delta\mathbf{x})^\top \mathbf{\Sigma} (\Delta\mathbf{x}) = \lambda^2 (\mathbf{x}^*)^\top (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{x}^*.
 > $$
 > Because $\mathbf{\Sigma}$ and $(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}$ commute, we rewrite this as $(\mathbf{x}^*)^\top \left[ \lambda^2 \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right] \mathbf{x}^*$.
 > Let $\mathbf{\Sigma} = \mathbf{V}\mathbf{D}\mathbf{V}^\top$ be the eigendecomposition with eigenvalues $\mu_i \ge 0$. The eigenvalues of the bracketed matrix are $f(\mu_i) = \frac{\lambda^2 \mu_i}{(\mu_i + \lambda)^2}$. Using the identity $(\mu_i + \lambda)^2 = (\mu_i - \lambda)^2 + 4\mu_i\lambda \ge 4\mu_i\lambda$, we have $f(\mu_i) \le \frac{\lambda^2 \mu_i}{4\mu_i\lambda} = \frac{\lambda}{4}$.
@@ -674,9 +703,12 @@ The variance term for the Ridge estimator is bounded by $\frac{\sigma^2 \Tr(\mat
 > The variance is $\E \left[ \norm{\mathbf{C}\bm{\epsilon}}^2 \right]$ where $\mathbf{C} = \frac{1}{n\sqrt{n}}\mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top$. For any fixed matrix $\mathbf{C}$ and $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$, $\E\norm{\mathbf{C}\bm{\epsilon}}^2 = \sigma^2 \Tr(\mathbf{C}^\top \mathbf{C})$.
 > Evaluating the trace:
 > $$
-> \text{Variance} &= \sigma^2 \Tr\left( \frac{1}{n^3} \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \right) \\
+> \begin{aligned}
+>     \text{Variance} &= \sigma^2 \Tr\left( \frac{1}{n^3} \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \right) \\
 >     &= \frac{\sigma^2}{n} \Tr\left( \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) = \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right)
+> \end{aligned}
 > $$
+>
 > The trace is the sum of eigenvalues $\sum_i \frac{\mu_i^2}{(\mu_i + \lambda)^2}$. Since $\frac{\mu_i}{(\mu_i + \lambda)^2} \le \frac{1}{4\lambda}$ as shown previously:
 > $$
 > \sum_i \mu_i \left( \frac{\mu_i}{(\mu_i + \lambda)^2} \right) \le \sum_i \mu_i \left( \frac{1}{4\lambda} \right) = \frac{\Tr(\mathbf{\Sigma})}{4\lambda}
@@ -695,3 +727,204 @@ By selecting the optimal regularization parameter $\lambda = \frac{\sigma\sqrt{\
 > $$
 > \min_{\lambda > 0} \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\sigma \norm{\mathbf{x}^*} \sqrt{\Tr(\mathbf{\Sigma})}}{2\sqrt{n}}
 > $$
+
+# Gradient Descent
+
+Let $f: \R^d \to \R$ be a continuously differentiable objective function. We consider
+the unconstrained optimization problem $\min_{\mathbf{x} \in \R^d} f(\mathbf{x})$. The
+standard Gradient Descent (GD) algorithm generates a sequence of iterates
+$\{\mathbf{x}^{(k)}\}_{k=0}^\infty$ via the recurrence relation
+$$
+\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \eta \nabla f(\mathbf{x}^{(k)})
+$$
+where $\eta > 0$ is the step size. To rigorously guarantee convergence, we must impose
+structural conditions on the objective function $f$.
+
+##### <span style="color: transparent;">def-l-smoothness-and-strong-convexity</span>
+<span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{L}$-Smoothness and Strong Convexity</em>):</span>
+A differentiable function $f$ is **$L$-smooth** if its gradient is Lipschitz
+continuous with constant $L > 0$:
+$$
+\norm{\nabla f(\mathbf{x}) - \nabla f(\mathbf{y})}_2 \le L \norm{\mathbf{x} - \mathbf{y}}_2 \quad \forall \mathbf{x}, \mathbf{y} \in \R^d
+$$
+Furthermore, $f$ is **$\mu$-strongly convex** for $\mu > 0$ if:
+$$
+f(\mathbf{y}) \ge f(\mathbf{x}) + \nabla f(\mathbf{x})^\top (\mathbf{y} - \mathbf{x}) + \frac{\mu}{2} \norm{\mathbf{y} - \mathbf{x}}_2^2 \quad \forall \mathbf{x}, \mathbf{y} \in \R^d
+$$
+
+If $f$ is twice continuously differentiable, these conditions are equivalent to bounding
+the spectrum of the Hessian matrix:
+$\mu \mathbf{I} \preceq \nabla^2 f(\mathbf{x}) \preceq L \mathbf{I}$ for all $\mathbf{x} \in \R^d$,
+where $\preceq$ denotes the Loewner partial order.
+
+## The Least Squares Objective
+
+Let $\mathbf{A} \in \R^{n \times d}$ ($n \ge d$) denote a fixed design matrix and
+$\mathbf{y} \in \R^n$ a target vector. The normalized ordinary least squares (OLS) problem
+seeks to minimize the empirical risk:
+$$
+f(\mathbf{x}) = \frac{1}{2n} \norm{\mathbf{A}\mathbf{x} - \mathbf{y}}_2^2
+$$
+
+<span class="blue"><strong>Lemma</strong> (<em>Properties of the OLS Objective</em>):</span>
+Assume $\mathbf{A}$ has full column rank ($\text{rank}(\mathbf{A}) = d$). Let
+$\mathbf{H} \triangleq \frac{1}{n}\mathbf{A}^\top\mathbf{A}$ be the Hessian matrix. The objective
+$f(\mathbf{x})$ is $L$-smooth and $\mu$-strongly convex with parameters:
+
+$$
+L = \lambda_{\max}(\mathbf{H}), \quad \mu = \lambda_{\min}(\mathbf{H})
+$$
+
+where $\lambda_{\max}$ and $\lambda_{\min}$ denote the maximal and minimal eigenvalues
+of $\mathbf{H}$, respectively. Moreover, the unique global minimizer is
+$\mathbf{x}^* = \mathbf{H}^{-1}\left(\frac{1}{n}\mathbf{A}^\top\mathbf{y}\right)$.
+
+> [!note]- Proof
+> The gradient is explicitly given by
+> $\nabla f(\mathbf{x}) = \mathbf{H}\mathbf{x} - \frac{1}{n}\mathbf{A}^\top \mathbf{y}$.
+> The Hessian is the constant symmetric matrix $\nabla^2 f(\mathbf{x}) = \mathbf{H}$. Since
+> $\mathbf{A}$ has full column rank, $\mathbf{A}^\top\mathbf{A}$ is positive definite, implying
+> $\mu = \lambda_{\min}(\mathbf{H}) > 0$. Thus, $\mu \mathbf{I} \preceq \mathbf{H} \preceq L \mathbf{I}$,
+> fulfilling Definition
+> [[AI2113 Optimization 2#def-l-smoothness-and-strong-convexity|L-Smoothness and Strong Convexity]]
+> globally. Setting $\nabla f(\mathbf{x}^*) = \mathbf{0}$ directly
+> yields the unique optimum due to the invertibility of $\mathbf{H}$.
+
+## Spectral Error Dynamics
+
+We analyze the evolution of the error vector
+$\mathbf{e}^{(k)} \triangleq \mathbf{x}^{(k)} - \mathbf{x}^*$.
+
+<span class="blue"><strong>Theorem</strong> (<em>Exact Error Operator</em>):</span>
+For the OLS objective, the error sequence under Gradient Descent evolves according to
+the linear operator $(\mathbf{I} - \eta \mathbf{H})$:
+$$
+\mathbf{e}^{(k)} = (\mathbf{I} - \eta \mathbf{H})^k \mathbf{e}^{(0)}
+$$
+> [!note]- Proof
+> By substituting the gradient into the GD update rule:
+> $$
+> \begin{aligned}
+>     \mathbf{x}^{(k)} &= \mathbf{x}^{(k-1)} - \eta \left( \mathbf{H}\mathbf{x}^{(k-1)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y} \right)
+> \end{aligned}
+> $$
+> Utilizing the optimality condition $\frac{1}{n}\mathbf{A}^\top \mathbf{y} = \mathbf{H}\mathbf{x}^*$, we have:
+> $$
+> \begin{aligned}
+>     \mathbf{x}^{(k)} &= \mathbf{x}^{(k-1)} - \eta \mathbf{H}(\mathbf{x}^{(k-1)} - \mathbf{x}^*) \\
+>     \mathbf{x}^{(k)} - \mathbf{x}^* &= (\mathbf{I} - \eta \mathbf{H}) (\mathbf{x}^{(k-1)} - \mathbf{x}^*)
+> \end{aligned}
+> $$
+>
+> Applying this relation recursively $k$ times yields the stated theorem.
+
+To bound $\norm{\mathbf{e}^{(k)}}_2$, we must constrain the spectral radius
+$\rho(\mathbf{I} - \eta \mathbf{H})$. By the Spectral Theorem, the symmetric positive definite
+matrix $\mathbf{H}$ admits an orthogonal eigendecomposition
+$\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, where $\mathbf{V}$ is an orthogonal matrix
+and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the eigenvalues
+$\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
+
+<span class="blue"><strong>Corollary</strong> (<em>Spectral Bound and Convergence</em>):</span>
+The induced $\ell_2$-norm of the iteration operator is bounded by:
+$$
+\norm{\mathbf{I} - \eta \mathbf{H}}_2 = \max_{1 \le i \le d} |1 - \eta \lambda_i|
+$$
+Consequently, $\lim_{k \to \infty} \mathbf{x}^{(k)} = \mathbf{x}^*$ for any initialization
+$\mathbf{x}^{(0)}$ if and only if $0 < \eta < \frac{2}{L}$.
+
+## Optimal Step Size via Minimax Formulation
+
+We define the condition number of the problem as $\kappa \triangleq \frac{L}{\mu} = \frac{\lambda_1}{\lambda_d} \ge 1$. The contraction rate is defined as $q(\eta) \triangleq \max_i |1 - \eta \lambda_i|$. To maximize the convergence speed, we seek the step size $\eta^*$ that minimizes this worst-case spectral radius.
+
+<span class="blue"><strong>Theorem</strong> (<em>Optimal Constant Step Size</em>):</span>
+The optimal fixed step size minimizing the spectral radius is:
+$$
+\eta^* = \frac{2}{L + \mu}
+$$
+yielding an optimal contraction factor of $q(\eta^*) = \frac{\kappa - 1}{\kappa + 1}$.
+> [!note]- Proof
+> We formulate the minimax optimization problem:
+> $$
+> \eta^* = \arg\min_{\eta > 0} \max_{1 \le i \le d} |1 - \eta \lambda_i|
+> $$
+> Because $1 - \eta \lambda$ is a strictly decreasing function of $\lambda$ for any fixed $\eta > 0$, the maximum absolute value must occur at the boundaries of the spectrum: $\lambda_1 = L$ or $\lambda_d = \mu$. Thus:
+> $$
+> \max_{1 \le i \le d} |1 - \eta \lambda_i| = \max \left( |1 - \eta \mu|, |1 - \eta L| \right)
+> $$
+> For a valid learning rate ($\eta < 2/L$), the term $(1 - \eta \mu)$ is strictly positive and linearly decreasing, while $(1 - \eta L)$ becomes negative, making $|1 - \eta L| = \eta L - 1$ linearly increasing. The global minimum of the maximum of these two intersecting linear functions occurs precisely where they are equal:
+> $$
+> 1 - \eta \mu = \eta L - 1 \implies \eta(L + \mu) = 2 \implies \eta^* = \frac{2}{L + \mu}
+> $$
+> Substituting $\eta^*$ back into the contraction factor yields:
+> $$
+> q(\eta^*) = 1 - \left(\frac{2}{L + \mu}\right)\mu = \frac{L - \mu}{L + \mu} = \frac{(L/\mu) - 1}{(L/\mu) + 1} = \frac{\kappa - 1}{\kappa + 1}
+> $$
+
+<span class="blue"><strong>Remark</strong> (<em>Iteration Complexity</em>):</span>
+Given the optimal rate
+$q(\eta^*) = \frac{\kappa - 1}{\kappa + 1} \approx 1 - \frac{2}{\kappa}$ (for large
+$\kappa$), the error bound is
+$\norm{\mathbf{e}^{(k)}}_2 \le \left(1 - \frac{2}{\kappa}\right)^k \norm{\mathbf{e}^{(0)}}_2 \le \exp\left(-\frac{2k}{\kappa}\right) \norm{\mathbf{e}^{(0)}}_2$.
+To guarantee $\norm{\mathbf{e}^{(k)}}_2 \le \epsilon$, the required number of iterations
+scales as $\mathcal{O}\left(\kappa \log\frac{1}{\epsilon}\right)$.
+
+## Computational Complexity: Exact Direct Methods
+Finding the exact optimal solution $\mathbf{x}^*$ can be done via several matrix factorizations, all of which generally scale as $\mathcal{O}(nd^2)$ but differ in practical constants and numerical stability:
+
+1. **Normal Equations (Cholesky):** $\mathbf{x}^* = (\mathbf{A}^\top \mathbf{A})^{-1}\mathbf{A}^\top \mathbf{y}$. Computing the Hessian $\mathbf{A}^\top \mathbf{A}$ takes $\mathcal{O}(nd^2)$, and its inversion/factorization takes $\mathcal{O}(d^3)$. Total time is $\mathcal{O}(nd^2)$.
+2. **QR Decomposition:** $\mathbf{A} = \mathbf{Q}\mathbf{R}$. The solution is obtained by solving the triangular system $\mathbf{R}\mathbf{x}^* = \mathbf{Q}^\top \mathbf{y}$, taking $\mathcal{O}(nd^2)$.
+3. **Singular Value Decomposition (SVD):** $\mathbf{A} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$, implying $\mathbf{x}^* = \mathbf{V}\mathbf{\Sigma}^+\mathbf{U}^\top \mathbf{y}$. This is the most numerically stable but computationally heaviest $\mathcal{O}(nd^2)$ approach.
+
+In practice, execution times follow: Cholesky $<$ QR $<$ SVD.
+
+## Gradient Descent (GD) Iterations
+GD is an approximate method requiring $k = \mathcal{O}\left(\kappa \log \frac{1}{\epsilon}\right)$ iterations to reach $\epsilon$-accuracy, where $\kappa$ is the condition number of the Hessian $\mathbf{H} = \frac{1}{n}\mathbf{A}^\top\mathbf{A}$. We have two primary ways to compute the gradient step $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \eta \nabla f(\mathbf{x}^{(k)})$:
+
+<span class="blue"><strong>Lemma</strong> (<em>GD Complexity Regimes</em>):</span>
+Gradient Descent can be implemented in two distinct computational paradigms:
+
+- **Approach 1 (Precomputation):** $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \eta \left(\mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y}\right)$. We precompute $\mathbf{H}$ and $\mathbf{A}^\top \mathbf{y}$ in $\mathcal{O}(nd^2)$. Each subsequent iteration takes $\mathcal{O}(d^2)$. Total complexity: $\mathcal{O}(nd^2 + d^2 \kappa \log \frac{1}{\epsilon})$.
+- **Approach 2 (No Precomputation):** $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \frac{\eta}{n} \mathbf{A}^\top (\mathbf{A}\mathbf{x}^{(k)} - \mathbf{y})$. We compute the matrix-vector products iteratively. Each iteration takes $\mathcal{O}(nd)$. Total complexity: $\mathcal{O}(nd \kappa \log \frac{1}{\epsilon})$.
+
+<span class="blue"><strong>Remark</strong> (<em>Why use Gradient Descent?</em>):</span>
+In regimes where $d$ is very large, Approach 2 avoids the $\mathcal{O}(nd^2)$ cost entirely, offering significant computational savings if the problem is well-conditioned ($\kappa$ is small). Furthermore, GD is favored for:
+
+1. **Memory Restrictions:** Iterative methods avoid storing the $d \times d$ dense Hessian, making them suitable for streaming algorithms or massive datasets.
+2. **Implicit Regularization:** When stopped early, GD provides better generalization error by preventing overfitting to the noise, acting akin to Ridge regularization.
+
+## Generalization Error and Early Stopping
+
+We formalize the implicit regularization of GD by analyzing the noisy observation model. Let the training labels be generated by $\mathbf{y}_{\text{train}} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, where $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$.
+
+We obtain an estimate $\hat{\mathbf{x}}^{(k)}$ via $k$ iterations of GD on $\mathbf{y}_{\text{train}}$. We wish to analyze the test error (Risk) on a new sample:
+$$
+\mathcal{R}(k) = \frac{1}{n}\E \norm{\mathbf{A}\hat{\mathbf{x}}^{(k)} - \mathbf{y}_{\text{test}}}_2^2
+$$
+Recall that for the exact OLS estimator $\hat{\mathbf{x}}_{\text{OLS}}$, the risk is strictly $\mathcal{R}_{\text{OLS}} = \sigma^2 + \frac{\sigma^2 d}{n}$. We now track this risk strictly as a function of the iteration count $k$.
+
+<span class="blue"><strong>Theorem</strong> (<em>Noisy Error Dynamics</em>):</span>
+Let $\mathbf{A}/\sqrt{n} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$ be the thin SVD of the normalized design matrix, implying $\mathbf{H} = \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top$. If we project the error into the eigenbasis $\bm{\alpha}^{(k)} = \mathbf{V}^\top \mathbf{x}^{(k)}$, the error recurrence with noise is:
+$$
+\bm{\alpha}^{(k+1)} - \bm{\alpha}^* = (\mathbf{I} - \eta \mathbf{\Sigma}^2)(\bm{\alpha}^{(k)} - \bm{\alpha}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}}
+$$
+where $\tilde{\bm{\epsilon}} = \mathbf{U}^\top \bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$ is the projected noise vector.
+
+> [!note]- Proof
+> Substituting the noisy labels into the GD update:
+> $$
+> \begin{aligned}
+>     \mathbf{x}^{(k+1)} &= \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y}_{\text{train}} \right) \\
+>     &= \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top (\mathbf{A}\mathbf{x}^* + \bm{\epsilon}) \right) \\
+>     \mathbf{x}^{(k+1)} - \mathbf{x}^* &= (\mathbf{I} - \eta \mathbf{H})(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{n}\mathbf{A}^\top \bm{\epsilon}
+> \end{aligned}
+> $$
+> Using the thin SVD, the noise term maps to $\frac{\eta}{n} (\sqrt{n}\mathbf{V}\mathbf{\Sigma}\mathbf{U}^\top) \bm{\epsilon} = \frac{\eta}{\sqrt{n}} \mathbf{V}\mathbf{\Sigma}\tilde{\bm{\epsilon}}$.
+> Multiplying the entire recurrence by $\mathbf{V}^\top$ to change into the $\bm{\alpha}$ basis yields:
+> $$
+> \begin{aligned}
+>     \mathbf{V}^\top (\mathbf{x}^{(k+1)} - \mathbf{x}^*) &= \mathbf{V}^\top (\mathbf{I} - \eta \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top)(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}} \\
+>     \bm{\alpha}^{(k+1)} - \bm{\alpha}^* &= (\mathbf{I} - \eta \mathbf{\Sigma}^2)(\bm{\alpha}^{(k)} - \bm{\alpha}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}}
+> \end{aligned}
+> $$
+> Because $\mathbf{U}$ has orthonormal columns ($\mathbf{U}^\top \mathbf{U} = \mathbf{I}_d$), the linear transformation of the isotropic Gaussian noise preserves its distribution: $\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$.
