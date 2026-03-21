@@ -680,52 +680,89 @@ demonstrating that Ridge regression introduces bias.
 
 <span class="blue"><strong>Lemma</strong> (<em>Ridge Bias Bound</em>):</span>
 The bias term for the Ridge estimator is bounded by $\frac{\lambda}{4} \norm{\mathbf{x}^*}^2$.
+
 > [!note]- Proof
-> Let
+> Define $\Delta\mathbf{x} \triangleq \mathbf{x}^* - \E[\hat{\mathbf{x}}_{\text{ridge}}]$. Then:
 > $$
-> \Delta\mathbf{x} = \mathbf{x}^* - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \left(\mathbf{I} - (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{\Sigma}\right)\mathbf{x}^* = \lambda(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{x}^*.
+> \Delta\mathbf{x} = \left(\mathbf{I} - (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{\Sigma}\right)\mathbf{x}^* = \lambda(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{x}^*.
 > $$
-> The bias is:
+> The bias evaluates to:
 > $$
-> \text{Bias} = \frac{1}{n} \norm{\mathbf{A}\Delta\mathbf{x}}^2 = (\Delta\mathbf{x})^\top \mathbf{\Sigma} (\Delta\mathbf{x}) = \lambda^2 (\mathbf{x}^*)^\top (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{x}^*.
+> \text{Bias}(\hat{\mathbf{x}}_{\text{ridge}}) \triangleq \frac{1}{n} \norm{\mathbf{A}\Delta\mathbf{x}}^2 = (\Delta\mathbf{x})^\top \mathbf{\Sigma} (\Delta\mathbf{x}).
 > $$
-> Because $\mathbf{\Sigma}$ and $(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}$ commute, we rewrite this as $(\mathbf{x}^*)^\top \left[ \lambda^2 \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right] \mathbf{x}^*$.
-> Let $\mathbf{\Sigma} = \mathbf{V}\mathbf{D}\mathbf{V}^\top$ be the eigendecomposition with eigenvalues $\mu_i \ge 0$. The eigenvalues of the bracketed matrix are $f(\mu_i) = \frac{\lambda^2 \mu_i}{(\mu_i + \lambda)^2}$. Using the identity $(\mu_i + \lambda)^2 = (\mu_i - \lambda)^2 + 4\mu_i\lambda \ge 4\mu_i\lambda$, we have $f(\mu_i) \le \frac{\lambda^2 \mu_i}{4\mu_i\lambda} = \frac{\lambda}{4}$.
-> By the Rayleigh quotient, the quadratic form is bounded by the maximum eigenvalue times $\norm{\mathbf{x}^*}^2$:
+> Substituting $\Delta\mathbf{x}$:
 > $$
-> \text{Bias} \le \frac{\lambda}{4} \norm{\mathbf{x}^*}^2
+> \text{Bias}(\hat{\mathbf{x}}_{\text{ridge}}) = \lambda^2 (\mathbf{x}^*)^\top (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{x}^*.
+> $$
+> Since $[\mathbf{\Sigma}, (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}] = \mathbf{0}$:
+> $$
+> \text{Bias}(\hat{\mathbf{x}}_{\text{ridge}}) = (\mathbf{x}^*)^\top \underbrace{\left[ \lambda^2 \mathbf{\Sigma} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right]}_{\triangleq \mathbf{M}} \mathbf{x}^*.
+> $$
+> Let $\mathbf{\Sigma} = \mathbf{V}\mathbf{D}\mathbf{V}^\top$ denote the spectral decomposition, where $\mathbf{D} = \text{diag}(\mu_1, \dots, \mu_d)$ and $\mu_i \ge 0 \,\, \forall i$. The eigenvalues of $\mathbf{M}$ are given by $\lambda_i(\mathbf{M}) = \frac{\lambda^2 \mu_i}{(\mu_i + \lambda)^2}$.
+>
+> Applying the inequality $(\mu_i + \lambda)^2 = (\mu_i - \lambda)^2 + 4\mu_i\lambda \ge 4\mu_i\lambda$:
+> $$
+> \lambda_{\max}(\mathbf{M}) = \max_i \frac{\lambda^2 \mu_i}{(\mu_i + \lambda)^2} \le \frac{\lambda^2 \mu_i}{4\mu_i\lambda} = \frac{\lambda}{4}.
+> $$
+> By the Rayleigh-Ritz theorem, $\sup_{\mathbf{x}^* \neq \mathbf{0}} \frac{(\mathbf{x}^*)^\top \mathbf{M} \mathbf{x}^*}{\norm{\mathbf{x}^*}^2} = \lambda_{\max}(\mathbf{M})$. Consequently:
+> $$
+> \text{Bias}(\hat{\mathbf{x}}_{\text{ridge}}) \le \lambda_{\max}(\mathbf{M}) \norm{\mathbf{x}^*}^2 \le \frac{\lambda}{4} \norm{\mathbf{x}^*}^2.
 > $$
 
 <span class="blue"><strong>Lemma</strong> (<em>Ridge Variance Bound</em>):</span>
 The variance term for the Ridge estimator is bounded by $\frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n\lambda}$.
+
 > [!note]- Proof
-> The deviation is $\hat{\mathbf{x}}_{\text{ridge}} - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \frac{1}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{A}^\top \bm{\epsilon}$.
-> The variance is $\E \left[ \norm{\mathbf{C}\bm{\epsilon}}^2 \right]$ where $\mathbf{C} = \frac{1}{n\sqrt{n}}\mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top$. For any fixed matrix $\mathbf{C}$ and $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$, $\E\norm{\mathbf{C}\bm{\epsilon}}^2 = \sigma^2 \Tr(\mathbf{C}^\top \mathbf{C})$.
-> Evaluating the trace:
+> Define the estimator deviation $\delta\hat{\mathbf{x}} \triangleq \hat{\mathbf{x}}_{\text{ridge}} - \E[\hat{\mathbf{x}}_{\text{ridge}}] = \frac{1}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \mathbf{A}^\top \bm{\epsilon}$.
+> Let the prediction variance be denoted by $\text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) \triangleq \frac{1}{n}\E \left[ \norm{\mathbf{A}\delta\hat{\mathbf{x}}}^2 \right] = \E \left[ \norm{\mathbf{C}\bm{\epsilon}}^2 \right]$, where $\mathbf{C} \triangleq \frac{1}{n\sqrt{n}}\mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top$.
+>
+> Assuming $\bm{\epsilon} \sim (\mathbf{0}, \sigma^2 \mathbf{I})$, the expectation of the quadratic form simplifies to:
+> $$
+> \text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) = \sigma^2 \Tr(\mathbf{C}^\top \mathbf{C}) = \frac{\sigma^2}{n^3} \Tr\left( \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \right).
+> $$
+> Using the cyclic property of the trace and substituting $\mathbf{\Sigma} = \frac{1}{n}\mathbf{A}^\top\mathbf{A}$:
 > $$
 > \begin{aligned}
->     \text{Variance} &= \sigma^2 \Tr\left( \frac{1}{n^3} \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \mathbf{A}(\mathbf{\Sigma} + \lambda \mathbf{I})^{-1}\mathbf{A}^\top \right) \\
->     &= \frac{\sigma^2}{n} \Tr\left( \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \frac{\mathbf{A}^\top\mathbf{A}}{n} (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) = \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right)
+>     \text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) &= \frac{\sigma^2}{n} \Tr\left( \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) \\
+>     &= \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right).
 > \end{aligned}
 > $$
->
-> The trace is the sum of eigenvalues $\sum_i \frac{\mu_i^2}{(\mu_i + \lambda)^2}$. Since $\frac{\mu_i}{(\mu_i + \lambda)^2} \le \frac{1}{4\lambda}$ as shown previously:
+> Let $\text{spec}(\mathbf{\Sigma}) = \{\mu_i\}_{i=1}^d$. Expressing the trace in terms of the spectrum gives:
 > $$
-> \sum_i \mu_i \left( \frac{\mu_i}{(\mu_i + \lambda)^2} \right) \le \sum_i \mu_i \left( \frac{1}{4\lambda} \right) = \frac{\Tr(\mathbf{\Sigma})}{4\lambda}
+> \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right) = \sum_i \frac{\mu_i^2}{(\mu_i + \lambda)^2}.
 > $$
-> Thus, $\text{Variance} \le \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n\lambda}$.
+> Applying the previously established inequality $\frac{\mu_i}{(\mu_i + \lambda)^2} \le \frac{1}{4\lambda}$:
+> $$
+> \sum_i \frac{\mu_i^2}{(\mu_i + \lambda)^2} = \sum_i \mu_i \left( \frac{\mu_i}{(\mu_i + \lambda)^2} \right) \le \frac{1}{4\lambda} \sum_i \mu_i = \frac{\Tr(\mathbf{\Sigma})}{4\lambda}.
+> $$
+> Consequently:
+> $$
+> \text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n\lambda}.
+> $$
 
 <span class="blue"><strong>Theorem</strong> (<em>Excess Risk of Ridge Regression</em>):</span>
 By selecting the optimal regularization parameter $\lambda = \frac{\sigma\sqrt{\Tr(\mathbf{\Sigma})}}{\norm{\mathbf{x}^*}\sqrt{n}}$, the excess risk of the Ridge estimator is bounded by $\mathcal{O}\left(\frac{1}{\sqrt{n}}\right)$.
+
 > [!note]- Proof
-> Combining the lemmas, the upper bound on the excess risk is:
+> Let $\mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}})$ denote the excess risk. Combining the preceding bounds on bias and variance yields:
 > $$
-> \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\norm{\mathbf{x}^*}^2}{4}\lambda + \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n} \frac{1}{\lambda}
+> \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \underbrace{\frac{\norm{\mathbf{x}^*}^2}{4}}_{\triangleq a} \lambda + \underbrace{\frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n}}_{\triangleq b} \frac{1}{\lambda}.
 > $$
-> This bound is of the form $f(\lambda) = a\lambda + \frac{b}{\lambda}$. By the AM-GM inequality ($a\lambda + \frac{b}{\lambda} \ge 2\sqrt{ab}$), the minimum is achieved at $\lambda = \sqrt{b/a}$.
-> Substituting $a = \frac{\norm{\mathbf{x}^*}^2}{4}$ and $b = \frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n}$, we find the optimal $\lambda$. The corresponding minimal risk bound is $2\sqrt{ab}$, which evaluates to:
+> Define the upper bound function $f: \mathbb{R}_{>0} \to \mathbb{R}_{>0}$ such that $f(\lambda) \triangleq a\lambda + b\lambda^{-1}$.
+>
+> Applying the Arithmetic Mean-Geometric Mean (AM-GM) inequality:
 > $$
-> \min_{\lambda > 0} \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\sigma \norm{\mathbf{x}^*} \sqrt{\Tr(\mathbf{\Sigma})}}{2\sqrt{n}}
+> f(\lambda) \ge 2\sqrt{(a\lambda)(b\lambda^{-1})} = 2\sqrt{ab}.
+> $$
+> The minimum is uniquely attained when $a\lambda = b\lambda^{-1}$, yielding the optimal regularization parameter $\lambda^* = \sqrt{\frac{b}{a}}$.
+>
+> Evaluating the infimum of the bound gives:
+> $$
+> \inf_{\lambda > 0} f(\lambda) = 2\sqrt{ab} = 2\sqrt{\left(\frac{\norm{\mathbf{x}^*}^2}{4}\right) \left(\frac{\sigma^2 \Tr(\mathbf{\Sigma})}{4n}\right)} = \frac{\sigma \norm{\mathbf{x}^*} \sqrt{\Tr(\mathbf{\Sigma})}}{2\sqrt{n}}.
+> $$
+> Consequently, the minimal excess risk bound is given by:
+> $$
+> \inf_{\lambda > 0} \mathcal{E}(\hat{\mathbf{x}}_{\text{ridge}}) \le \frac{\sigma \norm{\mathbf{x}^*} \sqrt{\Tr(\mathbf{\Sigma})}}{2\sqrt{n}}.
 > $$
 
 # Gradient Descent
@@ -825,6 +862,82 @@ $\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, where $\mathbf{V}$ is 
 and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the eigenvalues
 $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
 
+<span class="blue"><strong>Theorem</strong>:</span>
+For any real symmetric matrix $M \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
+$$
+\lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
+$$
+where $\lambda_{\min}$ and $\lambda_{\max}$ are the minimum and maximum eigenvalues of $M$.
+
+> [!note]- Proof
+> By the finite-dimensional Spectral Theorem, the real symmetric matrix $M$ possesses an
+> orthonormal basis of eigenvectors $u_1, u_2, \dots, u_d$ with corresponding eigenvalues
+> $\lambda_1, \lambda_2, \dots, \lambda_d$. Assume without loss of generality that
+> $\lambda_{\min} \leq \lambda_i \leq \lambda_{\max}$ for all $i$.
+>
+> Any vector $v \in \mathbb{R}^d$ can be expressed as a linear combination of these basis vectors:
+> $$
+> v = \sum_{i=1}^{d} c_i u_i
+> $$
+> for some real coefficients $c_i$.
+>
+> The squared Euclidean norm of $v$ is:
+> $$
+> v^T v = \left( \sum_{i=1}^{d} c_i u_i \right)^T \left( \sum_{j=1}^{d} c_j u_j \right) = \sum_{i=1}^{d} c_i^2
+> $$
+> due to the orthonormality of the eigenvectors ($u_i^T u_j = 0$ for $i \neq j$, and $u_i^T u_i = 1$).
+>
+> Now, evaluate the quadratic form $v^T M v$:
+> $$
+> v^T M v = v^T \left( M \sum_{i=1}^{d} c_i u_i \right) = v^T \left( \sum_{i=1}^{d} c_i \lambda_i u_i \right) = \sum_{i=1}^{d} \lambda_i c_i^2
+> $$
+>
+> Since $c_i^2 \geq 0$ for all $i$, we can bound the sum by replacing each $\lambda_i$
+> with the minimum and maximum eigenvalues:
+> $$
+> \lambda_{\min} \sum_{i=1}^{d} c_i^2 \leq \sum_{i=1}^{d} \lambda_i c_i^2 \leq \lambda_{\max} \sum_{i=1}^{d} c_i^2
+> $$
+>
+> Substituting $v^T v = \sum_{i=1}^{d} c_i^2$ back into the inequality yields the final result:
+> $$
+> \lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
+> $$
+
+<span class="blue"><strong>Theorem</strong>:</span>
+Let $H \in \mathbb{R}^{d \times d}$ be a symmetric matrix with eigenvalues
+$\lambda_1, \lambda_2, \dots, \lambda_d$. The induced $\ell_2$-norm of the iteration
+matrix $(I - \eta H)$ is bounded by:
+$$
+\left\|I - \eta H\right\|_2 = \max_{1 \leq i \leq d} |1 - \eta \lambda_i|
+$$
+
+> [!note]- Proof
+> Let $u_i$ be an eigenvector of the matrix $H$ corresponding to the eigenvalue
+> $\lambda_i$. By definition of an eigenvector and eigenvalue, we have:
+> $$
+> H u_i = \lambda_i u_i
+> $$
+>
+> Now, we apply the iteration operator $(I - \eta H)$ to this same eigenvector $u_i$:
+> $$
+> \begin{aligned}
+>     (I - \eta H)u_i &= I u_i - \eta H u_i \\
+>     &= u_i - \eta (\lambda_i u_i) \\
+>     &= (1 - \eta \lambda_i)u_i
+> \end{aligned}
+> $$
+>
+> This demonstrates that $u_i$ is also an eigenvector of the matrix $(I - \eta H)$, and its corresponding eigenvalue is $(1 - \eta \lambda_i)$. Thus, the eigenvalues of $(I - \eta H)$ are exactly $(1 - \eta \lambda_i)$ for $i = 1, \dots, d$.
+>
+> Because $H$ is a real, symmetric matrix (since $H = \frac{A^T A}{n}$), the iteration matrix $(I - \eta H)$ is also real and symmetric.
+>
+> A fundamental property of any real, symmetric matrix is that its induced $\ell_2$-norm (also known as the spectral norm) is equal to its spectral radius. The spectral radius is the maximum absolute value of the matrix's eigenvalues.
+>
+> Therefore, taking the maximum absolute value of the eigenvalues we just found gives us the $\ell_2$-norm of the operator:
+> $$
+>     \left|I - \eta H\right|_2 = \max_{1 \leq i \leq d} |1 - \eta \lambda_i|
+> $$
+
 <span class="blue"><strong>Corollary</strong> (<em>Spectral Bound and Convergence</em>):</span>
 The induced $\ell_2$-norm of the iteration operator is bounded by:
 $$
@@ -865,7 +978,7 @@ yielding an optimal contraction factor of $q(\eta^*) = \frac{\kappa - 1}{\kappa 
 Given the optimal rate
 $q(\eta^*) = \frac{\kappa - 1}{\kappa + 1} \approx 1 - \frac{2}{\kappa}$ (for large
 $\kappa$), the error bound is
-$\norm{\mathbf{e}^{(k)}}_2 \le \left(1 - \frac{2}{\kappa}\right)^k \norm{\mathbf{e}^{(0)}}_2 \le \exp\left(-\frac{2k}{\kappa}\right) \norm{\mathbf{e}^{(0)}}_2$.
+$\norm{\mathbf{e}^{(k)}}_2 \le \left(1 - \frac{1}{\kappa}\right)^{2k} \norm{\mathbf{e}^{(0)}}_2 \le \exp\left(-\frac{2k}{\kappa}\right) \norm{\mathbf{e}^{(0)}}_2$.
 To guarantee $\norm{\mathbf{e}^{(k)}}_2 \le \epsilon$, the required number of iterations
 scales as $\mathcal{O}\left(\kappa \log\frac{1}{\epsilon}\right)$.
 
@@ -901,7 +1014,8 @@ We obtain an estimate $\hat{\mathbf{x}}^{(k)}$ via $k$ iterations of GD on $\mat
 $$
 \mathcal{R}(k) = \frac{1}{n}\E \norm{\mathbf{A}\hat{\mathbf{x}}^{(k)} - \mathbf{y}_{\text{test}}}_2^2
 $$
-Recall that for the exact OLS estimator $\hat{\mathbf{x}}_{\text{OLS}}$, the risk is strictly $\mathcal{R}_{\text{OLS}} = \sigma^2 + \frac{\sigma^2 d}{n}$. We now track this risk strictly as a function of the iteration count $k$.
+where $\mathbf{y}_{\text{test}} = \mathbf{A}_{\text{test}}\mathbf{x}^* + \bm{\epsilon}_{test}$ is an independent test label vector with $\mathbf{A}_{\text{test}} \in \R^{n_{\text{test}} \times d}$ and $\bm{\epsilon}_{test} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_{n_{\text{test}}})$ independent of $\bm{\epsilon}$.
+Recall that for the exact OLS estimator $\hat{\mathbf{x}}_{\text{OLS}}$, the risk is strictly $\mathcal{R}(\hat{\mathbf{x}}_{\text{OLS}}) = \sigma^2 + \frac{\sigma^2 d}{n}$. We now track this risk strictly as a function of the iteration count $k$.
 
 <span class="blue"><strong>Theorem</strong> (<em>Noisy Error Dynamics</em>):</span>
 Let $\mathbf{A}/\sqrt{n} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$ be the thin SVD of the normalized design matrix, implying $\mathbf{H} = \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top$. If we project the error into the eigenbasis $\bm{\alpha}^{(k)} = \mathbf{V}^\top \mathbf{x}^{(k)}$, the error recurrence with noise is:
