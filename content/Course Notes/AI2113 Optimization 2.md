@@ -1042,3 +1042,11 @@ where $\tilde{\bm{\epsilon}} = \mathbf{U}^\top \bm{\epsilon} \sim \mathcal{N}(\m
 > \end{aligned}
 > $$
 > Because $\mathbf{U}$ has orthonormal columns ($\mathbf{U}^\top \mathbf{U} = \mathbf{I}_d$), the linear transformation of the isotropic Gaussian noise preserves its distribution: $\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$.
+
+<span class="blue"><strong>Remark</strong> (<em>The U-Curve and Early Stopping</em>):</span>
+The error equation highlights a fundamental bias-variance tradeoff governed by iteration count $k$:
+
+- **Bias (Approximation Error):** The term $(\mathbf{I} - \eta \mathbf{\Sigma}^2)^k (\bm{\alpha}^{(0)} - \bm{\alpha}^*)$ strictly decays to zero as $k \to \infty$.
+- **Variance (Noise Accumulation):** The term driven by $\tilde{\bm{\epsilon}}$ is repeatedly accumulated at each iteration. As $k \to \infty$, GD fully memorizes the training noise, and the variance approaches the irreducible limit $\frac{\sigma^2 d}{n}$.
+
+Consequently, plotting the expected test risk against $k$ produces a characteristic "U-shaped" curve. Terminating the algorithm at an intermediate $k^*$ prior to convergence (Early Stopping) prevents the full accumulation of $\tilde{\bm{\epsilon}}$, thereby yielding an estimator with lower generalization error than the exact OLS solution.
