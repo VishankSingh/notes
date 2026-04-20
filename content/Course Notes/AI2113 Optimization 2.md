@@ -122,7 +122,7 @@ $$
 
 ### Huber Penalty
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec-Moreau-Envelope</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec-Moreau-Envelope</a>
 # Moreau Envelope
 
 <span class="blue"><strong>Definition</strong> (<em>Moreau Envelope</em>):</span>
@@ -283,7 +283,7 @@ If $f$ is convex but not closed, $f^{**}$ is the lower semi-continuous closure o
 
 # Duality
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec:Fenchel-Young-Corollary</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec:Fenchel-Young-Corollary</a>
 <span class="blue"><strong>Corollary</strong> (<em>Fenchel-Young-Corollary</em>):</span>
 Let $f : \mathbb{R}^n \to \mathbb{R}$ be a convex and differentiable function. For any $\mathbf{x}, \mathbf{m} \in \mathbb{R}^n$, the following statements are equivalent:
 
@@ -777,7 +777,7 @@ $$
 where $\eta > 0$ is the step size. To rigorously guarantee convergence, we must impose
 structural conditions on the objective function $f$.
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">def-l-smoothness-and-strong-convexity</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">def-l-smoothness-and-strong-convexity</a>
 <span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{L}$-Smoothness and Strong Convexity</em>):</span>
 A differentiable function $f$ is **$L$-smooth** if its gradient is Lipschitz
 continuous with constant $L > 0$:
@@ -861,6 +861,10 @@ matrix $\mathbf{H}$ admits an orthogonal eigendecomposition
 $\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, where $\mathbf{V}$ is an orthogonal matrix
 and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the eigenvalues
 $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
+[^1]$ with eigenvalues $\lambda_i$: the quadratic form is bounded by the Rayleigh
+quotient $\lambda_{\min} \norm{\mathbf{v}}_2^2 \leq \mathbf{v}^\top \mathbf{M} \mathbf{v} \leq \lambda_{\max} \norm{\mathbf{v}}_2^2$.
+Furthermore, its induced $\ell_2$-norm (spectral norm) equates to its spectral radius:
+$\norm{\mathbf{M}}_2 = \max_i |\lambda_i|$.}
 
 <span class="blue"><strong>Theorem</strong>:</span>
 For any real symmetric matrix $\mathbf{M} \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
@@ -868,75 +872,6 @@ $$
 \lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
 $$
 where $\lambda_{\min}$ and $\lambda_{\max}$ are the minimum and maximum eigenvalues of $M$.
-
-> [!note]- Proof
-> By the finite-dimensional Spectral Theorem, the real symmetric matrix $M$ possesses an
-> orthonormal basis of eigenvectors $u_1, u_2, \dots, u_d$ with corresponding eigenvalues
-> $\lambda_1, \lambda_2, \dots, \lambda_d$. Assume without loss of generality that
-> $\lambda_{\min} \leq \lambda_i \leq \lambda_{\max}$ for all $i$.
->
-> Any vector $v \in \mathbb{R}^d$ can be expressed as a linear combination of these basis vectors:
-> $$
-> v = \sum_{i=1}^{d} c_i u_i
-> $$
-> for some real coefficients $c_i$.
->
-> The squared Euclidean norm of $v$ is:
-> $$
-> v^T v = \left( \sum_{i=1}^{d} c_i u_i \right)^T \left( \sum_{j=1}^{d} c_j u_j \right) = \sum_{i=1}^{d} c_i^2
-> $$
-> due to the orthonormality of the eigenvectors ($u_i^T u_j = 0$ for $i \neq j$, and $u_i^T u_i = 1$).
->
-> Now, evaluate the quadratic form $v^T M v$:
-> $$
-> v^T M v = v^T \left( M \sum_{i=1}^{d} c_i u_i \right) = v^T \left( \sum_{i=1}^{d} c_i \lambda_i u_i \right) = \sum_{i=1}^{d} \lambda_i c_i^2
-> $$
->
-> Since $c_i^2 \geq 0$ for all $i$, we can bound the sum by replacing each $\lambda_i$
-> with the minimum and maximum eigenvalues:
-> $$
-> \lambda_{\min} \sum_{i=1}^{d} c_i^2 \leq \sum_{i=1}^{d} \lambda_i c_i^2 \leq \lambda_{\max} \sum_{i=1}^{d} c_i^2
-> $$
->
-> Substituting $v^T v = \sum_{i=1}^{d} c_i^2$ back into the inequality yields the final result:
-> $$
-> \lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
-> $$
-
-<span class="blue"><strong>Theorem</strong>:</span>
-Let $H \in \mathbb{R}^{d \times d}$ be a symmetric matrix with eigenvalues
-$\lambda_1, \lambda_2, \dots, \lambda_d$. The induced $\ell_2$-norm of the iteration
-matrix $(I - \eta H)$ is bounded by:
-$$
-\left\|I - \eta H\right\|_2 = \max_{1 \leq i \leq d} |1 - \eta \lambda_i|
-$$
-
-> [!note]- Proof
-> Let $u_i$ be an eigenvector of the matrix $H$ corresponding to the eigenvalue
-> $\lambda_i$. By definition of an eigenvector and eigenvalue, we have:
-> $$
-> H u_i = \lambda_i u_i
-> $$
->
-> Now, we apply the iteration operator $(I - \eta H)$ to this same eigenvector $u_i$:
-> $$
-> \begin{aligned}
->         (I - \eta H)u_i & = I u_i - \eta H u_i         \\
->                         & = u_i - \eta (\lambda_i u_i) \\
->                         & = (1 - \eta \lambda_i)u_i
->     \end{aligned}
-> $$
->
-> This demonstrates that $u_i$ is also an eigenvector of the matrix $(I - \eta H)$, and its corresponding eigenvalue is $(1 - \eta \lambda_i)$. Thus, the eigenvalues of $(I - \eta H)$ are exactly $(1 - \eta \lambda_i)$ for $i = 1, \dots, d$.
->
-> Because $H$ is a real, symmetric matrix (since $H = \frac{A^T A}{n}$), the iteration matrix $(I - \eta H)$ is also real and symmetric.
->
-> A fundamental property of any real, symmetric matrix is that its induced $\ell_2$-norm (also known as the spectral norm) is equal to its spectral radius. The spectral radius is the maximum absolute value of the matrix's eigenvalues.
->
-> Therefore, taking the maximum absolute value of the eigenvalues we just found gives us the $\ell_2$-norm of the operator:
-> $$
->     \left|I - \eta H\right|_2 = \max_{1 \leq i \leq d} |1 - \eta \lambda_i|
-> $$
 
 <span class="blue"><strong>Corollary</strong> (<em>Spectral Bound and Convergence</em>):</span>
 The induced $\ell_2$-norm of the iteration operator is bounded by:
@@ -1090,9 +1025,9 @@ $$
 z_i(t) = \underbrace{e^{-\eta \lambda_i t} z_i(0)}_{\text{transient}} + \underbrace{\frac{1 - e^{-\eta \lambda_i t}}{\sqrt{n \lambda_i}} \tilde{\epsilon}_i}_{\text{noise-driven steady state}}
 $$
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">thm:expected_excess_risk</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">thm:expected_excess_risk</a>
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:excess_risk_continuous</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:excess_risk_continuous</a>
 <span class="blue"><strong>Theorem</strong> (<em>Expected Excess Risk</em>):</span>
 Assume the initialization $z_i(0) = \alpha_i^{(0)} - \alpha_i^*$ and the noise
 $\tilde{\epsilon}_i$ are independent, causing cross-terms to vanish in expectation. The
@@ -1114,7 +1049,7 @@ preventing full noise accumulation.
 
 To analytically characterize the optimal stopping time $t^*$, we simplify the landscape curvature.
 
-##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:optimal_risk_harmonic</span>
+##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:optimal_risk_harmonic</a>
 <span class="blue"><strong>Theorem</strong> (<em>Optimal Stopping under Isotropic Curvature</em>):</span>
 Assume all eigenvalues are equal ($\lambda_i = \lambda$ for all $i$) and define the total
 initialization error as $\mathcal{I} = \norm{\mathbf{x}^{(0)} - \mathbf{x}^*}^2$. The optimal
@@ -1212,3 +1147,6 @@ Maps to lecture 11, 11.1, 11.2, and 11.3.
 # Alternating Projections
 
 # Proximal Methods
+
+[^1]: Recall the standard linear algebra bounds for a real symmetric matrix
+$\mathbf{M
