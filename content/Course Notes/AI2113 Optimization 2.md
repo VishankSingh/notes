@@ -42,9 +42,9 @@ The problem is non-differentiable at zero. We reformulate it as a Linear Program
 
 $$
 \begin{aligned}
-& \text{minimize} & & \mathbf{1}^T t \\
-& \text{subject to} & & -t \preceq Ax - b \preceq t
-\end{aligned}
+         & \text{minimize}   &  & \mathbf{1}^T t              \\
+         & \text{subject to} &  & -t \preceq Ax - b \preceq t
+    \end{aligned}
 $$
 where $\preceq$ denotes component-wise inequality.
 
@@ -81,9 +81,9 @@ We introduce a scalar variable $t \in \mathbb{R}$ representing the maximum bound
 
 $$
 \begin{aligned}
-& \text{minimize} & & t \\
-& \text{subject to} & & -t\mathbf{1} \preceq Ax - b \preceq t\mathbf{1}
-\end{aligned}
+         & \text{minimize}   &  & t                                               \\
+         & \text{subject to} &  & -t\mathbf{1} \preceq Ax - b \preceq t\mathbf{1}
+    \end{aligned}
 $$
 
 ## Penalty Functions
@@ -115,14 +115,14 @@ $$
 
 $$
 \phi(u) = \begin{cases}
-        -\log(1-u^2), \quad &|u| < 1 \\
-        \infty, \quad &|u| \ge 1
+        -\log(1-u^2), \quad & |u| < 1   \\
+        \infty, \quad       & |u| \ge 1
     \end{cases}
 $$
 
 ### Huber Penalty
 
-##### <span style="color: transparent;">sec-Moreau-Envelope</span>
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec-Moreau-Envelope</span>
 # Moreau Envelope
 
 <span class="blue"><strong>Definition</strong> (<em>Moreau Envelope</em>):</span>
@@ -133,7 +133,7 @@ $$
 
 <span class="blue"><strong>Remark</strong>:</span>
 The above expression is essentially an infimal convolution of $uf:\mathbb{R}^n \to \mathbb{R}$
-and $g:\mathbb{R}^n \to \mathbb{R}$ where $g = (1/2)\|\cdot\|^2_2$.
+    and $g:\mathbb{R}^n \to \mathbb{R}$ where $g = (1/2)\|\cdot\|^2_2$.
 
 <span class="blue"><strong>Definition</strong> (<em>Proximal Operator</em>):</span>
 The proximal operator $prox_u(\mathbf{x}) : \mathbb{R}^n \to \mathbb{R}^n$ of $f$ with parameter
@@ -283,7 +283,7 @@ If $f$ is convex but not closed, $f^{**}$ is the lower semi-continuous closure o
 
 # Duality
 
-##### <span style="color: transparent;">sec:Fenchel-Young-Corollary</span>
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec:Fenchel-Young-Corollary</span>
 <span class="blue"><strong>Corollary</strong> (<em>Fenchel-Young-Corollary</em>):</span>
 Let $f : \mathbb{R}^n \to \mathbb{R}$ be a convex and differentiable function. For any $\mathbf{x}, \mathbf{m} \in \mathbb{R}^n$, the following statements are equivalent:
 
@@ -378,10 +378,10 @@ $h^*(\mathbf{m}) = f^*(0,\mathbf{m})$
 > [Proof]
 > $$
 > \begin{aligned}
->     h^*(\mathbf{m}) &= \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - h(\mathbf{y}) \right) \\
->     &= \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - \min_{\mathbf{x}} f(\mathbf{x}, \mathbf{y}) \right) \\
->     &= \sup_{\mathbf{y}} \sup_{\mathbf{x}} \left( \mathbf{m}^T \mathbf{y} - f(\mathbf{x}, \mathbf{y}) \right) = f^*(0, \mathbf{m})
-> \end{aligned}
+>         h^*(\mathbf{m}) & = \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - h(\mathbf{y}) \right)                                                    \\
+>                         & = \sup_{\mathbf{y}} \left( \mathbf{m}^T \mathbf{y} - \min_{\mathbf{x}} f(\mathbf{x}, \mathbf{y}) \right)                      \\
+>                         & = \sup_{\mathbf{y}} \sup_{\mathbf{x}} \left( \mathbf{m}^T \mathbf{y} - f(\mathbf{x}, \mathbf{y}) \right) = f^*(0, \mathbf{m})
+>     \end{aligned}
 > $$
 
 <span class="blue"><strong>Remark</strong>:</span>
@@ -431,9 +431,9 @@ bound on the primal optimal value: $g(\lambda) \le p^*$ for all $\lambda \succeq
 The **Lagrange dual problem** seeks the tightest lower bound,
 $$
 \begin{aligned}
-    d^* = \sup_{\lambda} & \quad g(\lambda) \\
-    \text{s.t.} & \quad \lambda \succeq 0
-\end{aligned}
+        d^* = \sup_{\lambda} & \quad g(\lambda)        \\
+        \text{s.t.}          & \quad \lambda \succeq 0
+    \end{aligned}
 $$
 The relationship between the primal and dual optimal values is governed by
 **Weak Duality** ($d^* \le p^*$). Under constraint qualifications
@@ -479,9 +479,9 @@ Continued from [[AI2113 Optimization 2#sec-moreau-envelope|here]].
 > Reframe as:
 > $$
 > \begin{aligned}
-> \min_{\mathbf{x}, \mathbf{y}} & \quad \|\mathbf{y}\|_2 \\
-> \text{s.t.} & \quad \mathbf{A}\mathbf{x} - \mathbf{b} = \mathbf{y}
-> \end{aligned}
+>         \min_{\mathbf{x}, \mathbf{y}} & \quad \|\mathbf{y}\|_2                               \\
+>         \text{s.t.}                   & \quad \mathbf{A}\mathbf{x} - \mathbf{b} = \mathbf{y}
+>     \end{aligned}
 > $$
 >
 > **Lagrangian:**
@@ -492,19 +492,19 @@ Continued from [[AI2113 Optimization 2#sec-moreau-envelope|here]].
 > **Dual Function:**
 > $$
 > \begin{aligned}
-> g(\mathbf{v}) &= \inf_{\mathbf{x}, \mathbf{y}} \left[ \|\mathbf{y}\|_2 + \mathbf{v}^T (\mathbf{A}\mathbf{x} - \mathbf{b} - \mathbf{y}) \right] \\
-> &= -\mathbf{v}^T \mathbf{b} + \left[ \inf_{\mathbf{x}, \mathbf{y}} \left( \underbrace{ \|\mathbf{y}\|_2 - \mathbf{v}^T \mathbf{y} }_{\substack{-\infty \text{ if } \|\mathbf{v}\|_2 > 1 \\ 0 \text{ otherwise}}} \right) + \left( \underbrace{ (\mathbf{A}^T \mathbf{v})^T \mathbf{x} }_{\substack{0 \text{ if } \mathbf{A}^T \mathbf{v} = 0 \\ -\infty \text{ otherwise}}} \right) \right]
-> \end{aligned}
+>         g(\mathbf{v}) & = \inf_{\mathbf{x}, \mathbf{y}} \left[ \|\mathbf{y}\|_2 + \mathbf{v}^T (\mathbf{A}\mathbf{x} - \mathbf{b} - \mathbf{y}) \right]                                                        \\
+>                         & = -\mathbf{v}^T \mathbf{b} + \left[ \inf_{\mathbf{x}, \mathbf{y}} \left( \underbrace{ \|\mathbf{y}\|_2 - \mathbf{v}^T \mathbf{y} }_{\substack{-\infty \text{ if } \|\mathbf{v}\|_2 > 1 \\ 0 \text{ otherwise}}} \right) + \left( \underbrace{ (\mathbf{A}^T \mathbf{v})^T \mathbf{x} }_{\substack{0 \text{ if } \mathbf{A}^T \mathbf{v} = 0 \\ -\infty \text{ otherwise}}} \right) \right]
+>     \end{aligned}
 > $$
 >
 >
 > **Result:**
 > $$
 > g(\mathbf{v}) =
-> \begin{cases}
-> -\mathbf{v}^T \mathbf{b} & \text{if } \mathbf{A}^T \mathbf{v} = 0 \text{ \& } \|\mathbf{v}\|_2 \le 1 \\
-> -\infty & \text{otherwise}
-> \end{cases}
+>     \begin{cases}
+>         -\mathbf{v}^T \mathbf{b} & \text{if } \mathbf{A}^T \mathbf{v} = 0 \text{ \& } \|\mathbf{v}\|_2 \le 1 \\
+>         -\infty                  & \text{otherwise}
+>     \end{cases}
 > $$
 
 ## Dual of Moreau envelope
@@ -520,9 +520,9 @@ To derive its dual representation, we rewrite this as a constrained minimization
 by introducing an auxiliary variable $z$
 $$
 \begin{aligned}
-    \min_{y, z} \quad & f(y) + \frac{1}{2u} \|z\|^2 \\
-    \text{s.t.} \quad & x - y = z.
-\end{aligned}
+        \min_{y, z} \quad & f(y) + \frac{1}{2u} \|z\|^2 \\
+        \text{s.t.} \quad & x - y = z.
+    \end{aligned}
 $$
 
 The dual function $g(v)$ is given by
@@ -544,10 +544,10 @@ $$
 > respect to the primal variables $y$ and $z$,
 > $$
 > \begin{aligned}
->     g(v) &= \inf_{y, z} L(y, z, v) \\
->     &= \inf_{y, z} \left\{ f(y) + \frac{1}{2u} \|z\|^2 + \langle v, x \rangle - \langle v, y \rangle - \langle v, z \rangle \right\} \\
->     &= \langle v, x \rangle + \inf_{y} \big\{ f(y) - \langle v, y \rangle \big\} + \inf_{z} \left\{ \frac{1}{2u} \|z\|^2 - \langle v, z \rangle \right\}.
-> \end{aligned}
+>         g(v) & = \inf_{y, z} L(y, z, v)                                                                                                                             \\
+>                 & = \inf_{y, z} \left\{ f(y) + \frac{1}{2u} \|z\|^2 + \langle v, x \rangle - \langle v, y \rangle - \langle v, z \rangle \right\}                      \\
+>                 & = \langle v, x \rangle + \inf_{y} \big\{ f(y) - \langle v, y \rangle \big\} + \inf_{z} \left\{ \frac{1}{2u} \|z\|^2 - \langle v, z \rangle \right\}.
+>     \end{aligned}
 > $$
 >
 > We evaluate the infima term-wise:
@@ -581,9 +581,9 @@ $$
 > of the dual:
 > $$
 > \begin{aligned}
->     f_u(x) &= \sup_v g(v) \\
->     &= \sup_v \left\{ \langle v, x \rangle - \left( f^*(v) + \frac{u}{2} \|v\|^2 \right) \right\}.
-> \end{aligned}
+>         f_u(x) & = \sup_v g(v)                                                                                 \\
+>                 & = \sup_v \left\{ \langle v, x \rangle - \left( f^*(v) + \frac{u}{2} \|v\|^2 \right) \right\}.
+>     \end{aligned}
 > $$
 > Recognizing the right-hand side as the Fenchel conjugate of the function $\phi(v) = f^*(v) + \frac{u}{2} \|v\|^2$ evaluated at $x$, we conclude:
 > $$
@@ -723,9 +723,9 @@ The variance term for the Ridge estimator is bounded by $\frac{\sigma^2 \Tr(\mat
 > Using the cyclic property of the trace and substituting $\mathbf{\Sigma} = \frac{1}{n}\mathbf{A}^\top\mathbf{A}$:
 > $$
 > \begin{aligned}
->     \text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) &= \frac{\sigma^2}{n} \Tr\left( \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) \\
->     &= \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right).
-> \end{aligned}
+>         \text{Var}(\hat{\mathbf{x}}_{\text{ridge}}) & = \frac{\sigma^2}{n} \Tr\left( \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \left(\frac{1}{n}\mathbf{A}^\top\mathbf{A}\right) (\mathbf{\Sigma} + \lambda \mathbf{I})^{-1} \right) \\
+>                                                     & = \frac{\sigma^2}{n} \Tr\left( \mathbf{\Sigma}^2 (\mathbf{\Sigma} + \lambda \mathbf{I})^{-2} \right).
+>     \end{aligned}
 > $$
 > Let $\text{spec}(\mathbf{\Sigma}) = \{\mu_i\}_{i=1}^d$. Expressing the trace in terms of the spectrum gives:
 > $$
@@ -777,7 +777,7 @@ $$
 where $\eta > 0$ is the step size. To rigorously guarantee convergence, we must impose
 structural conditions on the objective function $f$.
 
-##### <span style="color: transparent;">def-l-smoothness-and-strong-convexity</span>
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">def-l-smoothness-and-strong-convexity</span>
 <span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{L}$-Smoothness and Strong Convexity</em>):</span>
 A differentiable function $f$ is **$L$-smooth** if its gradient is Lipschitz
 continuous with constant $L > 0$:
@@ -842,15 +842,15 @@ $$
 > By substituting the gradient into the GD update rule:
 > $$
 > \begin{aligned}
->     \mathbf{x}^{(k)} &= \mathbf{x}^{(k-1)} - \eta \left( \mathbf{H}\mathbf{x}^{(k-1)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y} \right)
-> \end{aligned}
+>         \mathbf{x}^{(k)} & = \mathbf{x}^{(k-1)} - \eta \left( \mathbf{H}\mathbf{x}^{(k-1)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y} \right)
+>     \end{aligned}
 > $$
 > Utilizing the optimality condition $\frac{1}{n}\mathbf{A}^\top \mathbf{y} = \mathbf{H}\mathbf{x}^*$, we have:
 > $$
 > \begin{aligned}
->     \mathbf{x}^{(k)} &= \mathbf{x}^{(k-1)} - \eta \mathbf{H}(\mathbf{x}^{(k-1)} - \mathbf{x}^*) \\
->     \mathbf{x}^{(k)} - \mathbf{x}^* &= (\mathbf{I} - \eta \mathbf{H}) (\mathbf{x}^{(k-1)} - \mathbf{x}^*)
-> \end{aligned}
+>         \mathbf{x}^{(k)}             & = \mathbf{x}^{(k-1)} - \eta \mathbf{H}(\mathbf{x}^{(k-1)} - \mathbf{x}^*) \\
+>         \mathbf{x}^{(k)} - \mathbf{x}^* & = (\mathbf{I} - \eta \mathbf{H}) (\mathbf{x}^{(k-1)} - \mathbf{x}^*)
+>     \end{aligned}
 > $$
 >
 > Applying this relation recursively $k$ times yields the stated theorem.
@@ -863,7 +863,7 @@ and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the e
 $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
 
 <span class="blue"><strong>Theorem</strong>:</span>
-For any real symmetric matrix $M \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
+For any real symmetric matrix $\mathbf{M} \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
 $$
 \lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
 $$
@@ -921,10 +921,10 @@ $$
 > Now, we apply the iteration operator $(I - \eta H)$ to this same eigenvector $u_i$:
 > $$
 > \begin{aligned}
->     (I - \eta H)u_i &= I u_i - \eta H u_i \\
->     &= u_i - \eta (\lambda_i u_i) \\
->     &= (1 - \eta \lambda_i)u_i
-> \end{aligned}
+>         (I - \eta H)u_i & = I u_i - \eta H u_i         \\
+>                         & = u_i - \eta (\lambda_i u_i) \\
+>                         & = (1 - \eta \lambda_i)u_i
+>     \end{aligned}
 > $$
 >
 > This demonstrates that $u_i$ is also an eigenvector of the matrix $(I - \eta H)$, and its corresponding eigenvalue is $(1 - \eta \lambda_i)$. Thus, the eigenvalues of $(I - \eta H)$ are exactly $(1 - \eta \lambda_i)$ for $i = 1, \dots, d$.
@@ -992,7 +992,11 @@ Finding the exact optimal solution $\mathbf{x}^*$ can be done via several matrix
 In practice, execution times follow: Cholesky $<$ QR $<$ SVD.
 
 ## Gradient Descent (GD) Iterations
-GD is an approximate method requiring $k = \mathcal{O}\left(\kappa \log \frac{1}{\epsilon}\right)$ iterations to reach $\epsilon$-accuracy, where $\kappa$ is the condition number of the Hessian $\mathbf{H} = \frac{1}{n}\mathbf{A}^\top\mathbf{A}$. We have two primary ways to compute the gradient step $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \eta \nabla f(\mathbf{x}^{(k)})$:
+GD is an approximate method requiring
+$k = \mathcal{O}\left(\kappa \log \frac{1}{\epsilon}\right)$ iterations to reach
+$\epsilon$-accuracy, where $\kappa$ is the condition number of the Hessian
+$\mathbf{H} = \frac{1}{n}\mathbf{A}^\top\mathbf{A}$. We have two primary ways to compute the
+gradient step $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \eta \nabla f(\mathbf{x}^{(k)})$:
 
 <span class="blue"><strong>Lemma</strong> (<em>GD Complexity Regimes</em>):</span>
 Gradient Descent can be implemented in two distinct computational paradigms:
@@ -1001,45 +1005,65 @@ Gradient Descent can be implemented in two distinct computational paradigms:
 - **Approach 2 (No Precomputation):** $\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} - \frac{\eta}{n} \mathbf{A}^\top (\mathbf{A}\mathbf{x}^{(k)} - \mathbf{y})$. We compute the matrix-vector products iteratively. Each iteration takes $\mathcal{O}(nd)$. Total complexity: $\mathcal{O}(nd \kappa \log \frac{1}{\epsilon})$.
 
 <span class="blue"><strong>Remark</strong> (<em>Why use Gradient Descent?</em>):</span>
-In regimes where $d$ is very large, Approach 2 avoids the $\mathcal{O}(nd^2)$ cost entirely, offering significant computational savings if the problem is well-conditioned ($\kappa$ is small). Furthermore, GD is favored for:
+In regimes where $d$ is very large, Approach 2 avoids the $\mathcal{O}(nd^2)$ cost
+entirely, offering significant computational savings if the problem is well-conditioned
+($\kappa$ is small). Furthermore, GD is favored for:
 
-1. **Memory Restrictions:** Iterative methods avoid storing the $d \times d$ dense Hessian, making them suitable for streaming algorithms or massive datasets.
-2. **Implicit Regularization:** When stopped early, GD provides better generalization error by preventing overfitting to the noise, acting akin to Ridge regularization.
+1. **Memory Restrictions:** Iterative methods avoid storing the
+            $d \times d$ dense Hessian, making them suitable for streaming algorithms or
+            massive datasets.
+2. **Implicit Regularization:** When stopped early, GD provides better
+            generalization error by preventing overfitting to the noise, acting akin to Ridge
+            regularization.
 
 ## Generalization Error and Early Stopping
 
-We formalize the implicit regularization of GD by analyzing the noisy observation model. Let the training labels be generated by $\mathbf{y}_{\text{train}} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, where $\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$.
+We formalize the implicit regularization of GD by analyzing the noisy observation model.
+Let the training labels be generated by
+$\mathbf{y}_{\text{train}} = \mathbf{A}\mathbf{x}^* + \bm{\epsilon}$, where
+$\bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_n)$.
 
-We obtain an estimate $\hat{\mathbf{x}}^{(k)}$ via $k$ iterations of GD on $\mathbf{y}_{\text{train}}$. We wish to analyze the test error (Risk) on a new sample:
+We obtain an estimate $\hat{\mathbf{x}}^{(k)}$ via $k$ iterations of GD on
+$\mathbf{y}_{\text{train}}$. We wish to analyze the test error (Risk) on a new sample:
 $$
 \mathcal{R}(k) = \frac{1}{n}\E \norm{\mathbf{A}\hat{\mathbf{x}}^{(k)} - \mathbf{y}_{\text{test}}}_2^2
 $$
-where $\mathbf{y}_{\text{test}} = \mathbf{A}_{\text{test}}\mathbf{x}^* + \bm{\epsilon}_{test}$ is an independent test label vector with $\mathbf{A}_{\text{test}} \in \R^{n_{\text{test}} \times d}$ and $\bm{\epsilon}_{test} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_{n_{\text{test}}})$ independent of $\bm{\epsilon}$.
-Recall that for the exact OLS estimator $\hat{\mathbf{x}}_{\text{OLS}}$, the risk is strictly $\mathcal{R}(\hat{\mathbf{x}}_{\text{OLS}}) = \sigma^2 + \frac{\sigma^2 d}{n}$. We now track this risk strictly as a function of the iteration count $k$.
+where $\mathbf{y}_{\text{test}} = \mathbf{A}_{\text{test}}\mathbf{x}^* + \bm{\epsilon}_{test}$
+is an independent test label vector with
+$\mathbf{A}_{\text{test}} \in \R^{n_{\text{test}} \times d}$ and
+$\bm{\epsilon}_{test} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_{n_{\text{test}}})$
+independent of $\bm{\epsilon}$.
+Recall that for the exact OLS estimator $\hat{\mathbf{x}}_{\text{OLS}}$, the risk is
+strictly $\mathcal{R}(\hat{\mathbf{x}}_{\text{OLS}}) = \sigma^2 + \frac{\sigma^2 d}{n}$.
+We now track this risk strictly as a function of the iteration count $k$.
 
 <span class="blue"><strong>Theorem</strong> (<em>Noisy Error Dynamics</em>):</span>
-Let $\mathbf{A}/\sqrt{n} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$ be the thin SVD of the normalized design matrix, implying $\mathbf{H} = \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top$. If we project the error into the eigenbasis $\bm{\alpha}^{(k)} = \mathbf{V}^\top \mathbf{x}^{(k)}$, the error recurrence with noise is:
+Let $\mathbf{A}/\sqrt{n} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$ be the thin SVD of the normalized
+design matrix, implying $\mathbf{H} = \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top$. If we project
+the error into the eigenbasis $\bm{\alpha}^{(k)} = \mathbf{V}^\top \mathbf{x}^{(k)}$, the
+error recurrence with noise is:
 $$
 \bm{\alpha}^{(k+1)} - \bm{\alpha}^* = (\mathbf{I} - \eta \mathbf{\Sigma}^2)(\bm{\alpha}^{(k)} - \bm{\alpha}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}}
 $$
-where $\tilde{\bm{\epsilon}} = \mathbf{U}^\top \bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$ is the projected noise vector.
+where $\tilde{\bm{\epsilon}} = \mathbf{U}^\top \bm{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$
+is the projected noise vector.
 
 > [!note]- Proof
 > Substituting the noisy labels into the GD update:
 > $$
 > \begin{aligned}
->     \mathbf{x}^{(k+1)} &= \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y}_{\text{train}} \right) \\
->     &= \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top (\mathbf{A}\mathbf{x}^* + \bm{\epsilon}) \right) \\
->     \mathbf{x}^{(k+1)} - \mathbf{x}^* &= (\mathbf{I} - \eta \mathbf{H})(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{n}\mathbf{A}^\top \bm{\epsilon}
-> \end{aligned}
+>         \mathbf{x}^{(k+1)}             & = \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top \mathbf{y}_{\text{train}} \right)             \\
+>                                     & = \mathbf{x}^{(k)} - \eta \left( \mathbf{H}\mathbf{x}^{(k)} - \frac{1}{n}\mathbf{A}^\top (\mathbf{A}\mathbf{x}^* + \bm{\epsilon}) \right) \\
+>         \mathbf{x}^{(k+1)} - \mathbf{x}^* & = (\mathbf{I} - \eta \mathbf{H})(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{n}\mathbf{A}^\top \bm{\epsilon}
+>     \end{aligned}
 > $$
 > Using the thin SVD, the noise term maps to $\frac{\eta}{n} (\sqrt{n}\mathbf{V}\mathbf{\Sigma}\mathbf{U}^\top) \bm{\epsilon} = \frac{\eta}{\sqrt{n}} \mathbf{V}\mathbf{\Sigma}\tilde{\bm{\epsilon}}$.
 > Multiplying the entire recurrence by $\mathbf{V}^\top$ to change into the $\bm{\alpha}$ basis yields:
 > $$
 > \begin{aligned}
->     \mathbf{V}^\top (\mathbf{x}^{(k+1)} - \mathbf{x}^*) &= \mathbf{V}^\top (\mathbf{I} - \eta \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top)(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}} \\
->     \bm{\alpha}^{(k+1)} - \bm{\alpha}^* &= (\mathbf{I} - \eta \mathbf{\Sigma}^2)(\bm{\alpha}^{(k)} - \bm{\alpha}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}}
-> \end{aligned}
+>         \mathbf{V}^\top (\mathbf{x}^{(k+1)} - \mathbf{x}^*) & = \mathbf{V}^\top (\mathbf{I} - \eta \mathbf{V}\mathbf{\Sigma}^2\mathbf{V}^\top)(\mathbf{x}^{(k)} - \mathbf{x}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}} \\
+>         \bm{\alpha}^{(k+1)} - \bm{\alpha}^*        & = (\mathbf{I} - \eta \mathbf{\Sigma}^2)(\bm{\alpha}^{(k)} - \bm{\alpha}^*) + \frac{\eta}{\sqrt{n}} \mathbf{\Sigma} \tilde{\bm{\epsilon}}
+>     \end{aligned}
 > $$
 > Because $\mathbf{U}$ has orthonormal columns ($\mathbf{U}^\top \mathbf{U} = \mathbf{I}_d$), the linear transformation of the isotropic Gaussian noise preserves its distribution: $\tilde{\bm{\epsilon}} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_d)$.
 
@@ -1050,3 +1074,141 @@ The error equation highlights a fundamental bias-variance tradeoff governed by i
 - **Variance (Noise Accumulation):** The term driven by $\tilde{\bm{\epsilon}}$ is repeatedly accumulated at each iteration. As $k \to \infty$, GD fully memorizes the training noise, and the variance approaches the irreducible limit $\frac{\sigma^2 d}{n}$.
 
 Consequently, plotting the expected test risk against $k$ produces a characteristic "U-shaped" curve. Terminating the algorithm at an intermediate $k^*$ prior to convergence (Early Stopping) prevents the full accumulation of $\tilde{\bm{\epsilon}}$, thereby yielding an estimator with lower generalization error than the exact OLS solution.
+
+## Continuous-Time Solution and Expected Risk
+
+We approximate the discrete error dynamics using a continuous model to decouple the effects
+of initialization bias and stochastic noise.
+
+<span class="blue"><strong>Lemma</strong> (<em>Continuous-Time Error Dynamics</em>):</span>
+Let $\lambda_i = \sigma_i^2$ be the $i$-th eigenvalue of $\mathbf{H}$. As the iteration count
+$k \to t$, the eigen-projected error coordinate $z_i(t) = \alpha_i(t) - \alpha_i^*$ follows
+the forward-Euler ODE
+$\dot{z}_i = -\eta \lambda_i z_i + \frac{\eta \sigma_i}{\sqrt{n}} \tilde{\epsilon}_i$. Its
+solution is,
+$$
+z_i(t) = \underbrace{e^{-\eta \lambda_i t} z_i(0)}_{\text{transient}} + \underbrace{\frac{1 - e^{-\eta \lambda_i t}}{\sqrt{n \lambda_i}} \tilde{\epsilon}_i}_{\text{noise-driven steady state}}
+$$
+
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">thm:expected_excess_risk</span>
+
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:excess_risk_continuous</span>
+<span class="blue"><strong>Theorem</strong> (<em>Expected Excess Risk</em>):</span>
+Assume the initialization $z_i(0) = \alpha_i^{(0)} - \alpha_i^*$ and the noise
+$\tilde{\epsilon}_i$ are independent, causing cross-terms to vanish in expectation. The
+expected excess risk, $\mathcal{R}_{\text{ex}}(t) = \sum_{i=1}^d \lambda_i \E[z_i(t)^2]$,
+decomposes into strictly decreasing bias and strictly increasing variance:
+
+$$
+\mathcal{R}_{\text{ex}}(t) = \sum_{i=1}^d \underbrace{\lambda_i e^{-2\eta \lambda_i t} (\alpha_i^{(0)} - \alpha_i^*)^2}_{\textbf{bias}^2} + \sum_{i=1}^d \underbrace{\frac{(1 - e^{-\eta \lambda_i t})^2}{n} \sigma^2}_{\textbf{variance}}
+$$
+
+<span class="blue"><strong>Remark</strong> (<em>Asymptotic Behavior</em>):</span>
+As $t \to \infty$, the transient bias decays to $0$, and each variance term saturates to
+$\sigma^2 / n$. Consequently, $\mathcal{R}_{\text{ex}}(\infty) = \frac{\sigma^2 d}{n}$,
+perfectly recovering the exact OLS risk. The U-shaped trajectory of ([[AI2113 Optimization 2#eq:excess_risk_continuous|eq:excess_risk_continuous]])
+highlights that terminating the algorithm early inherently regularizes the estimator by
+preventing full noise accumulation.
+
+## Equal-Eigenvalue Simplification and Optimal Stopping
+
+To analytically characterize the optimal stopping time $t^*$, we simplify the landscape curvature.
+
+##### <span style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:optimal_risk_harmonic</span>
+<span class="blue"><strong>Theorem</strong> (<em>Optimal Stopping under Isotropic Curvature</em>):</span>
+Assume all eigenvalues are equal ($\lambda_i = \lambda$ for all $i$) and define the total
+initialization error as $\mathcal{I} = \norm{\mathbf{x}^{(0)} - \mathbf{x}^*}^2$. The optimal
+early stopping time $t^*$ achieves a minimized excess risk of:
+
+$$
+\mathcal{R}_{\text{ex}}(t^*) = \frac{\lambda \mathcal{I} \cdot \frac{\sigma^2 d}{n}}{\lambda \mathcal{I} + \frac{\sigma^2 d}{n}}
+$$
+
+> [!note]- Proof
+> Under the isotropic assumption $\lambda_i = \lambda$, the excess risk from Theorem
+> ([[AI2113 Optimization 2#thm:expected_excess_risk|thm:expected_excess_risk]]) simplifies to:
+> $$
+> \mathcal{R}_{\text{ex}}(t) = \lambda e^{-2\eta \lambda t} \mathcal{I} + \frac{\sigma^2 d}{n}(1 - e^{-\eta \lambda t})^2
+> $$
+> To find the minimum, we take the derivative with respect to $t$ and set it to zero:
+> $$
+> \frac{d}{dt} \mathcal{R}_{\text{ex}}(t) = -2\eta \lambda^2 e^{-2\eta \lambda t} \mathcal{I} + 2\eta \lambda \frac{\sigma^2 d}{n}(1 - e^{-\eta \lambda t})e^{-\eta \lambda t} = 0
+> $$
+> Dividing out the common strictly positive factor $2\eta \lambda e^{-\eta \lambda t}$ yields:
+> $$
+> -\lambda e^{-\eta \lambda t} \mathcal{I} + \frac{\sigma^2 d}{n}(1 - e^{-\eta \lambda t}) = 0 \quad \implies \quad e^{-\eta \lambda t} = \frac{\frac{\sigma^2 d}{n}}{\lambda \mathcal{I} + \frac{\sigma^2 d}{n}}
+> $$
+> Substituting this optimal exponential decay factor back into the simplified risk equation directly evaluates to the harmonic mean expression in ([[AI2113 Optimization 2#eq:optimal_risk_harmonic|eq:optimal_risk_harmonic]]).
+
+<span class="blue"><strong>Remark</strong> (<em>Implicit Regularization Bounds</em>):</span>
+The result in ([[AI2113 Optimization 2#eq:optimal_risk_harmonic|eq:optimal_risk_harmonic]]) takes the form of a harmonic mean: $\frac{ab}{a+b}$. Since $\frac{ab}{a+b} < \min(a, b)$ for all $a,b > 0$, it is strictly guaranteed that $\mathcal{R}_{\text{ex}}(t^*)$ is lower than both the starting initialization error ($\lambda \mathcal{I}$) and the converged OLS risk ($\sigma^2 d / n$).
+
+## Algorithmic Regularization: Early Stopping vs. Ridge Regression
+
+The implicit regularization achieved by terminating Gradient Descent prior to full convergence bears a profound mathematical equivalence to explicit Tikhonov regularization, commonly known as Ridge Regression.
+
+<span class="blue"><strong>Definition</strong> (<em>Ridge Estimator</em>):</span>
+The Ridge Regression estimator with penalty parameter $\lambda > 0$ is the solution to the heavily penalized empirical risk:
+$$
+\hat{\mathbf{x}}_{\lambda} = \arg\min_{\mathbf{x} \in \R^d} \left\{ \frac{1}{2n} \norm{\mathbf{A}\mathbf{x} - \mathbf{y}}_2^2 + \frac{\lambda}{2} \norm{\mathbf{x}}_2^2 \right\} = (\mathbf{H} + \lambda \mathbf{I})^{-1} \left(\frac{1}{n}\mathbf{A}^\top \mathbf{y}\right)
+$$
+
+<span class="blue"><strong>Theorem</strong> (<em>Spectral Filter Equivalence</em>):</span>
+Assuming initialization at the origin ($\mathbf{x}^{(0)} = \mathbf{0}$), Gradient Descent evaluated at iteration $k$ acts as a spectral filter that intimately approximates Ridge Regression with an effective regularization penalty of:
+$$
+\lambda \approx \frac{1}{\eta k}
+$$
+
+> [!note]- Proof
+> Using the exact error operator for GD from Theorem 2 and initializing at $\mathbf{x}^{(0)} = \mathbf{0}$, the $k$-th iterate $\mathbf{x}^{(k)}$ can be written purely in terms of the optimal unregularized solution $\mathbf{x}^*$:
+> $$
+> \mathbf{x}^{(k)} = \left( \mathbf{I} - (\mathbf{I} - \eta \mathbf{H})^k \right) \mathbf{x}^*
+> $$
+> Projecting this onto the eigenbasis of the Hessian $\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, the effective scalar multiplier (the "filter factor") applied to the $i$-th principal component of the solution is:
+> $$
+> f_{\text{GD}}^{(k)}(\lambda_i) = 1 - (1 - \eta \lambda_i)^k
+> $$
+> Conversely, for Ridge Regression, we rewrite the estimator as $\hat{\mathbf{x}}_{\lambda} = (\mathbf{H} + \lambda \mathbf{I})^{-1}\mathbf{H} \mathbf{x}^*$. In the same eigenbasis, its filter factor is:
+> $$
+> f_{\text{Ridge}}^{\lambda}(\lambda_i) = \frac{\lambda_i}{\lambda_i + \lambda}
+> $$
+> To link these, we use the continuous-time approximation for GD (assuming small step size $\eta$ and large $k$). We apply the exponential limit $(1 - \eta \lambda_i)^k \approx e^{-\eta k \lambda_i}$. Equating the two continuous-time filter factors yields:
+> $$
+> 1 - e^{-\eta k \lambda_i} \approx \frac{\lambda_i}{\lambda_i + \lambda}
+> $$
+> By taking the first-order Taylor expansion of the exponential term for small eigenvalues (where regularization exerts the most critical influence, meaning $\lambda_i \to 0$), we obtain $1 - e^{-\eta k \lambda_i} \approx \eta k \lambda_i$. Equating this local approximation to the Ridge filter yields:
+> $$
+> \eta k \lambda_i \approx \frac{\lambda_i}{\lambda_i + \lambda} \implies \eta k (\lambda_i + \lambda) \approx 1
+> $$
+> For heavily penalized small eigenvalues where $\lambda_i \ll \lambda$, this simplifies strictly to $\eta k \lambda \approx 1$, producing the inverse relationship $\lambda \approx \frac{1}{\eta k}$.
+
+## Introduction to Line Search
+
+So far we have used a *fixed* step size $\eta$ for all iterations. A natural improvement is to allow $\eta_k$ to change adaptively at each step.
+
+### Exact Line Search
+At iteration $k$, given the current point $\mathbf{x}^{(k)}$ and descent direction $\mathbf{p}^{(k)} = -\nabla f(\mathbf{x}^{(k)})$, choose:
+$$
+\eta_k = \arg\min_{s \ge 0} f(\mathbf{x}^{(k)} + s \mathbf{p}^{(k)})
+$$
+This minimizes the objective along the ray from $\mathbf{x}^{(k)}$ in direction $\mathbf{p}^{(k)}$---hence the name \textit{line search}.
+
+<span class="blue"><strong>Remark</strong> (<em>Solving the sub-problem</em>):</span>
+The exact line search equation is a one-dimensional optimization in $s$. For least squares, the objective along the ray is quadratic in $s$, so the minimizer is found in closed form by setting the derivative to zero. For general smooth functions, a scalar root-finding method may be needed.
+
+<span class="blue"><strong>Remark</strong> (<em>In practice</em>):</span>
+For least squares, exact line search does not dramatically improve the convergence rate over a well-chosen fixed step size. In practice, however, line search often helps, especially when the landscape is poorly approximated by a quadratic.
+
+# Stochastic Gradient Descent (SGD)
+
+TODO: second half of lecture 10.2 and lecture 10.3
+d
+# Gradient Descent For Beyond Least Squares
+
+Maps to lecture 11, 11.1, 11.2, and 11.3.
+
+# Subgradient Descent
+
+# Alternating Projections
+
+# Proximal Methods
