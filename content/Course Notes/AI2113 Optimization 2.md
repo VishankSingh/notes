@@ -861,10 +861,8 @@ matrix $\mathbf{H}$ admits an orthogonal eigendecomposition
 $\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, where $\mathbf{V}$ is an orthogonal matrix
 and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the eigenvalues
 $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
-[^1]$ with eigenvalues $\lambda_i$: the quadratic form is bounded by the Rayleigh
-quotient $\lambda_{\min} \norm{\mathbf{v}}_2^2 \leq \mathbf{v}^\top \mathbf{M} \mathbf{v} \leq \lambda_{\max} \norm{\mathbf{v}}_2^2$.
-Furthermore, its induced $\ell_2$-norm (spectral norm) equates to its spectral radius:
-$\norm{\mathbf{M}}_2 = \max_i |\lambda_i|$.}
+[^1]
+fdsf
 
 <span class="blue"><strong>Theorem</strong>:</span>
 For any real symmetric matrix $\mathbf{M} \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
@@ -1148,5 +1146,4 @@ Maps to lecture 11, 11.1, 11.2, and 11.3.
 
 # Proximal Methods
 
-[^1]: Recall the standard linear algebra bounds for a real symmetric matrix
-$\mathbf{M
+[^1]: Recall the standard linear algebra bounds for a real symmetric matrix $\mathbf{M}$ with eigenvalues $\lambda_i$: the quadratic form is bounded by the Rayleigh quotient $\lambda_{\min} \norm{\mathbf{v}}_2^2 \leq \mathbf{v}^\top \mathbf{M} \mathbf{v} \leq \lambda_{\max} \norm{\mathbf{v}}_2^2$. Furthermore, its induced $\ell_2$-norm (spectral norm) equates to its spectral radius: $\norm{\mathbf{M}}_2 = \max_i |\lambda_i|$.
