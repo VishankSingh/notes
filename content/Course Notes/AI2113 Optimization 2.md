@@ -122,7 +122,8 @@ $$
 
 ### Huber Penalty
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec-Moreau-Envelope</a>
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">sec-Moreau-Envelope</h6>
+
 # Moreau Envelope
 
 <span class="blue"><strong>Definition</strong> (<em>Moreau Envelope</em>):</span>
@@ -283,7 +284,8 @@ If $f$ is convex but not closed, $f^{**}$ is the lower semi-continuous closure o
 
 # Duality
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">sec:Fenchel-Young-Corollary</a>
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">sec:Fenchel-Young-Corollary</h6>
+
 <span class="blue"><strong>Corollary</strong> (<em>Fenchel-Young-Corollary</em>):</span>
 Let $f : \mathbb{R}^n \to \mathbb{R}$ be a convex and differentiable function. For any $\mathbf{x}, \mathbf{m} \in \mathbb{R}^n$, the following statements are equivalent:
 
@@ -777,7 +779,8 @@ $$
 where $\eta > 0$ is the step size. To rigorously guarantee convergence, we must impose
 structural conditions on the objective function $f$.
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">def-l-smoothness-and-strong-convexity</a>
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">def-l-smoothness-and-strong-convexity</h6>
+
 <span class="blue"><strong>Definition</strong> (<em>$\color{#338cc7}{L}$-Smoothness and Strong Convexity</em>):</span>
 A differentiable function $f$ is **$L$-smooth** if its gradient is Lipschitz
 continuous with constant $L > 0$:
@@ -862,14 +865,6 @@ $\mathbf{H} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^\top$, where $\mathbf{V}$ is 
 and $\mathbf{\Lambda} = \text{diag}(\lambda_1, \dots, \lambda_d)$ contains the eigenvalues
 $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d > 0$.
 [^1]
-fdsf
-
-<span class="blue"><strong>Theorem</strong>:</span>
-For any real symmetric matrix $\mathbf{M} \in \mathbb{R}^{d \times d}$ and vector $v \in \mathbb{R}^d$,
-$$
-\lambda_{\min} v^T v \leq v^T M v \leq \lambda_{\max} v^T v
-$$
-where $\lambda_{\min}$ and $\lambda_{\max}$ are the minimum and maximum eigenvalues of $M$.
 
 <span class="blue"><strong>Corollary</strong> (<em>Spectral Bound and Convergence</em>):</span>
 The induced $\ell_2$-norm of the iteration operator is bounded by:
@@ -1023,14 +1018,15 @@ $$
 z_i(t) = \underbrace{e^{-\eta \lambda_i t} z_i(0)}_{\text{transient}} + \underbrace{\frac{1 - e^{-\eta \lambda_i t}}{\sqrt{n \lambda_i}} \tilde{\epsilon}_i}_{\text{noise-driven steady state}}
 $$
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">thm:expected_excess_risk</a>
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">thm:expected_excess_risk</h6>
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:excess_risk_continuous</a>
 <span class="blue"><strong>Theorem</strong> (<em>Expected Excess Risk</em>):</span>
 Assume the initialization $z_i(0) = \alpha_i^{(0)} - \alpha_i^*$ and the noise
 $\tilde{\epsilon}_i$ are independent, causing cross-terms to vanish in expectation. The
 expected excess risk, $\mathcal{R}_{\text{ex}}(t) = \sum_{i=1}^d \lambda_i \E[z_i(t)^2]$,
 decomposes into strictly decreasing bias and strictly increasing variance:
+
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">eq:excess_risk_continuous</h6>
 
 $$
 \mathcal{R}_{\text{ex}}(t) = \sum_{i=1}^d \underbrace{\lambda_i e^{-2\eta \lambda_i t} (\alpha_i^{(0)} - \alpha_i^*)^2}_{\textbf{bias}^2} + \sum_{i=1}^d \underbrace{\frac{(1 - e^{-\eta \lambda_i t})^2}{n} \sigma^2}_{\textbf{variance}}
@@ -1047,11 +1043,12 @@ preventing full noise accumulation.
 
 To analytically characterize the optimal stopping time $t^*$, we simplify the landscape curvature.
 
-##### <a style="color: transparent; position: absolute; font-size: 0; position:fixed;">eq:optimal_risk_harmonic</a>
 <span class="blue"><strong>Theorem</strong> (<em>Optimal Stopping under Isotropic Curvature</em>):</span>
 Assume all eigenvalues are equal ($\lambda_i = \lambda$ for all $i$) and define the total
 initialization error as $\mathcal{I} = \norm{\mathbf{x}^{(0)} - \mathbf{x}^*}^2$. The optimal
 early stopping time $t^*$ achieves a minimized excess risk of:
+
+<h6 style="position: absolute;margin: 0; padding: 0; height: 0; line-height: 0; overflow: hidden; color: transparent; font-size: 0;">eq:optimal_risk_harmonic</h6>
 
 $$
 \mathcal{R}_{\text{ex}}(t^*) = \frac{\lambda \mathcal{I} \cdot \frac{\sigma^2 d}{n}}{\lambda \mathcal{I} + \frac{\sigma^2 d}{n}}
@@ -1136,6 +1133,7 @@ For least squares, exact line search does not dramatically improve the convergen
 
 TODO: second half of lecture 10.2 and lecture 10.3
 d
+
 # Gradient Descent For Beyond Least Squares
 
 Maps to lecture 11, 11.1, 11.2, and 11.3.

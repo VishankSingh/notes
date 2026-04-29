@@ -3,7 +3,37 @@ title:
 draft:
 tags: Computer_Vision
 ---
+# CLIP Mathematical Formulation
 
+## 1. Contrastive Pre-training
+Let $I$ be an input image and $T$ be its corresponding text description. We define the normalized embeddings as:
+$$
+\mathbf{i} = \frac{\text{f}_{\theta}(I)}{\|\text{f}_{\theta}(I)\|}, \quad \mathbf{t} = \frac{\text{g}_{\phi}(T)}{\|\text{g}_{\phi}(T)\|}
+$$
+
+For a batch of $n$ pairs, the symmetric cross-entropy loss $\mathcal{L}$ is defined using a learnable temperature parameter $\tau$:
+$$
+\mathcal{L} = \frac{1}{2n} \sum_{k=1}^n \left( -\log \frac{\exp(\tau \cdot \mathbf{i}_k \cdot \mathbf{t}_k)}{\sum_{j=1}^n \exp(\tau \cdot \mathbf{i}_k \cdot \mathbf{t}_j)} - \log \frac{\exp(\tau \cdot \mathbf{i}_k \cdot \mathbf{t}_k)}{\sum_{j=1}^n \exp(\tau \cdot \mathbf{i}_j \cdot \mathbf{t}_k)} \right)
+$$
+
+## 2. Classifier Creation (Weight Synthesis)
+For $M$ candidate classes $\{c_1, \dots, c_M\}$ and a prompt template $P(\cdot)$, we synthesize the weight matrix $W$ by encoding the text prompts:
+$$
+\mathbf{w}_m = \frac{\text{g}_{\phi}(P(c_m))}{\|\text{g}_{\phi}(P(c_m))\|} \quad \text{for } m = 1, \dots, M
+$$
+
+## 3. Inference (Zero-Shot Prediction)
+The probability of an image $I_{test}$ belonging to class $m$ is given by the softmax of the cosine similarities:
+$$
+P(y=m | I_{test}) = \frac{\exp(\tau \cdot \mathbf{i}_{test} \cdot \mathbf{w}_m)}{\sum_{j=1}^M \exp(\tau \cdot \mathbf{i}_{test} \cdot \mathbf{w}_j)}
+$$
+
+The final predicted class $\hat{y}$ is:
+$$
+\hat{y} = \text{arg max}_{m} (\mathbf{i}_{test} \cdot \mathbf{w}_m)
+$$
+
+\newpage
 
 # Edge Detection
 
